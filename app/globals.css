@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: #0a0a0a;
+  --color-surface: #171717;
+  --color-surface-light: #262626;
+  --color-foreground: #ffffff;
+  --color-muted: #a3a3a3;
+  --color-border: #333333;
+
+  /* Brand Colors */
+  --color-primary: #D4AF37; /* Gold/Copper */
+  --color-primary-hover: #b8972e;
+  
+  --color-secondary: #3b1740; /* Deep Purple */
+  --color-secondary-hover: #2d1131;
+
+  --color-accent: #fcd34d;
+
+  /* State colors */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
+
+.newsletter-input {
+  border: 1px solid var(--color-border);
+}
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.donate-input {
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+}
+.donate-input::placeholder {
+  color: var(--color-muted);
+}
+.donate-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.contact-input {
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+}
+.contact-input::placeholder {
+  color: var(--color-muted);
+}
+.contact-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
 }
