@@ -77,7 +77,7 @@ export default function ResourcesPage() {
           </p>
           <Link
             href="/community/join"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             BECOME A MEMBER <ArrowRight className="w-5 h-5" />
           </Link>

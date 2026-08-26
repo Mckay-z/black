@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, GraduationCap, BookOpen, Users, FileText } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const SECTIONS = [
   {
@@ -45,8 +46,8 @@ export default function StudentHubPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.conferenceSession})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -61,7 +62,7 @@ export default function StudentHubPage() {
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-10">
             Everything you need to succeed, grow, and thrive on your journey to becoming a Black rehabilitation professional.
           </p>
-          <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             JOIN FOR FREE <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
@@ -114,7 +115,7 @@ export default function StudentHubPage() {
           <h2 className="text-3xl font-serif font-bold text-foreground mb-4">Your Future Starts Here</h2>
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">Join thousands of students who are building their careers, finding mentors, and connecting with their community through Black in Rehab.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors">
+            <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors">
               JOIN AS A STUDENT <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/impact/scholarships" className="inline-flex items-center gap-2 bg-surface border border-border hover:border-primary text-foreground font-semibold py-4 px-8 rounded-full transition-colors">

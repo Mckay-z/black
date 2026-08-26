@@ -102,7 +102,7 @@ function RegisterForm() {
               <label className="block text-sm font-semibold text-foreground mb-2">How did you hear about us?</label>
               <input type="text" className="contact-input w-full bg-surface rounded-xl px-4 py-3" />
             </div>
-            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               COMPLETE REGISTRATION <ArrowRight className="w-5 h-5" />
             </button>
           </form>

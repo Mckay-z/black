@@ -42,7 +42,7 @@ export default function AnnualReportPage() {
                 </div>
                 <a
                   href="#"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-semibold py-3 px-6 rounded-full transition-colors shrink-0"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-semibold py-3 px-6 rounded-full transition-colors shrink-0"
                 >
                   <Download className="w-4 h-4" /> Download PDF
                 </a>
@@ -50,14 +50,14 @@ export default function AnnualReportPage() {
             ))}
           </div>
 
-          <div className="mt-16 bg-secondary rounded-3xl p-10 md:p-16 text-center">
+          <div className="section-dark mt-16 bg-secondary border border-border rounded-3xl p-10 md:p-16 text-center">
             <h3 className="text-3xl font-serif font-bold text-white mb-4">Support the Mission</h3>
             <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
               Your generosity powers every program, scholarship, and global experience we create.
             </p>
             <Link
               href="/impact/donate"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors"
             >
               DONATE TODAY <ArrowRight className="w-5 h-5" />
             </Link>

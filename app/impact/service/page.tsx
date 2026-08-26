@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, HandHeart, Globe2, Stethoscope, CheckCircle } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const PROGRAMS = [
   {
@@ -29,8 +30,8 @@ const IMPACT_STATS = [
 export default function CommunityServicePage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.impactVolunteerChildren})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -97,7 +98,7 @@ export default function CommunityServicePage() {
             Volunteer on a service trip, partner with us locally, or support our programs through a donation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/experiences/ghana" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors">
+            <Link href="/experiences/ghana" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors">
               GLOBAL EXPERIENCES <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/impact/donate" className="inline-flex items-center gap-2 bg-surface border border-border hover:border-primary text-foreground font-semibold py-4 px-8 rounded-full transition-colors">

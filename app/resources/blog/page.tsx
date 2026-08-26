@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Calendar } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const POSTS = [
   {
@@ -9,7 +10,7 @@ const POSTS = [
     excerpt: "From academic halls to global service trips, Black rehab professionals are reshaping what leadership looks like in healthcare.",
     date: "July 15, 2025",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1573166364524-d9dbfd8bbf83?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferencePresentation,
     featured: true,
   },
   {
@@ -19,7 +20,7 @@ const POSTS = [
     excerpt: "Service travel transforms your clinical lens. Here&apos;s why our Ghana experience changed everything for our members.",
     date: "June 28, 2025",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaFreedomArch,
     featured: false,
   },
   {
@@ -29,7 +30,7 @@ const POSTS = [
     excerpt: "Having a mentor isn't optional — it's essential. Here's how to identify, approach, and nurture meaningful mentorship relationships.",
     date: "June 10, 2025",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80",
+    image: PHOTOS.impactVolunteerChildren,
     featured: false,
   },
   {
@@ -39,7 +40,7 @@ const POSTS = [
     excerpt: "A deep dive into the disparities Black patients face when accessing rehabilitation services and what we can do about it.",
     date: "May 22, 2025",
     readTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80",
+    image: PHOTOS.impactAdvocacySpeaker,
     featured: false,
   },
   {
@@ -49,7 +50,7 @@ const POSTS = [
     excerpt: "We spend our careers helping others heal. But who heals us? Here are evidence-based wellness strategies built for your profession.",
     date: "May 8, 2025",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatSoundBowls,
     featured: false,
   },
 ];
@@ -87,7 +88,7 @@ export default function BlogPage() {
                 key={cat}
                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors border ${
                   cat === "All"
-                    ? "bg-primary text-background border-primary"
+                    ? "bg-primary text-on-primary border-primary"
                     : "bg-background border-border text-muted hover:border-primary hover:text-foreground"
                 }`}
               >
@@ -105,7 +106,7 @@ export default function BlogPage() {
             <Link href={`/resources/blog/${post.slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="h-80 lg:h-125 rounded-2xl overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src={post.image} alt={post.title} className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               </div>
               <div>
                 <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-4 block">{post.category} · Featured</span>
@@ -129,7 +130,7 @@ export default function BlogPage() {
               <Link key={post.slug} href={`/resources/blog/${post.slug}`} className="group bg-background border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors flex flex-col">
                 <div className="h-44 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={post.image} alt={post.title} className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <span className="text-primary font-semibold text-xs uppercase tracking-widest mb-3">{post.category}</span>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, Users, Award, Globe2, FileText, Newspaper } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const ABOUT_PAGES = [
   {
@@ -49,8 +50,8 @@ const ABOUT_PAGES = [
 export default function AboutPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-24 md:py-32 bg-surface overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="relative isolate py-24 md:py-32  overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 " style={{ backgroundImage: `url(${PHOTOS.conferenceGroupBranded})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -99,7 +100,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/community/join"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             JOIN THE COMMUNITY <ArrowRight className="w-5 h-5" />
           </Link>

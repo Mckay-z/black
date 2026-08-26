@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 export default function OurStoryPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 bg-surface overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
-        <div className="absolute inset-0 bg-linear-to-b from-surface via-surface/90 to-background"></div>
+      <section className="relative isolate py-24 md:py-32 bg-surface overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-30 " style={{ backgroundImage: `url(${PHOTOS.ghanaLawn})` }}></div>
+        <div className=""></div>
         
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
@@ -61,9 +62,9 @@ export default function OurStoryPage() {
               <div className="aspect-video w-full rounded-2xl overflow-hidden mt-8">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
-                  src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80" 
+                  src={PHOTOS.conferenceCelebration} 
                   alt="Community gathering" 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  className="photo photo-hover-lift w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
               </div>
             </div>
@@ -92,7 +93,7 @@ export default function OurStoryPage() {
           </h2>
           <Link
             href="/about/mission-vision-values"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             OUR MISSION, VISION & VALUES <ArrowRight className="w-5 h-5" />
           </Link>

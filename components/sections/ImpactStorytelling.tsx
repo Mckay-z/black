@@ -53,7 +53,7 @@ export default function ImpactStorytelling() {
         <div className="text-center">
           <Link
             href="/impact"
-            className="inline-block bg-primary hover:bg-primary-hover text-background font-semibold py-4 px-8 rounded-full transition-colors"
+            className="inline-block bg-primary hover:bg-primary-hover text-on-primary font-semibold py-4 px-8 rounded-full transition-colors"
           >
             SEE OUR FULL IMPACT
           </Link>

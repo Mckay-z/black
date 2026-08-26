@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Heart } from "lucide-react";
 import { useState } from "react";
+import { PHOTOS } from "@/lib/images";
 
 const AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
@@ -16,8 +17,8 @@ export default function DonatePage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-secondary">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.impactBackpacks})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6 justify-center">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -45,7 +46,7 @@ export default function DonatePage() {
               <button
                 onClick={() => setFrequency("one-time")}
                 className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-colors ${
-                  frequency === "one-time" ? "bg-primary text-background" : "text-muted hover:text-foreground"
+                  frequency === "one-time" ? "bg-primary text-on-primary" : "text-muted hover:text-foreground"
                 }`}
               >
                 One-Time
@@ -53,7 +54,7 @@ export default function DonatePage() {
               <button
                 onClick={() => setFrequency("monthly")}
                 className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-colors ${
-                  frequency === "monthly" ? "bg-primary text-background" : "text-muted hover:text-foreground"
+                  frequency === "monthly" ? "bg-primary text-on-primary" : "text-muted hover:text-foreground"
                 }`}
               >
                 Monthly
@@ -69,7 +70,7 @@ export default function DonatePage() {
                   onClick={() => { setSelectedAmount(amt); setCustomAmount(""); }}
                   className={`py-3 rounded-xl font-bold text-sm border transition-colors ${
                     selectedAmount === amt && !customAmount
-                      ? "bg-primary text-background border-primary"
+                      ? "bg-primary text-on-primary border-primary"
                       : "bg-background border-border text-foreground hover:border-primary/50"
                   }`}
                 >
@@ -93,7 +94,7 @@ export default function DonatePage() {
             {/* Proceed button */}
             <Link
               href="#"
-              className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+              className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
             >
               DONATE {displayAmount} {frequency === "monthly" ? "/ MONTH" : ""} <ArrowRight className="w-5 h-5" />
             </Link>

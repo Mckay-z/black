@@ -97,17 +97,17 @@ export default function ScholarshipApplyPage() {
             </div>
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">Letter of Recommendation #1 (PDF)</label>
-              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-background file:text-sm" />
+              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:text-sm" />
             </div>
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">Letter of Recommendation #2 (PDF)</label>
-              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-background file:text-sm" />
+              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:text-sm" />
             </div>
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">Proof of Enrollment (PDF)</label>
-              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-background file:text-sm" />
+              <input type="file" accept=".pdf" className="contact-input w-full bg-surface rounded-xl px-4 py-3 file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-primary file:text-on-primary file:text-sm" />
             </div>
-            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               SUBMIT APPLICATION <ArrowRight className="w-5 h-5" />
             </button>
           </form>

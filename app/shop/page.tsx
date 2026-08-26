@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ShoppingBag, Star } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const PRODUCTS = [
   {
@@ -7,42 +8,42 @@ const PRODUCTS = [
     name: "Classic BIR Tee",
     price: "$35",
     badge: "Bestseller",
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchTeeDc,
   },
   {
     id: "hoodie",
     name: "BIR Signature Hoodie",
     price: "$65",
     badge: "New",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f15232d0?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchSweatshirt,
   },
   {
     id: "hat",
     name: "Embroidered Dad Hat",
     price: "$30",
     badge: null,
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchTeeCasual,
   },
   {
     id: "mug",
     name: "Purpose Mug",
     price: "$22",
     badge: null,
-    image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchTable,
   },
   {
     id: "tote",
     name: "Healing Beyond Borders Tote",
     price: "$28",
     badge: "Limited",
-    image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchTeesSeated,
   },
   {
     id: "journal",
     name: "Leader&apos;s Journal",
     price: "$24",
     badge: null,
-    image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?auto=format&fit=crop&q=80",
+    image: PHOTOS.merchTable,
   },
 ];
 
@@ -85,10 +86,10 @@ export default function ShopPage() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {product.badge && (
-                    <span className="absolute top-4 left-4 bg-primary text-background text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span className="absolute top-4 left-4 bg-primary text-on-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                       {product.badge}
                     </span>
                   )}
@@ -99,7 +100,7 @@ export default function ShopPage() {
                     <p className="text-primary font-semibold">{product.price}</p>
                   </div>
                   <button className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary flex items-center justify-center group/btn transition-colors">
-                    <ShoppingBag className="w-4 h-4 text-primary group-hover/btn:text-background transition-colors" />
+                    <ShoppingBag className="w-4 h-4 text-primary group-hover/btn:text-on-primary transition-colors" />
                   </button>
                 </div>
               </div>
@@ -117,7 +118,7 @@ export default function ShopPage() {
               <h3 className="font-bold text-foreground text-lg mb-2">100% of proceeds support the mission</h3>
               <p className="text-muted">Every item you purchase from our shop goes directly toward scholarships, global experiences, and community programs. Thank you for wearing your purpose.</p>
             </div>
-            <Link href="/impact/donate" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-3 px-6 rounded-full transition-colors shrink-0">
+            <Link href="/impact/donate" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-3 px-6 rounded-full transition-colors shrink-0">
               ALSO DONATE <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

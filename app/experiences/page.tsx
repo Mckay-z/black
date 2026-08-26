@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const EXPERIENCES = [
   {
@@ -7,7 +8,7 @@ const EXPERIENCES = [
     date: "Jun 20–22, 2025",
     location: "New Orleans, LA",
     description: "Three days of connection, professional development, and celebration.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceAudience,
     href: "/experiences/conference",
     status: "Open",
   },
@@ -16,7 +17,7 @@ const EXPERIENCES = [
     date: "Aug 15–18, 2025",
     location: "Jamaica",
     description: "A restorative retreat focused on whole-person healing and renewal.",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatBeachYoga,
     href: "/experiences/retreats",
     status: "Open",
   },
@@ -25,7 +26,7 @@ const EXPERIENCES = [
     date: "Oct 10–17, 2025",
     location: "Accra, Ghana",
     description: "Service, cultural immersion, and professional growth in West Africa.",
-    image: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaAirport,
     href: "/experiences/ghana",
     status: "Open",
   },
@@ -34,7 +35,7 @@ const EXPERIENCES = [
     date: "TBA",
     location: "Jamaica",
     description: "A Caribbean journey of service, community, and cultural exploration.",
-    image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatBeachYogaGroup,
     href: "/experiences/retreats",
     status: "Coming Soon",
   },
@@ -43,7 +44,7 @@ const EXPERIENCES = [
     date: "Mar 12–15, 2026",
     location: "Atlanta, GA",
     description: "Intensive leadership development for emerging professionals.",
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferencePresentation,
     href: "/experiences/retreats",
     status: "Coming Soon",
   },
@@ -84,7 +85,7 @@ export default function ExperiencesPage() {
                   <img
                     src={exp.image}
                     alt={exp.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   {exp.status === "Coming Soon" && (
                     <div className="absolute top-4 right-4 bg-background/90 backdrop-blur-sm border border-border text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider text-foreground">
@@ -111,7 +112,7 @@ export default function ExperiencesPage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Not Sure Where to Start?</h2>
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">Reach out and a member of our team will help you find the perfect experience for your goals and schedule.</p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             CONTACT US <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

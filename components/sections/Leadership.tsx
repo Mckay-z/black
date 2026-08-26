@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const LEADERS = [
   {
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Visionary Leader",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderChauntel,
     description: "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation.",
   },
   {
     name: "Nancy Yamoah, OT",
     title: "Co-Founder & Strategic Leader",
-    image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderNancy,
     description: "Rehabilitation professional and community builder with a passion for people and global impact.",
   }
 ];
@@ -46,7 +47,7 @@ export default function Leadership() {
                 <img 
                   src={leader.image} 
                   alt={leader.name} 
-                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="photo photo-hover-lift absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                 />
               </div>
               <div className="p-8 sm:w-3/5 flex flex-col justify-center">

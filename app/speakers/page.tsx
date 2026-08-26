@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Mic, Mail } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -25,25 +26,25 @@ const SPEAKERS = [
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Executive Director, Black in Rehab",
     specialty: "Leadership · Global Health · Representation",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderChauntel,
   },
   {
     name: "Nancy Yamoah, OT",
     title: "Co-Founder & Chief Strategy Officer, Black in Rehab",
     specialty: "Community Building · Student Development · Purpose",
-    image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderNancy,
   },
   {
     name: "[Guest Speaker Name]",
     title: "[Title & Credentials] — CLIENT TO PROVIDE",
     specialty: "[Specialty Topics] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceSpeakerMic,
   },
   {
     name: "[Guest Speaker Name]",
     title: "[Title & Credentials] — CLIENT TO PROVIDE",
     specialty: "[Specialty Topics] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceSpeakerBw,
   },
 ];
 
@@ -51,8 +52,8 @@ export default function SpeakersPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${PHOTOS.retreatGroupOutdoors})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -65,7 +66,7 @@ export default function SpeakersPage() {
           <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-10">
             Bring the Black in Rehab message to your conference, campus, podcast, or event. Our speakers are passionate, dynamic, and deeply experienced in rehabilitation and community impact.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             BOOK A SPEAKER <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
@@ -97,7 +98,7 @@ export default function SpeakersPage() {
                 <div key={idx} className="group bg-surface border border-border rounded-2xl p-6 flex gap-5 items-center hover:border-primary/50 transition-colors">
                   <div className="w-20 h-20 rounded-full overflow-hidden shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={speaker.image} alt={speaker.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img src={speaker.image} alt={speaker.name} className="photo photo-hover-lift w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-foreground mb-1">{speaker.name}</h4>
@@ -126,7 +127,7 @@ export default function SpeakersPage() {
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
             Submit a speaker request with your event details, date, audience size, and topic of interest. We&apos;ll be in touch within 48 hours.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             SUBMIT SPEAKER REQUEST <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

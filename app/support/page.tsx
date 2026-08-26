@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Heart, Handshake, ShoppingBag, Mic } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const SUPPORT_OPTIONS = [
   {
@@ -35,8 +36,8 @@ const SUPPORT_OPTIONS = [
 export default function SupportPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.ghanaCertificates})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Users, Globe2, GraduationCap, BookOpen, CheckCircle } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const MEMBERSHIP_TIERS = [
   {
@@ -57,8 +58,8 @@ export default function JoinPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.retreatGroupColorful})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white mb-6">
             Join the <span className="text-primary">Movement</span>
@@ -67,7 +68,7 @@ export default function JoinPage() {
             Become part of a global community of rehabilitation professionals who are leading with excellence, serving with purpose, and making a difference every day.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#membership" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <a href="#membership" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               SEE MEMBERSHIP OPTIONS <ArrowRight className="w-5 h-5" />
             </a>
           </div>
@@ -106,7 +107,7 @@ export default function JoinPage() {
                 key={idx}
                 className={`rounded-2xl p-8 flex flex-col transition-all border-2 ${
                   tier.highlighted
-                    ? "bg-secondary border-primary shadow-2xl shadow-primary/20 scale-105"
+                    ? "section-dark bg-secondary border-primary shadow-2xl shadow-primary/20 scale-105"
                     : "bg-background border-border hover:border-primary/50"
                 }`}
               >
@@ -128,7 +129,7 @@ export default function JoinPage() {
                   href="/community/join/register"
                   className={`w-full flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-full transition-colors ${
                     tier.highlighted
-                      ? "bg-primary hover:bg-primary-hover text-background"
+                      ? "bg-primary hover:bg-primary-hover text-on-primary"
                       : "bg-surface border border-border hover:border-primary text-foreground"
                   }`}
                 >

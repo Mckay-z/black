@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const EVENTS = [
   {
@@ -7,7 +8,7 @@ const EVENTS = [
     title: "Annual Conference",
     date: "Jun 20-22, 2025",
     location: "New Orleans, LA",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceAudience,
     link: "/experiences/conference",
   },
   {
@@ -15,7 +16,7 @@ const EVENTS = [
     title: "Wellness Retreat",
     date: "Aug 15-18, 2025",
     location: "Jamaica",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatBeachYoga,
     link: "/experiences/retreats",
   },
   {
@@ -23,7 +24,7 @@ const EVENTS = [
     title: "Ghana Global Experience",
     date: "Oct 10-17, 2025",
     location: "Accra, Ghana",
-    image: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaAirport,
     link: "/experiences/ghana",
   },
   {
@@ -31,7 +32,7 @@ const EVENTS = [
     title: "Leadership Retreat",
     date: "Mar 12-15, 2026",
     location: "Atlanta, GA",
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferencePresentation,
     link: "/experiences/retreats",
   },
 ];
@@ -66,7 +67,7 @@ export default function UpcomingEvents() {
               <img 
                 src={event.image} 
                 alt={event.title} 
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60 group-hover:opacity-40"
+                className="photo photo-hover-lift absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60 group-hover:opacity-40"
               />
               <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/60 to-transparent"></div>
               

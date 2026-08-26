@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Download, CheckCircle } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const TIERS = [
   {
@@ -68,8 +69,8 @@ export default function PartnershipsPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.retreatDinner})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -83,7 +84,7 @@ export default function PartnershipsPage() {
             Align your brand or organization with a growing global movement that is transforming rehabilitation, advancing health equity, and empowering the next generation of Black healthcare professionals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               BECOME A PARTNER <ArrowRight className="w-5 h-5" />
             </Link>
             <a href="#" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-4 px-8 rounded-full transition-colors text-lg">
@@ -125,7 +126,7 @@ export default function PartnershipsPage() {
                 key={idx}
                 className={`rounded-2xl p-8 flex flex-col border-2 transition-all ${
                   tier.highlighted
-                    ? "bg-secondary border-primary shadow-2xl shadow-primary/20 scale-105"
+                    ? "section-dark bg-secondary border-primary shadow-2xl shadow-primary/20 scale-105"
                     : "bg-background border-border"
                 }`}
               >
@@ -146,7 +147,7 @@ export default function PartnershipsPage() {
                   href="/contact"
                   className={`w-full flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-full transition-colors ${
                     tier.highlighted
-                      ? "bg-primary hover:bg-primary-hover text-background"
+                      ? "bg-primary hover:bg-primary-hover text-on-primary"
                       : "bg-surface border border-border hover:border-primary text-foreground"
                   }`}
                 >
@@ -165,7 +166,7 @@ export default function PartnershipsPage() {
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
             We&apos;ll work with you to build a partnership that matches your goals, audience, and budget. Let&apos;s talk.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/contact" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             CONTACT US <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

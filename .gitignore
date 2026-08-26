@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Source photo archive: ~927MB of client originals (incl. HEIC that browsers
+# cannot render). Curated, web-sized copies live in public/photos and ARE
+# committed. Keep this out of git and out of the deployed bundle.
+/public/images

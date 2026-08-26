@@ -1,21 +1,30 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #0a0a0a;
-  --color-surface: #171717;
-  --color-surface-light: #262626;
-  --color-foreground: #ffffff;
-  --color-muted: #a3a3a3;
-  --color-border: #333333;
+/* Dark mode is driven by a `dark` class on <html> (set by ThemeProvider). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Tokens are declared `inline` so every utility compiles to `var(--<token>)`
+  and resolves at runtime. That lets the palette be swapped by the `.dark`
+  class on <html>, or scoped to a subtree with `.section-dark`.
+*/
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
 
   /* Brand Colors */
-  --color-primary: #D4AF37; /* Gold/Copper */
-  --color-primary-hover: #b8972e;
-  
-  --color-secondary: #3b1740; /* Deep Purple */
-  --color-secondary-hover: #2d1131;
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
 
-  --color-accent: #fcd34d;
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+
+  --color-accent: var(--accent);
 
   /* State colors */
   --color-success: #22c55e;
@@ -27,9 +36,88 @@
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
+/* ---------------------------------------------------------------
+   Light theme (default) — warm beige
+   --------------------------------------------------------------- */
 :root {
+  color-scheme: light;
+
+  --background: #f3ecdf;
+  --surface: #fbf6ec;
+  --surface-light: #ffffff;
+  --foreground: #1b1611;
+  --muted: #6b5d4c;
+  --border: #dfd3bc;
+
+  --primary: #7c5f0f;
+  --primary-hover: #5f480a;
+  --on-primary: #fffbf0;
+
+  --secondary: #000000;
+  --secondary-hover: #1f1f1f;
+
+  --accent: #b08d28;
+
+  /* Tint used for the translucent header/back-to-top surfaces */
+  --scrim: 243 236 223;
+}
+
+/* ---------------------------------------------------------------
+   Dark theme
+   --------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
   --background: #0a0a0a;
+  --surface: #171717;
+  --surface-light: #262626;
   --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --border: #333333;
+
+  --primary: #d4af37;
+  --primary-hover: #b8972e;
+  --on-primary: #0a0a0a;
+
+  --secondary: #000000;
+  --secondary-hover: #1f1f1f;
+
+  --accent: #fcd34d;
+
+  --scrim: 10 10 10;
+}
+
+/*
+  Sections that sit on the deep purple brand color or on a darkened photo
+  are dark in BOTH themes. Scoping the dark palette here keeps `text-primary`,
+  `text-muted` and `border-border` legible inside them without touching markup
+  colors on a per-theme basis.
+*/
+.section-dark {
+  color-scheme: dark;
+
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-light: #262626;
+  --foreground: #ffffff;
+  --muted: #cbc3b6;
+  --border: rgba(255, 255, 255, 0.22);
+
+  --primary: #d4af37;
+  --primary-hover: #b8972e;
+  --on-primary: #0a0a0a;
+
+  --accent: #fcd34d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -44,37 +132,110 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
 }
 
+/* Cross-fade the palette when the theme is toggled, but never on first paint
+   and never during a route transition of unrelated properties. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 250ms ease, border-color 250ms ease,
+    color 250ms ease, fill 250ms ease, stroke 250ms ease;
+  transition-delay: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: none !important;
+  }
+}
+
 .newsletter-input {
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+.newsletter-input::placeholder {
+  color: var(--muted);
 }
 .newsletter-input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 .donate-input {
-  border: 1px solid var(--color-border);
-  color: var(--color-foreground);
+  border: 1px solid var(--border);
+  color: var(--foreground);
 }
 .donate-input::placeholder {
-  color: var(--color-muted);
+  color: var(--muted);
 }
 .donate-input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 .contact-input {
-  border: 1px solid var(--color-border);
-  color: var(--color-foreground);
+  border: 1px solid var(--border);
+  color: var(--foreground);
 }
 .contact-input::placeholder {
-  color: var(--color-muted);
+  color: var(--muted);
 }
 .contact-input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 1px var(--color-primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/*
+  One photo treatment, identical in both themes.
+
+  `.photo` darkens the image so it holds its own rather than being washed out by
+  the beige page. It is applied to the <img> itself, not a wrapper, so it works
+  everywhere without extra markup.
+
+  These variables are deliberately declared ONCE, on :root, and are NOT
+  overridden under `.dark` or `.section-dark`. A per-theme override is what made
+  the same photo render differently in light and dark mode — do not reintroduce
+  one. To retune the strength, change the numbers here and both themes follow.
+*/
+:root {
+  --photo-brightness: 0.82;
+  --photo-contrast: 1.03;
+  --photo-saturate: 1.02;
+}
+
+.photo {
+  filter: brightness(var(--photo-brightness)) contrast(var(--photo-contrast))
+    saturate(var(--photo-saturate));
+}
+
+/* Images the user is meant to inspect (galleries, product shots) lift back to
+   full brightness on hover. */
+.photo-hover-lift {
+  transition: filter 400ms ease;
+}
+
+.group:hover .photo-hover-lift,
+.photo-hover-lift:hover {
+  filter: none;
+}
+
+/*
+  Backdrop behind a photo — visible while it loads and through any transparency.
+  Fixed literal colors rather than theme tokens, so it cannot shift between
+  light and dark mode and make the same image read differently.
+*/
+.img-filler {
+  background-color: #2a2724;
+  background-image: linear-gradient(
+    135deg,
+    rgb(212 175 55 / 0.12) 0%,
+    rgb(0 0 0 / 0.35) 100%
+  );
 }

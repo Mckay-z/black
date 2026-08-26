@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Users, Heart, Handshake } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const PATHS = [
   {
@@ -31,8 +32,8 @@ const PATHS = [
 export default function JoinTheMovementPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-32 md:py-40 overflow-hidden bg-secondary">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-32 md:py-40 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.retreatGroupFormal})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white mb-6">
             Join the <span className="text-primary">Movement</span>
@@ -54,7 +55,7 @@ export default function JoinTheMovementPage() {
                 key={path.href}
                 className={`rounded-2xl p-10 flex flex-col border-2 transition-all ${
                   path.primary
-                    ? "bg-secondary border-primary shadow-2xl shadow-primary/20 md:scale-105"
+                    ? "section-dark bg-secondary border-primary shadow-2xl shadow-primary/20 md:scale-105"
                     : "bg-surface border-border hover:border-primary/50"
                 }`}
               >
@@ -71,7 +72,7 @@ export default function JoinTheMovementPage() {
                   href={path.href}
                   className={`inline-flex items-center justify-center gap-2 font-bold py-3 px-6 rounded-full transition-colors ${
                     path.primary
-                      ? "bg-primary hover:bg-primary-hover text-background"
+                      ? "bg-primary hover:bg-primary-hover text-on-primary"
                       : "bg-background border border-border hover:border-primary text-foreground"
                   }`}
                 >
@@ -91,7 +92,7 @@ export default function JoinTheMovementPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             CONTACT US <ArrowRight className="w-5 h-5" />
           </Link>

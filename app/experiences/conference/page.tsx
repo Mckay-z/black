@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight, Users, BookOpen, Music, Star } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const AGENDA = [
   { day: "Day 1", theme: "Arrive & Connect", description: "Welcome reception, registration, opening keynote address, and networking dinner." },
@@ -18,8 +19,8 @@ export default function ConferencePage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-32 md:py-40 overflow-hidden bg-secondary">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
+      <section className="section-dark relative py-32 md:py-40 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${PHOTOS.conferenceAudience})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -39,7 +40,7 @@ export default function ConferencePage() {
             <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> New Orleans, LA</div>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/experiences/conference/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <Link href="/experiences/conference/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               REGISTER NOW <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="#agenda" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-4 px-8 rounded-full transition-colors text-lg">
@@ -87,11 +88,11 @@ export default function ConferencePage() {
       </section>
 
       {/* Register CTA */}
-      <section className="py-24 bg-secondary">
+      <section className="section-dark py-24 bg-secondary border-y border-border">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Secure Your Spot Today</h2>
           <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">Early bird pricing available for a limited time. Join us in New Orleans for an unforgettable experience.</p>
-          <Link href="/experiences/conference/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/experiences/conference/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             REGISTER NOW <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

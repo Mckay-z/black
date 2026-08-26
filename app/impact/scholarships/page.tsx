@@ -75,7 +75,7 @@ export default function ScholarshipsPage() {
                 </div>
                 <Link
                   href="/impact/scholarships/apply"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-semibold py-3 px-6 rounded-full transition-colors shrink-0"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-semibold py-3 px-6 rounded-full transition-colors shrink-0"
                 >
                   Apply Now <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -98,7 +98,7 @@ export default function ScholarshipsPage() {
             ))}
           </div>
           <div className="mt-16 text-center">
-            <Link href="/impact/scholarships/apply" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <Link href="/impact/scholarships/apply" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               START YOUR APPLICATION <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

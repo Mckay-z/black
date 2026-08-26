@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Scaling, Megaphone, FileCheck, Users, CheckCircle } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const INITIATIVES = [
   {
@@ -35,8 +36,8 @@ const FOCUS_AREAS = [
 export default function AdvocacyPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.impactChildren})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -96,7 +97,7 @@ export default function AdvocacyPage() {
           </p>
           <Link
             href="/community/join"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             JOIN THE MOVEMENT <ArrowRight className="w-5 h-5" />
           </Link>

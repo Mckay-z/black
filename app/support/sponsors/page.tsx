@@ -21,7 +21,7 @@ export default function SponsorsPage() {
           </p>
           <Link
             href="/partnerships"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             VIEW PARTNERSHIP OPTIONS <ArrowRight className="w-5 h-5" />
           </Link>
@@ -36,7 +36,7 @@ export default function SponsorsPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/partnerships"
-              className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors"
             >
               EXPLORE TIERS <ArrowRight className="w-5 h-5" />
             </Link>

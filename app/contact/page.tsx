@@ -65,7 +65,7 @@ export default function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
                 >
                   SEND MESSAGE <ArrowRight className="w-5 h-5" />
                 </button>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-secondary rounded-2xl p-8 mt-8">
+              <div className="section-dark bg-secondary border border-border rounded-2xl p-8 mt-8">
                 <h3 className="font-bold text-white mb-3">Partnerships & Sponsorships</h3>
                 <p className="text-white/70 text-sm mb-6 leading-relaxed">
                   Interested in partnering with Black in Rehab? We offer a range of sponsorship opportunities that align your brand with our mission.

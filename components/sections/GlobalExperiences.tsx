@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const DESTINATIONS = [
   {
@@ -7,7 +8,7 @@ const DESTINATIONS = [
     title: "Ghana",
     subtitle: "West Africa",
     status: "Active",
-    image: "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaAirport,
     link: "/experiences/ghana",
   },
   {
@@ -15,7 +16,7 @@ const DESTINATIONS = [
     title: "Jamaica",
     subtitle: "Caribbean",
     status: "Active",
-    image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatBeachYogaGroup,
     link: "/experiences/jamaica",
   },
   {
@@ -23,7 +24,7 @@ const DESTINATIONS = [
     title: "Kenya",
     subtitle: "East Africa",
     status: "Coming Soon",
-    image: "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&q=80",
+    image: PHOTOS.impactHandsUp,
     link: "#",
   },
   {
@@ -31,7 +32,7 @@ const DESTINATIONS = [
     title: "Tanzania",
     subtitle: "East Africa",
     status: "Coming Soon",
-    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaBeach,
     link: "#",
   },
 ];
@@ -54,12 +55,12 @@ export default function GlobalExperiences() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {DESTINATIONS.map((dest) => (
-            <div key={dest.id} className="group relative rounded-2xl overflow-hidden h-100">
+            <div key={dest.id} className="section-dark group relative rounded-2xl overflow-hidden h-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={dest.image} 
                 alt={dest.title} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
               

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Users, Compass, Globe2, MessageSquare } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const EXPERIENCES = [
   {
@@ -7,7 +8,7 @@ const EXPERIENCES = [
     title: "Conferences",
     description: "Connect, learn, and grow with leaders in the field.",
     icon: <Users className="w-6 h-6 text-primary" />,
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceAudience,
     link: "/experiences/conference",
   },
   {
@@ -15,7 +16,7 @@ const EXPERIENCES = [
     title: "Retreats",
     description: "Renew your mind, body, and purpose.",
     icon: <Compass className="w-6 h-6 text-primary" />,
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80",
+    image: PHOTOS.retreatBeachYoga,
     link: "/experiences/retreats",
   },
   {
@@ -23,7 +24,7 @@ const EXPERIENCES = [
     title: "Global Experiences",
     description: "Serve, learn, and immerse yourself in new cultures.",
     icon: <Globe2 className="w-6 h-6 text-primary" />,
-    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80",
+    image: PHOTOS.ghanaAirport,
     link: "/experiences/global",
   },
   {
@@ -31,7 +32,7 @@ const EXPERIENCES = [
     title: "Community Events",
     description: "Local meetups, ambassador cities, and global chapters.",
     icon: <MessageSquare className="w-6 h-6 text-primary" />,
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceTableTalk,
     link: "/experiences/community",
   },
 ];
@@ -49,27 +50,30 @@ export default function FeaturedExperiences() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {EXPERIENCES.map((exp) => (
-            <Link 
-              key={exp.id} 
+            <Link
+              key={exp.id}
               href={exp.link}
-              className="group relative bg-surface border border-border rounded-2xl overflow-visible hover:border-primary/50 transition-all duration-300 flex flex-col"
+              className="group relative bg-surface border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 flex flex-col"
             >
-              <div className="h-48 relative overflow-hidden rounded-t-2xl">
+              <div className="h-48 relative overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={exp.image} 
-                  alt={exp.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                <img
+                  src={exp.image}
+                  alt={exp.title}
+                  className="photo photo-hover-lift w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/40"></div>
               </div>
 
-              {/* Icon bubble — outside overflow-hidden so it's fully visible */}
-              <div className="absolute left-1/2 -translate-x-1/2 bg-surface p-3 rounded-full border-2 border-primary/30 shadow-lg z-10" style={{ top: "calc(12rem - 1.5rem)" }}>
+              {/* Sits on the image's bottom edge. It has to be a sibling of the
+                  image wrapper rather than a child: that wrapper needs
+                  overflow-hidden for the hover zoom, which would clip this badge
+                  in half. `top-48` must match the image wrapper's `h-48`. */}
+              <div className="absolute top-48 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface p-3 rounded-full border border-border">
                 {exp.icon}
               </div>
-              
-              <div className="p-8 pt-12 text-center flex-1 flex flex-col justify-between">
+
+              <div className="p-8 pt-10 text-center flex-1 flex flex-col justify-between">
                 <div>
                   <h4 className="text-xl font-bold text-foreground mb-3">{exp.title}</h4>
                   <p className="text-muted text-sm leading-relaxed mb-6">{exp.description}</p>

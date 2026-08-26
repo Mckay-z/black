@@ -88,7 +88,7 @@ export default function ResourceLibraryPage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl font-serif font-bold text-foreground mb-4">Unlock the Full Library</h2>
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">Members get unlimited access to all resources, webinars, and tools. Join today to unlock everything.</p>
-          <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/community/join" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             BECOME A MEMBER <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

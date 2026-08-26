@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight, Waves, Leaf, HeartPulse, Moon } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const PILLARS = [
   { icon: <HeartPulse className="w-6 h-6 text-primary" />, title: "Physical Restoration", desc: "Movement, breathwork, and body-based healing practices." },
@@ -12,8 +13,8 @@ export default function RetreatsPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-32 md:py-40 overflow-hidden bg-secondary">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
+      <section className="section-dark relative py-32 md:py-40 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${PHOTOS.retreatBeachYogaGroup})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -32,7 +33,7 @@ export default function RetreatsPage() {
             <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-primary" /> August 15–18, 2025</div>
             <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> Jamaica</div>
           </div>
-          <Link href="/experiences/retreats/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/experiences/retreats/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             REGISTER NOW <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
@@ -63,14 +64,14 @@ export default function RetreatsPage() {
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-12 text-center">A Taste of the Experience</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&q=80",
+              PHOTOS.retreatMeditation,
+              PHOTOS.retreatSoundBowls,
+              PHOTOS.retreatSavasana,
+              PHOTOS.retreatMats,
             ].map((src, idx) => (
               <div key={idx} className="aspect-square rounded-2xl overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt="Retreat experience" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                <img src={src} alt="Retreat experience" className="photo photo-hover-lift w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             ))}
           </div>
@@ -78,11 +79,11 @@ export default function RetreatsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-secondary">
+      <section className="section-dark py-24 bg-secondary border-y border-border">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Your Renewal Awaits</h2>
           <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">Limited spots available. Reserve your place at our next wellness retreat.</p>
-          <Link href="/experiences/retreats/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/experiences/retreats/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             RESERVE MY SPOT <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 export default function Community() {
   return (
@@ -39,7 +40,7 @@ export default function Community() {
 
             <Link
               href="/community"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
             >
               JOIN OUR COMMUNITY
             </Link>
@@ -50,9 +51,9 @@ export default function Community() {
             <div className="aspect-square md:aspect-4/3 rounded-3xl overflow-hidden relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80" 
+                src={PHOTOS.conferenceCelebration} 
                 alt="Black in Rehab Community"
-                className="w-full h-full object-cover"
+                className="photo photo-hover-lift w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/20"></div>
             </div>

@@ -70,7 +70,7 @@ export default function AmbassadorsPage() {
           </div>
 
           {/* Become an Ambassador CTA */}
-          <div className="bg-secondary rounded-3xl p-10 md:p-16 text-center">
+          <div className="section-dark bg-secondary border border-border rounded-3xl p-10 md:p-16 text-center">
             <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">
               Lead the Movement in Your City
             </h3>
@@ -79,7 +79,7 @@ export default function AmbassadorsPage() {
             </p>
             <Link
               href="/community/join"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
             >
               APPLY TO BE AN AMBASSADOR <ArrowRight className="w-5 h-5" />
             </Link>

@@ -83,7 +83,7 @@ export default function GhanaRegisterPage() {
               <label className="block text-sm font-semibold text-foreground mb-2">Previous International Service Experience</label>
               <textarea rows={3} className="contact-input w-full bg-surface rounded-xl px-4 py-3 resize-none" />
             </div>
-            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <button type="submit" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               SUBMIT APPLICATION <ArrowRight className="w-5 h-5" />
             </button>
           </form>

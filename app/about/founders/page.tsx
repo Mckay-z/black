@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -42,9 +43,9 @@ export default function FoundersPage() {
             <div className="lg:col-span-5 h-112.5 rounded-2xl overflow-hidden relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" 
+                src={PHOTOS.founderChauntel} 
                 alt="Dr. Chauntel Altidor" 
-                className="w-full h-full object-cover"
+                className="photo photo-hover-lift w-full h-full object-cover"
               />
             </div>
             <div className="lg:col-span-7 flex flex-col justify-center">
@@ -76,9 +77,9 @@ export default function FoundersPage() {
             <div className="lg:col-span-5 h-112.5 rounded-2xl overflow-hidden relative lg:order-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80" 
+                src={PHOTOS.founderNancy} 
                 alt="Nancy Yamoah" 
-                className="w-full h-full object-cover"
+                className="photo photo-hover-lift w-full h-full object-cover"
               />
             </div>
             <div className="lg:col-span-7 flex flex-col justify-center lg:order-1">
@@ -116,7 +117,7 @@ export default function FoundersPage() {
           </h2>
           <Link
             href="/about/leadership"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             VIEW LEADERSHIP TEAM <ArrowRight className="w-5 h-5" />
           </Link>

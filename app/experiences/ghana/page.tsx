@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight, HandHeart, Globe2, BookOpen } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const WHAT_TO_EXPECT = [
   { icon: <HandHeart className="w-6 h-6 text-primary" />, title: "Community Service", desc: "Hands-on rehabilitation service at local clinics, schools, and community centers." },
@@ -11,8 +12,8 @@ export default function GhanaPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="relative py-32 md:py-40 overflow-hidden bg-secondary">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-25"></div>
+      <section className="section-dark relative py-32 md:py-40 overflow-hidden bg-secondary">
+        <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: `url(${PHOTOS.ghanaAirport})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -32,7 +33,7 @@ export default function GhanaPage() {
             <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> Accra, Ghana</div>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/experiences/ghana/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+            <Link href="/experiences/ghana/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
               APPLY NOW <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="#experience" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-4 px-8 rounded-full transition-colors text-lg">
@@ -60,14 +61,14 @@ export default function GhanaPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80",
-                "https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&q=80",
-                "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&q=80",
-                "https://images.unsplash.com/photo-1556484687-30636164638b?auto=format&fit=crop&q=80",
+                PHOTOS.ghanaDrumming,
+                PHOTOS.ghanaKente,
+                PHOTOS.ghanaCanopy,
+                PHOTOS.ghanaDoorOfReturn,
               ].map((src, idx) => (
                 <div key={idx} className={`rounded-2xl overflow-hidden ${idx === 0 ? "row-span-2" : ""}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt="Ghana experience" className="w-full h-full object-cover" style={{ height: idx === 0 ? "100%" : "180px" }} />
+                  <img src={src} alt="Ghana experience" className="photo photo-hover-lift w-full h-full object-cover" style={{ height: idx === 0 ? "100%" : "180px" }} />
                 </div>
               ))}
             </div>
@@ -92,11 +93,11 @@ export default function GhanaPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-secondary">
+      <section className="section-dark py-24 bg-secondary border-y border-border">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-6">Ready to Answer the Call?</h2>
           <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">Spots are limited. Apply now to secure your place on this transformative journey to Ghana.</p>
-          <Link href="/experiences/ghana/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg">
+          <Link href="/experiences/ghana/register" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg">
             APPLY NOW <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

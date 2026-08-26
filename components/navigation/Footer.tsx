@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Logo from "@/components/navigation/Logo";
 
 export default function Footer() {
   return (
@@ -10,19 +10,7 @@ export default function Footer() {
           {/* Brand & Mission */}
           <div>
             <Link href="/" className="inline-flex shrink-0 items-center">
-              <div 
-                className="relative" 
-                style={{ width: "179px", height: "56px" }}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="Black In Rehab Foundation"
-                  fill
-                  sizes="(max-width: 768px) 150px, 300px"
-                  className="object-contain object-left"
-                  priority
-                />
-              </div>
+              <Logo lightClassName="h-12 w-auto" darkClassName="h-20 w-auto" />
             </Link>
 
             <p className="mt-6 text-sm text-muted leading-relaxed max-w-sm">
@@ -156,6 +144,15 @@ export default function Footer() {
                   className="hover:text-primary transition-colors"
                 >
                   Community
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href="/community/share-your-story"
+                  className="hover:text-primary transition-colors"
+                >
+                  Share Your Story
                 </Link>
               </li>
             </ul>

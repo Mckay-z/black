@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Users, ShoppingBag, Globe2, GraduationCap } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 const COMMUNITY_LINKS = [
   {
@@ -35,8 +36,8 @@ const COMMUNITY_LINKS = [
 export default function CommunityPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative py-24 md:py-32 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-15"></div>
+      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+        <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.conferenceCelebration})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -51,7 +52,7 @@ export default function CommunityPage() {
           </p>
           <Link
             href="/community/join"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             JOIN NOW <ArrowRight className="w-5 h-5" />
           </Link>

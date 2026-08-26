@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, ArrowRight } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -13,37 +14,37 @@ const TEAM = [
   {
     name: "Dr. Chauntel Altidor, OTD",
     role: "Co-Founder & Executive Director",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderChauntel,
     linkedin: "#",
   },
   {
     name: "Nancy Yamoah, OT",
     role: "Co-Founder & Chief Strategy Officer",
-    image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80",
+    image: PHOTOS.founderNancy,
     linkedin: "#",
   },
   {
     name: "[Team Member Name]",
     role: "[Title / Role] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceSpeakerMic,
     linkedin: "#",
   },
   {
     name: "[Team Member Name]",
     role: "[Title / Role] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceSpeakerBw,
     linkedin: "#",
   },
   {
     name: "[Team Member Name]",
     role: "[Title / Role] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1531123897727-8f129e1bf98c?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferenceGala,
     linkedin: "#",
   },
   {
     name: "[Team Member Name]",
     role: "[Title / Role] — CLIENT TO PROVIDE",
-    image: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&q=80",
+    image: PHOTOS.conferencePanel,
     linkedin: "#",
   },
 ];
@@ -83,7 +84,7 @@ export default function LeadershipPage() {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                    className="photo photo-hover-lift w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                   />
                 </div>
                 <div className="p-6">
@@ -117,7 +118,7 @@ export default function LeadershipPage() {
           <p className="text-muted text-lg mb-10 max-w-xl mx-auto">Lead the movement in your city. Our Ambassador program empowers local leaders to represent Black in Rehab in communities across the globe.</p>
           <Link
             href="/about/ambassadors"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-background font-bold py-4 px-8 rounded-full transition-colors text-lg"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
           >
             AMBASSADOR PROGRAM <ArrowRight className="w-5 h-5" />
           </Link>
