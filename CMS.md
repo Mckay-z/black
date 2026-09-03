@@ -110,25 +110,30 @@ Until it is set, the button is replaced by a short note directing donors to emai
 
 ### 3. Database for production
 
-Local development uses SQLite (`cms-data.db`), which needs no setup. **This will not survive a serverless deploy** — Vercel's filesystem is wiped between invocations, so every submission and edit would vanish.
+Local development uses SQLite (`cms-data.db`), which needs no setup. **This will not survive a serverless deploy** — Vercel's filesystem is read-only outside `/tmp` and wiped between invocations, and `cms-data.db` is gitignored so it is never deployed in the first place.
 
-For production, switch to Postgres:
+The code side is already done: `payload.config.ts` picks its adapter from `DATABASE_URI`, using `postgresAdapter` when the value starts with `postgres` and SQLite otherwise. Nothing to edit — just set the variable.
 
-```bash
-npm install @payloadcms/db-postgres
-```
+So all that is left is to provision a database and set `DATABASE_URI` in the host's environment. Any managed Postgres works — Neon, Supabase, Railway, RDS.
 
-```ts
-import { postgresAdapter } from "@payloadcms/db-postgres";
+The new database starts empty, which means:
 
-db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URI } }),
-```
-
-Set `DATABASE_URI` in the host's environment. Any managed Postgres works — Neon, Supabase, Railway, RDS.
+- `/admin` opens on Payload's **create first user** screen. That is the production admin account.
+- Nothing from the local SQLite file carries over. Run `npm run seed` against the production `DATABASE_URI` if the starter content is wanted there too.
 
 ### 4. File storage for production
 
-Uploaded images are written to `public/media` on disk, which has the same serverless problem. Use a storage adapter (`@payloadcms/storage-s3`, `@payloadcms/storage-vercel-blob`) so uploads go to object storage instead.
+Uploaded images are written to `public/media` on disk, which has the same serverless problem — gitignored, read-only, and ephemeral.
+
+This is also already wired: `payload.config.ts` registers `vercelBlobStorage` for the `media` collection. The plugin disables itself when `BLOB_READ_WRITE_TOKEN` is unset, so local development keeps writing to `public/media` and production writes to Blob.
+
+To turn it on, attach a Blob store to the Vercel project (**Storage → Create → Blob**). Vercel injects `BLOB_READ_WRITE_TOKEN` automatically. Files uploaded before the switch stay on disk and will need re-uploading.
+
+### 5. Why `/admin` 500s when either of these is missing
+
+Every read in `lib/cms.ts` is wrapped in `safe()`, which swallows failures and returns hardcoded fallback content. The public site therefore renders normally against a completely dead Payload — the failure is invisible there.
+
+`/admin` has no such fallback. A missing `PAYLOAD_SECRET` or an unreachable database throws on `payload.init()` and the dashboard does not load, while the rest of the site looks perfectly healthy. If the site is up but `/admin` is not, check those two before anything else.
 
 ---
 
@@ -185,7 +190,8 @@ npm run generate:importmap    # only when adding custom admin components
 | Variable | Required | Purpose |
 |---|---|---|
 | `PAYLOAD_SECRET` | yes | Signs auth cookies. Generate per environment; changing it logs everyone out |
-| `DATABASE_URI` | production | Postgres connection string |
+| `DATABASE_URI` | production | Postgres connection string. Selects the adapter: `postgres…` uses Postgres, unset falls back to local SQLite |
+| `BLOB_READ_WRITE_TOKEN` | production | Vercel Blob token for uploads. Injected by Vercel when a Blob store is attached; unset means uploads stay on local disk |
 | `NEXT_PUBLIC_SITE_URL` | recommended | Used for CORS, sitemap URLs and absolute links |
 
 Generate a secret with:

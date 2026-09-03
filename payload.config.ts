@@ -2,6 +2,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
+import { postgresAdapter } from "@payloadcms/db-postgres";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
 
@@ -110,17 +112,47 @@ export default buildConfig({
   },
 
   /**
-   * SQLite keeps the dashboard zero-config: no database server to install,
-   * and the whole dataset is one committed-out file. That is the right trade
-   * for local work and the client demo.
+   * The adapter follows `DATABASE_URI`, so the same config serves both
+   * environments without an edit between them.
    *
-   * It is NOT right for a serverless deploy (Vercel's filesystem is ephemeral,
-   * so writes vanish between invocations). Swapping to Postgres is two lines —
-   * see the "Going to production" section of CMS.md.
+   * SQLite keeps local work zero-config: no database server to install, and
+   * the whole dataset is one file. It is NOT usable on a serverless host —
+   * Vercel's filesystem is read-only outside `/tmp` and wiped between
+   * invocations, and `cms-data.db` is gitignored so it is not deployed at all.
+   * Left on SQLite there, the public site still renders (every read in
+   * `lib/cms.ts` falls back to hardcoded content) but `/admin` cannot start.
+   *
+   * So production sets `DATABASE_URI` to a Postgres connection string and gets
+   * `postgresAdapter`; anything else — including unset — stays on the local
+   * file. See "Going to production" in CMS.md.
    */
-  db: sqliteAdapter({
-    client: { url: process.env.DATABASE_URI || "file:./cms-data.db" },
-  }),
+  db: process.env.DATABASE_URI?.startsWith("postgres")
+    ? postgresAdapter({
+        pool: { connectionString: process.env.DATABASE_URI },
+      })
+    : sqliteAdapter({
+        client: { url: process.env.DATABASE_URI || "file:./cms-data.db" },
+      }),
+
+  /**
+   * Uploads go to Vercel Blob in production and stay on disk locally.
+   *
+   * `Media.upload.staticDir` writes to `public/media`, which has the same
+   * problem as the SQLite file: gitignored, and on a serverless host both
+   * read-only and ephemeral, so an uploaded image would 404 on the next
+   * invocation.
+   *
+   * The plugin disables itself when the token is unset and lets Payload fall
+   * back to local storage, which is exactly what local development wants — so
+   * this needs no environment branch of its own. Vercel injects
+   * `BLOB_READ_WRITE_TOKEN` once a Blob store is attached to the project.
+   */
+  plugins: [
+    vercelBlobStorage({
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
 
   sharp,
 
