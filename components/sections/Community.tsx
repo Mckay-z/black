@@ -1,76 +1,83 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+
+const BENEFITS = [
+  "Access exclusive professional development resources",
+  "Connect with global chapters and local ambassador cities",
+  "Participate in life-changing global experiences",
+];
 
 export default function Community() {
   return (
-    <section className="py-24 bg-background">
+    <section className="section bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* Content */}
-          <div>
-            <h2 className="text-primary font-medium tracking-widest uppercase mb-4 text-sm">You Belong Here</h2>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-6">
-              Join a global community of rehabilitation professionals who are leading with purpose.
-            </h3>
-            <p className="text-muted text-lg leading-relaxed mb-8">
-              Black in Rehab is more than an organization—it&apos;s a movement of rehabilitation professionals, students, and allies committed to excellence, representation, and service. Whether you&apos;re looking for mentorship, continuing education, or a space to connect with like-minded peers, you&apos;ll find it here.
+          <div className="reveal">
+            <p className="eyebrow mb-5">You Belong Here</p>
+            <h2 className="display-2 text-foreground">
+              Join a global community of rehabilitation professionals leading with
+              purpose.
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Black in Rehab is more than an organization—it&apos;s a movement of
+              rehabilitation professionals, students, and allies committed to
+              excellence, representation, and service. Whether you&apos;re looking for
+              mentorship, continuing education, or a space to connect with like-minded
+              peers, you&apos;ll find it here.
             </p>
-            
-            <ul className="space-y-4 mb-10 text-foreground font-medium">
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                </div>
-                Access exclusive professional development resources
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                </div>
-                Connect with global chapters and local ambassador cities
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                  <div className="w-2 h-2 rounded-full bg-primary"></div>
-                </div>
-                Participate in life-changing global experiences
-              </li>
+
+            <ul className="mt-9 space-y-3">
+              {BENEFITS.map((benefit) => (
+                <li
+                  key={benefit}
+                  className="flex items-start gap-3 rounded-xl border border-transparent p-2 transition-colors hover:border-border hover:bg-surface"
+                >
+                  <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
+                  <span className="font-medium text-foreground">{benefit}</span>
+                </li>
+              ))}
             </ul>
 
-            <Link
-              href="/community"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-on-primary font-bold py-4 px-8 rounded-full transition-colors text-lg"
-            >
+            <Link href="/community" className="btn btn-primary btn-lg group mt-10">
               JOIN OUR COMMUNITY
+              <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
             </Link>
           </div>
 
-          {/* Image/Highlight */}
-          <div className="relative">
-            <div className="aspect-square md:aspect-4/3 rounded-3xl overflow-hidden relative">
+          {/* Photograph, with the shop card overlapping its lower-left corner.
+              The overlap is what stops the two halves reading as a plain
+              two-column grid. */}
+          <div className="reveal relative">
+            <div className="img-filler relative aspect-square overflow-hidden rounded-[var(--radius-panel)] shadow-float md:aspect-4/3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={PHOTOS.conferenceCelebration} 
-                alt="Black in Rehab Community"
-                className="photo photo-hover-lift w-full h-full object-cover"
+              <img
+                src={PHOTOS.conferenceCelebration}
+                alt="Members of the Black in Rehab community together at a conference"
+                loading="lazy"
+                className="photo photo-hover-lift h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/20"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
             </div>
-            
-            {/* Floating Card */}
-            <div className="absolute -bottom-8 -left-8 md:bottom-8 md:-left-12 bg-surface border border-border p-6 rounded-2xl shadow-2xl max-w-sm hidden md:block">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-white font-bold font-serif">
+
+            <div className="card absolute -bottom-8 -left-6 hidden max-w-sm p-6 shadow-float md:bottom-8 md:-left-10 md:block">
+              <div className="mb-4 flex items-center gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary font-serif font-bold text-white">
                   BIR
-                </div>
+                </span>
                 <div>
-                  <h4 className="font-bold text-foreground">Wear The Movement</h4>
-                  <p className="text-sm text-muted">Represent purpose. Support the mission.</p>
+                  <h3 className="font-bold text-foreground">Wear The Movement</h3>
+                  <p className="text-sm text-muted">
+                    Represent purpose. Support the mission.
+                  </p>
                 </div>
               </div>
-              <Link href="/shop" className="text-sm font-semibold text-primary hover:text-primary-hover flex items-center gap-1">
-                SHOP NEW ARRIVALS <ArrowRight className="w-4 h-4" />
+              <Link href="/shop" className="link-arrow group">
+                SHOP NEW ARRIVALS
+                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </div>

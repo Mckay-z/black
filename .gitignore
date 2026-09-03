@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but the template that documents which vars are needed IS committed.
+!.env.example
 
 # vercel
 .vercel
@@ -44,3 +46,22 @@ next-env.d.ts
 # cannot render). Curated, web-sized copies live in public/photos and ARE
 # committed. Keep this out of git and out of the deployed bundle.
 /public/images
+
+# CMS database. SQLite keeps local development zero-config, but the file holds
+# real submissions and password hashes — it never belongs in git.
+/cms-data.db
+/cms-data.db-shm
+/cms-data.db-wal
+
+# Client uploads from the CMS dashboard. Served from /media at runtime and
+# backed up with the database, not through source control.
+/public/media
+
+# Skills installed by `npx skills add` — machine-local tooling, not project code.
+# .claude/skills holds symlinks into .agents, so it is machine-local too.
+/.agents
+/.claude/skills
+
+# Application attachments (recommendation letters, proof of enrolment).
+# Personal data — stored outside public/ and never committed.
+/private-uploads

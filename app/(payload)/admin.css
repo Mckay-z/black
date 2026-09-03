@@ -1,0 +1,160 @@
+/*
+  Tailwind for the admin dashboard.
+
+  The `(payload)` route group is a separate root layout and does not load the
+  site's `globals.css`, so Tailwind has to be entered a second time here. This
+  is deliberately NOT `@import "tailwindcss"`: that pulls in Preflight, whose
+  reset would strip Payload's own component styles down to nothing — unstyled
+  buttons, collapsed tables, borderless inputs across the whole dashboard.
+
+  Importing the two halves separately gives the utilities without the reset.
+  Payload already ships its own normalisation, so nothing is lost.
+*/
+@layer payload-default, payload, theme, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/*
+  Layer order, and why utilities come last.
+
+  Payload's `RootLayout` writes `@layer payload-default, payload;` into an
+  inline `<style>` in `<head>`, which is parsed before any external stylesheet,
+  so those two are always registered first. The statement above appends the
+  Tailwind layers after them, which is what lets a utility class override a
+  Payload component style with no `!important` and no specificity games.
+
+  The one thing that still outranks a utility is an *unlayered* rule. Several
+  live in `custom.scss` — the login screen, the brand mark. Those style markup
+  Payload owns rather than markup we own, so they are left in SCSS and the two
+  never compete for the same element.
+*/
+
+/*
+  Explicit source, rather than relying on automatic detection. The components
+  this stylesheet exists for sit in `cms/components`, outside this file's own
+  directory tree, and naming them means the build cannot quietly stop emitting
+  their classes if detection heuristics change.
+*/
+@source "../../cms/components";
+
+/*
+  Payload switches themes with `data-theme` on <html>, not with the `.dark`
+  class or `prefers-color-scheme` that Tailwind's built-in `dark:` variant
+  looks for. Repointing the variant means `dark:` works against the real
+  setting — including the header toggle and the account screen — instead of
+  silently following the operating system while the dashboard shows something
+  else.
+*/
+@custom-variant dark (&:where(html[data-theme="dark"], html[data-theme="dark"] *));
+
+/*
+  ── Palette ────────────────────────────────────────────────────────────────
+
+  These are the site's own tokens, copied value-for-value from
+  `app/(site)/globals.css`, not approximations of them. The dashboard and the
+  public site are one product and a client moves between them in a single
+  sitting; two golds that are nearly the same read as a mistake rather than a
+  variation.
+
+  Every foreground/background pair below was measured against WCAG 2.2:
+
+    light  fg #1b1611 on #fbf6ec  16.67:1  AAA
+    light  muted #6b5d4c on #fbf6ec 5.92:1 AA
+    light  accent #7c5f0f on #fbf6ec 5.57:1 AA
+    dark   fg #ffffff on #171717  17.93:1  AAA
+    dark   muted #a3a3a3 on #171717 7.11:1 AAA
+    dark   accent #d4af37 on #171717 8.53:1 AAA
+
+  Two accents, not one, is the important part: #d4af37 on the light beige
+  ground is about 2:1 and unreadable, so light mode takes the site's deep gold
+  and dark mode the bright one. Same brand colour, picked for its background.
+*/
+:root {
+  --admin-bg: #f3ecdf;
+  --admin-surface: #fbf6ec;
+  --admin-raised: #ffffff;
+  --admin-fg: #1b1611;
+  --admin-muted: #6b5d4c;
+  --admin-border: #dfd3bc;
+
+  --admin-accent: #7c5f0f;
+  --admin-accent-hover: #5f480a;
+  --admin-on-accent: #fffbf0;
+
+  /* Gold composited at low alpha for tints and focus rings, so the soft
+     variants track the accent instead of being a second hardcoded hex. */
+  --admin-accent-rgb: 124 95 15;
+
+  /*
+    A second, darker border for the edges of interactive things.
+
+    `--admin-border` is a hairline for dividing content and measures about
+    1.4:1, which is right for a rule and wrong for the outline of a control:
+    WCAG 2.2 non-text contrast (1.4.11) wants 3:1 for a boundary someone has
+    to find in order to click it. This measures 3.79:1 on the panel and 4.08:1
+    on a white tile.
+  */
+  --admin-border-strong: #8a7c63;
+}
+
+html[data-theme="dark"] {
+  --admin-bg: #0a0a0a;
+  --admin-surface: #171717;
+  --admin-raised: #262626;
+  --admin-fg: #ffffff;
+  --admin-muted: #a3a3a3;
+  --admin-border: #333333;
+
+  --admin-accent: #d4af37;
+  --admin-accent-hover: #b8972e;
+  --admin-on-accent: #0a0a0a;
+
+  --admin-accent-rgb: 212 175 55;
+
+  /* 3.74:1 on the dark panel, 3.10:1 on a raised tile. */
+  --admin-border-strong: #6f6f6f;
+}
+
+/*
+  ── Token map ──────────────────────────────────────────────────────────────
+
+  The `admin-*` colours resolve at use time, so a utility written once follows
+  whichever theme is active — this is what makes `bg-admin-surface` beige in
+  light mode and near-black in dark without a `dark:` counterpart.
+
+  The `ink`/`gold` set below is fixed instead: identical in both themes. It is
+  only for surfaces that stay dark whatever the theme, which is now just the
+  sidebar logo tile — `logo.png` has an opaque black background baked into the
+  asset, so its backing has to be black or the seam shows.
+*/
+@theme inline {
+  --color-admin-bg: var(--admin-bg);
+  --color-admin-surface: var(--admin-surface);
+  --color-admin-raised: var(--admin-raised);
+  --color-admin-fg: var(--admin-fg);
+  --color-admin-muted: var(--admin-muted);
+  --color-admin-border: var(--admin-border);
+  --color-admin-border-strong: var(--admin-border-strong);
+  --color-admin-accent: var(--admin-accent);
+  --color-admin-accent-hover: var(--admin-accent-hover);
+  --color-admin-on-accent: var(--admin-on-accent);
+  --color-admin-accent-soft: rgb(var(--admin-accent-rgb) / 0.12);
+  --color-admin-accent-ring: rgb(var(--admin-accent-rgb) / 0.3);
+
+  /* Fixed dark scope — identical in both themes. */
+  --color-ink: #0a0a0a;
+  --color-ink-raised: rgb(255 255 255 / 0.04);
+  --color-ink-border: rgb(255 255 255 / 0.35);
+  --color-ink-fg: #ffffff;
+  --color-ink-muted: #a3a3a3;
+  --color-gold: #d4af37;
+  --color-gold-hover: #b8972e;
+  --color-on-gold: #0a0a0a;
+  --color-gold-soft: rgb(212 175 55 / 0.12);
+  --color-gold-ring: rgb(212 175 55 / 0.3);
+
+  /* Loaded by `layout.tsx`; Playfair is the site's masthead face. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+}

@@ -7,60 +7,71 @@ const LEADERS = [
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Visionary Leader",
     image: PHOTOS.founderChauntel,
-    description: "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation.",
+    description:
+      "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation.",
   },
   {
     name: "Nancy Yamoah, OT",
     title: "Co-Founder & Strategic Leader",
     image: PHOTOS.founderNancy,
-    description: "Rehabilitation professional and community builder with a passion for people and global impact.",
-  }
+    description:
+      "Rehabilitation professional and community builder with a passion for people and global impact.",
+  },
 ];
 
 export default function Leadership() {
   return (
-    <section className="py-24 bg-background">
+    <section className="section bg-glow bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="reveal mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-primary font-medium tracking-widest uppercase mb-4 text-sm">Our Leadership</h2>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-6">
-              Meet the Founders
-            </h3>
-            <p className="text-muted text-lg leading-relaxed">
-              Two friends. One vision. A global impact. Driven by a shared belief that rehabilitation professionals can be change agents, leaders, mentors, and global citizens.
+            <p className="eyebrow mb-5">Our Leadership</p>
+            <h2 className="display-2 text-foreground">Meet the Founders</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Two friends. One vision. A global impact. Driven by a shared belief that
+              rehabilitation professionals can be change agents, leaders, mentors, and
+              global citizens.
             </p>
           </div>
-          <Link
-            href="/about/founders"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-muted hover:text-primary transition-colors shrink-0"
-          >
-            MEET THE FULL TEAM <ArrowRight className="w-4 h-4" />
+
+          <Link href="/about/founders" className="link-arrow group shrink-0">
+            MEET THE FULL TEAM
+            <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {LEADERS.map((leader, index) => (
-            <div key={index} className="group bg-surface border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors flex flex-col sm:flex-row">
-              <div className="w-full sm:w-2/5 relative h-64 sm:h-auto">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {LEADERS.map((leader) => (
+            <Link
+              key={leader.name}
+              href="/about/founders"
+              className="card card-hover reveal group flex flex-col overflow-hidden sm:flex-row"
+            >
+              <div className="img-filler relative h-64 w-full sm:h-auto sm:w-2/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img 
-                  src={leader.image} 
-                  alt={leader.name} 
-                  className="photo photo-hover-lift absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                <img
+                  src={leader.image}
+                  alt={leader.name}
+                  loading="lazy"
+                  className="photo photo-hover-lift absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                 />
               </div>
-              <div className="p-8 sm:w-3/5 flex flex-col justify-center">
-                <h4 className="text-2xl font-serif font-bold text-foreground mb-2">{leader.name}</h4>
-                <p className="text-primary font-medium text-sm mb-4">{leader.title}</p>
-                <p className="text-muted text-sm leading-relaxed mb-6">
+
+              <div className="flex flex-col justify-center p-8 sm:w-3/5">
+                <h3 className="mb-2 font-serif text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                  {leader.name}
+                </h3>
+                <p className="mb-4 text-sm font-medium text-primary">{leader.title}</p>
+                <p className="mb-6 text-sm leading-relaxed text-muted">
                   {leader.description}
                 </p>
-                <Link href="/about/founders" className="inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary transition-colors mt-auto">
-                  View Profile <ArrowRight className="w-4 h-4" />
-                </Link>
+
+                <span className="link-arrow mt-auto text-foreground group-hover:text-primary">
+                  View Profile
+                  <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

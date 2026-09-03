@@ -37,7 +37,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
       />
 
       {/* Bio */}
-      <section className="py-24 bg-background">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
             <div className="lg:col-span-2">
@@ -47,7 +47,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
                 wrapperClassName="aspect-4/5 rounded-3xl group"
                 zoomOnHover
               />
-              <div className="mt-6 bg-surface border border-border rounded-2xl p-6">
+              <div className="mt-6 card p-6">
                 <p className="text-primary text-xs font-bold uppercase tracking-widest mb-2">
                   Role
                 </p>
@@ -85,9 +85,9 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
                 {speaker.highlights.map((item) => (
                   <div
                     key={item.label}
-                    className="bg-surface border border-border rounded-2xl p-6 text-center"
+                    className="card p-6 text-center"
                   >
-                    <p className="text-2xl md:text-3xl font-serif font-bold text-primary mb-1">
+                    <p className="display-3 text-primary mb-1">
                       {item.value}
                     </p>
                     <p className="text-muted text-xs leading-relaxed">{item.label}</p>
@@ -100,7 +100,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
       </section>
 
       {/* Topics & formats */}
-      <section className="py-24 bg-surface border-y border-border">
+      <section className="section bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
@@ -109,7 +109,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
                 {speaker.topics.map((topic) => (
                   <div
                     key={topic}
-                    className="flex items-start gap-3 bg-background border border-border rounded-xl p-4 hover:border-primary/50 transition-colors"
+                    className="flex items-start gap-3 card card-sunken rounded-xl p-4 card-hover"
                   >
                     <Mic className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <span className="text-foreground text-sm font-medium">{topic}</span>
@@ -118,7 +118,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
               </div>
               <Link
                 href="/speakers/topics"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition-colors mt-8"
+                className="link-arrow mt-8"
               >
                 See all speaking topics <ArrowRight className="w-4 h-4" />
               </Link>
@@ -126,7 +126,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
 
             <div>
               <SectionHeading eyebrow="Availability" title="Formats" className="mb-8" />
-              <div className="bg-background border border-border rounded-2xl p-8 space-y-4">
+              <div className="card card-sunken p-8 space-y-4">
                 {speaker.formats.map((format) => (
                   <div key={format} className="flex items-start gap-3">
                     <Award className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -140,7 +140,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
       </section>
 
       {/* Gallery */}
-      <section className="py-24 bg-background">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeading title="On Stage" align="center" className="mb-12" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -1,262 +1,132 @@
 import Link from "next/link";
-import Logo from "@/components/navigation/Logo";
 
-export default function Footer() {
+import Logo from "@/components/navigation/Logo";
+import SocialLinks from "@/components/navigation/SocialLinks";
+import NewsletterForm from "@/components/forms/NewsletterForm";
+import { getSiteSettings } from "@/lib/cms";
+
+/**
+ * Site footer.
+ *
+ * The link groups are data rather than hand-written <li> blocks, so adding a
+ * column or a link is one line and every item is guaranteed the same
+ * treatment.
+ */
+const LINK_GROUPS: { heading: string; links: { label: string; href: string }[] }[] = [
+  {
+    heading: "Explore",
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Experiences", href: "/experiences" },
+      { label: "Impact", href: "/impact" },
+      { label: "Community", href: "/community" },
+      { label: "Share Your Story", href: "/community/share-your-story" },
+    ],
+  },
+  {
+    heading: "Resources & Support",
+    links: [
+      { label: "Resource Library", href: "/resources" },
+      { label: "Book a Speaker", href: "/speakers" },
+      { label: "Become a Sponsor", href: "/support/sponsors" },
+      { label: "Donate", href: "/impact/donate" },
+    ],
+  },
+];
+
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Use", href: "/terms" },
+  { label: "Accessibility", href: "/accessibility" },
+];
+
+export default async function Footer() {
+  const settings = await getSiteSettings();
+
   return (
-    <footer className="w-full bg-background border-t border-border">
-      <div className="container mx-auto px-4 py-16">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand & Mission */}
-          <div>
-            <Link href="/" className="inline-flex shrink-0 items-center">
+    <footer className="relative w-full border-t border-border bg-surface">
+      {/* Gold hairline along the top edge, matching the header's. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/40 to-transparent"
+      />
+
+      <div className="container mx-auto px-4 py-16 md:px-6 md:py-20">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12">
+          {/* Brand & mission */}
+          <div className="lg:col-span-4">
+            <Link
+              href="/"
+              aria-label="Black In Rehab Foundation — home"
+              className="inline-flex shrink-0 items-center rounded-lg transition-opacity hover:opacity-85"
+            >
               <Logo lightClassName="h-12 w-auto" darkClassName="h-20 w-auto" />
             </Link>
 
-            <p className="mt-6 text-sm text-muted leading-relaxed max-w-sm">
-              The global leader empowering Black rehabilitation professionals
-              to transform lives and strengthen communities worldwide.
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">
+              The global leader empowering Black rehabilitation professionals to
+              transform lives and strengthen communities worldwide.
             </p>
 
-            {/* Social Links */}
-            <div className="flex items-center gap-4 mt-6">
-              {/* Instagram */}
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="text-muted hover:text-primary transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                >
-                  <rect
-                    width="20"
-                    height="20"
-                    x="2"
-                    y="2"
-                    rx="5"
-                    ry="5"
-                  />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                </svg>
-              </a>
+            <SocialLinks urls={settings} />
+          </div>
 
-              {/* LinkedIn */}
-              <a
-                href="#"
-                aria-label="LinkedIn"
-                className="text-muted hover:text-primary transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                >
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
-                  <rect width="4" height="12" x="2" y="9" />
-                  <circle cx="4" cy="4" r="2" />
-                </svg>
-              </a>
+          {/* Link columns */}
+          {LINK_GROUPS.map((group) => (
+            <nav key={group.heading} aria-label={group.heading} className="lg:col-span-2">
+              <h2 className="mb-5 font-sans text-xs font-bold uppercase tracking-[0.14em] text-foreground">
+                {group.heading}
+              </h2>
 
-              {/* Twitter / X */}
-              <a
-                href="#"
-                aria-label="Twitter / X"
-                className="text-muted hover:text-primary transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
-              </a>
+              <ul className="space-y-3 text-sm">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="inline-block text-muted transition-[color,transform] duration-200 hover:translate-x-1 hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
-              {/* Facebook */}
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="text-muted hover:text-primary transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                >
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </a>
+          {/* Newsletter. Boxed, because it is the one thing in the footer that
+              asks the visitor to do something. */}
+          <div className="lg:col-span-4">
+            <div className="card card-sunken p-6">
+              <h2 className="font-serif text-lg font-bold text-foreground">
+                Stay Connected
+              </h2>
+              <p className="mt-2 mb-5 text-sm leading-relaxed text-muted">
+                Subscribe for updates on events, opportunities, and impact stories.
+              </p>
+
+              <NewsletterForm />
             </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold mb-6">Explore</h3>
-
-            <ul className="space-y-4 text-sm text-muted">
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-primary transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/experiences"
-                  className="hover:text-primary transition-colors"
-                >
-                  Experiences
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/impact"
-                  className="hover:text-primary transition-colors"
-                >
-                  Impact
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/community"
-                  className="hover:text-primary transition-colors"
-                >
-                  Community
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/community/share-your-story"
-                  className="hover:text-primary transition-colors"
-                >
-                  Share Your Story
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h3 className="font-semibold mb-6">Resources & Support</h3>
-
-            <ul className="space-y-4 text-sm text-muted">
-              <li>
-                <Link
-                  href="/resources"
-                  className="hover:text-primary transition-colors"
-                >
-                  Resource Library
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/speakers"
-                  className="hover:text-primary transition-colors"
-                >
-                  Book a Speaker
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/support/sponsors"
-                  className="hover:text-primary transition-colors"
-                >
-                  Become a Sponsor
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/join-the-movement"
-                  className="hover:text-primary transition-colors"
-                >
-                  Donate
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-semibold mb-6">Stay Connected</h3>
-
-            <p className="text-muted text-sm mb-4 leading-relaxed">
-              Subscribe for updates on events, opportunities, and impact
-              stories.
-            </p>
-
-            <form className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="bg-background border border-border rounded-md px-4 py-2 text-sm transition-colors newsletter-input focus:outline-none focus:ring-2 focus:ring-primary"
-                required
-              />
-
-              <button
-                type="submit"
-                className="bg-secondary hover:bg-secondary-hover text-white rounded-md px-4 py-2 text-sm font-medium transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-border mt-16 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-muted">
+        {/* Bottom bar */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 text-xs text-muted md:flex-row">
           <p>
-            &copy; {new Date().getFullYear()} Black In Rehab Foundation. All
-            Rights Reserved.
+            &copy; {new Date().getFullYear()} Black In Rehab Foundation. All Rights
+            Reserved.
           </p>
 
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <Link
-              href="/privacy"
-              className="hover:text-foreground transition-colors"
-            >
-              Privacy Policy
-            </Link>
-
-            <Link
-              href="/terms"
-              className="hover:text-foreground transition-colors"
-            >
-              Terms of Use
-            </Link>
-
-            <Link
-              href="/accessibility"
-              className="hover:text-foreground transition-colors"
-            >
-              Accessibility
-            </Link>
-          </div>
+          <nav aria-label="Legal" className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {LEGAL_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

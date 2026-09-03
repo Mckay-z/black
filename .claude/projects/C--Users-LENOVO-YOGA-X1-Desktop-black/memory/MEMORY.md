@@ -1,0 +1,1 @@
+- [Chrome intercepts localhost](chrome-intercepts-localhost.md) — browser shows a different app for localhost on any port; verify with fetch instead.

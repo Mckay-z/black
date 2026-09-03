@@ -1,0 +1,832 @@
+/*
+  Brand styling for the CMS dashboard.
+
+  Payload ships a deliberately neutral admin UI. Left stock it reads as a
+  developer tool, which is the wrong first impression for a client signing in
+  to manage their own site.
+
+  Everything here maps Payload's theme tokens onto the palette already defined
+  in `app/(site)/globals.css`, so the dashboard and the public site stay in
+  step. Colours are duplicated as literals rather than imported because this
+  stylesheet loads in the `(payload)` route group, which deliberately does not
+  pull in the site's Tailwind build.
+
+    gold      #d4af37   brand primary on dark  (--primary in .dark)
+    gold-dim  #b8972e   its hover state
+    deep gold #7c5f0f   brand primary on light (--primary in :root)
+    black     #0a0a0a   brand secondary / page ground
+    surface   #171717   raised panels
+
+  Two golds, not one: the bright #d4af37 is only legible on the black auth
+  card and in dark mode. The logged-in dashboard defaults to the light theme,
+  where that gold falls to roughly 2:1 against the ground — so the accent is
+  theme-aware. See `--bir-accent` below.
+
+  Scope note: the standalone auth screens all share Payload's `minimal`
+  template but carry different wrapper classes — `login`, `createFirstUser`,
+  `forgot`, `reset`, `verify`. Styling `.template-minimal` covers all of them,
+  which matters because the *first* screen anyone sees is create-first-user,
+  not login.
+*/
+
+/*
+  Layer order, restated.
+
+  Payload puts every shipped component style in `payload-default` and leaves
+  `payload` for consumers, which is what lets the rules below override them
+  without `!important`.
+
+  Payload already guarantees the ordering itself: `RootLayout` renders an
+  inline `<style>@layer payload-default, payload;</style>` into `<head>`, and
+  an inline tag in head is parsed before any external stylesheet, so the two
+  layers are always registered in the right order no matter which CSS chunk
+  arrives first. Restating it here is redundant belt-and-braces — it costs a
+  line and removes the dependency on that implementation detail.
+*/
+@layer payload-default, payload;
+
+// ── Brand tokens ─────────────────────────────────────────────────────────
+:root {
+  --bir-gold: #d4af37;
+  --bir-gold-dim: #b8972e;
+  --bir-black: #0a0a0a;
+  --bir-surface: #171717;
+  --bir-border: #333333;
+  --bir-text: #ffffff;
+  --bir-muted: #a3a3a3;
+}
+
+/*
+  Payload derives almost every surface, border and text tone in the dashboard
+  from two ramps: `--color-base-*` (which `--theme-elevation-*` aliases, and
+  which `--theme-bg`, `--theme-text`, `--theme-input-bg` and
+  `--theme-border-color` are all built from) and `--color-success-*` (focus
+  rings and positive states). Remapping those two ramps rebrands the entire
+  admin panel — nav, tables, drawers, popups, fields — without touching a
+  single component selector.
+
+  The ramp below is warm at the light end and neutral at the dark end, which
+  is not an accident: Payload *reverses* the mapping for dark mode
+  (`--theme-elevation-0` becomes `--color-base-900`, `50` becomes `850`, and
+  so on), so the top of this ramp has to be the site's dark palette and the
+  bottom its beige one. Read it against `app/(site)/globals.css`:
+
+    base-900 #0a0a0a  =  --background (dark)
+    base-850 #171717  =  --surface    (dark)
+    base-800 #262626  =  --surface-light (dark)
+    base-750 #333333  =  --border     (dark)
+    base-0   #fdfaf3  ≈  --surface    (light)
+    base-150 #e4d9c4  ≈  --border     (light)
+
+  Values are space-separated `rgb()` calls to match Payload's own colors.scss.
+
+  Everything here sits in `@layer payload`, which Payload declares *after*
+  `payload-default` (see the `@layer payload-default, payload;` statement at
+  the top of its app.scss). A later layer wins over an earlier one regardless
+  of selector specificity, so these rules override the shipped component
+  styles without a single `!important`.
+*/
+@layer payload {
+  :root {
+    // Warm beige through to the site's neutral black.
+    --color-base-0: rgb(253 250 243);
+    --color-base-50: rgb(247 241 229);
+    --color-base-100: rgb(240 232 216);
+    --color-base-150: rgb(228 217 196);
+    --color-base-200: rgb(216 203 178);
+    --color-base-250: rgb(203 189 159);
+    --color-base-300: rgb(190 174 141);
+    --color-base-350: rgb(176 160 124);
+    --color-base-400: rgb(161 146 111);
+    --color-base-450: rgb(143 129 99);
+    --color-base-500: rgb(125 113 87);
+    --color-base-550: rgb(107 97 75);
+    --color-base-600: rgb(90 81 64);
+    --color-base-650: rgb(74 66 53);
+    --color-base-700: rgb(58 52 43);
+    --color-base-750: rgb(51 51 51);
+    --color-base-800: rgb(38 38 38);
+    --color-base-850: rgb(23 23 23);
+    --color-base-900: rgb(10 10 10);
+    --color-base-950: rgb(5 5 5);
+    --color-base-1000: rgb(0 0 0);
+
+    // Payload's "success" ramp is its accent: focus rings, positive states,
+    // published indicators. Stock it is blue; here it is the brand gold,
+    // running from a pale tint up to the site's deep light-mode gold.
+    --color-success-50: rgb(251 246 230);
+    --color-success-100: rgb(247 237 203);
+    --color-success-150: rgb(240 224 167);
+    --color-success-200: rgb(233 211 134);
+    --color-success-250: rgb(226 198 103);
+    --color-success-300: rgb(219 185 75);
+    --color-success-350: rgb(212 175 55);
+    --color-success-400: rgb(194 158 47);
+    --color-success-450: rgb(176 141 41);
+    --color-success-500: rgb(158 125 36);
+    --color-success-550: rgb(140 110 31);
+    --color-success-600: rgb(124 95 15);
+    --color-success-650: rgb(107 82 16);
+    --color-success-700: rgb(90 69 15);
+    --color-success-750: rgb(74 57 13);
+    --color-success-800: rgb(58 45 11);
+    --color-success-850: rgb(43 33 8);
+    --color-success-900: rgb(29 22 6);
+    --color-success-950: rgb(16 12 4);
+
+    // Payload's corner radii are 3–4px, which reads as a 2016 admin tool next
+    // to the public site's 20px cards.
+    --style-radius-s: 6px;
+    --style-radius-m: 10px;
+    --style-radius-l: 16px;
+
+    /*
+      The accent, as used by the rules below.
+
+      It is NOT the same gold in both themes. #d4af37 on the light beige
+      ground is roughly 2:1 against text — unreadable — so light mode uses the
+      site's deep gold (#7c5f0f, the `--primary` from globals.css) and dark
+      mode uses the bright one. Same brand colour, picked for its background.
+    */
+    --bir-accent: var(--admin-accent);
+    --bir-accent-hover: var(--admin-accent-hover);
+    --bir-on-accent: var(--admin-on-accent);
+    --bir-accent-soft: rgb(var(--admin-accent-rgb) / 0.12);
+    --bir-accent-ring: rgb(var(--admin-accent-rgb) / 0.3);
+  }
+
+  /*
+    No dark-mode block here any more. `admin.css` flips --admin-accent-* on
+    `html[data-theme='dark']`, and the aliases above resolve at use time, so
+    they follow it automatically. One palette, defined once.
+  */
+}
+
+// ── Standalone auth screens ──────────────────────────────────────────────
+// login · create-first-user · forgot password · reset password · verify
+
+.template-minimal {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+
+  // A darkened brand photograph. `background-attachment: fixed` is avoided
+  // deliberately — janky on iOS, and it buys nothing on a single-card page.
+  background-color: var(--bir-black);
+  background-image: linear-gradient(to bottom,
+      rgba(10, 10, 10, 0.82),
+      rgba(10, 10, 10, 0.94)),
+    url("/photos/conference-group-branded.jpg");
+  background-size: cover;
+  background-position: center 30%;
+
+  // Soft gold bloom so the card lifts off the photograph rather than
+  // sitting flat on it.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 42%,
+        rgba(212, 175, 55, 0.16),
+        transparent 70%);
+    pointer-events: none;
+  }
+
+  &__wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    // A sign-in card is two fields and a button; sized past roughly 23rem it
+    // stops reading as a dialog and starts reading as a page that failed to
+    // lay out. The padding is trimmed to match.
+    max-width: 23rem;
+    margin: 0;
+    padding: 2rem 1.75rem 2.25rem;
+
+    // Pure black, because `logo.png` carries its own opaque black
+    // background — the two meet with no visible seam.
+    background: var(--bir-black);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    border-radius: 1rem;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 24px 60px -12px rgba(0, 0, 0, 0.85);
+  }
+}
+
+// The login view renders the real <Logo> component; every other minimal
+// screen renders none, so the wordmark is supplied as a background image
+// there instead. Keeping them separate avoids a doubled logo on login.
+.login__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+
+  .admin-logo {
+    width: auto;
+    height: 4.5rem;
+    object-fit: contain;
+  }
+}
+
+.template-minimal:not(.login) .template-minimal__wrap::before {
+  content: "";
+  display: block;
+  height: 3.75rem;
+  margin-bottom: 1rem;
+  background-image: url("/logo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+// ── Headings on the auth cards ───────────────────────────────────────────
+// `.admin-welcome` is our own beforeLogin component; `.create-first-user`
+// is Payload's built-in markup. Same treatment for both so the two screens
+// look like one product.
+.admin-welcome,
+.create-first-user {
+  text-align: center;
+
+  h1,
+  &__title {
+    margin: 0 0 0.375rem;
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--bir-text);
+  }
+
+  >p,
+  &__subtitle {
+    margin: 0 auto 1.5rem;
+    max-width: 20rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--bir-muted);
+  }
+}
+
+// ── Form controls ────────────────────────────────────────────────────────
+.template-minimal {
+  .field-type {
+    margin-bottom: 0.875rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--bir-text);
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.6875rem 0.875rem;
+    background: var(--bir-surface);
+    border: 1px solid var(--bir-border);
+    border-radius: 0.625rem;
+    color: var(--bir-text);
+    font-size: 0.875rem;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: #6b6b6b;
+    }
+
+    &:hover {
+      border-color: #4a4a4a;
+    }
+
+    // A gold focus ring, matching the public site's form fields.
+    &:focus {
+      outline: none;
+      border-color: var(--bir-gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.22);
+    }
+  }
+
+  // Primary action: gold on black, the same pairing as the site's CTAs.
+  .btn--style-primary {
+    width: 100%;
+    margin: 0.25rem 0 0;
+    padding-block: 0.75rem;
+    background-color: var(--bir-gold);
+    border-color: var(--bir-gold);
+    border-radius: 999px;
+    color: var(--bir-black);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    .btn__content {
+      justify-content: center;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--bir-gold-dim);
+      border-color: var(--bir-gold-dim);
+      color: var(--bir-black);
+    }
+  }
+
+  // "Forgot password", "Back to login", etc.
+  a {
+    color: var(--bir-gold);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--bir-gold-dim);
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Dashboard chrome ─────────────────────────────────────────────────────
+//
+// Everything past this point styles the logged-in dashboard rather than the
+// auth screens, and lives in `@layer payload` so it lands on top of Payload's
+// own component styles.
+
+/*
+  Payload's own breadcrumb is replaced by `Breadcrumbs`.
+
+  The stock trail began with a brand mark rather than a word — and fell back to
+  Payload's own logo when `graphics.Icon` was unset — and it was flat, so it
+  never showed that Posts sits under Content. `Breadcrumbs` renders
+  `Dashboard › Content › Posts › My Post` instead.
+
+  The whole wrapper goes, not just `.step-nav`: it is `width: 100%` and would
+  otherwise hold the full width of the row open with nothing in it, pinning our
+  trail to the far right.
+*/
+@layer payload {
+  .app-header__step-nav-wrapper {
+    display: none;
+  }
+
+  /*
+    `actions` is the only component slot inside `.app-header`, so the trail is
+    registered there and put back on the left here.
+
+    Stock, this wrapper hugs its contents at the right-hand end of the row.
+    Growing it into the space the step nav gave up is what lets the breadcrumb
+    sit where a breadcrumb belongs.
+  */
+  .app-header__actions-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /*
+    Payload caps this at 600px (down to 150px on small screens) because it
+    expects a short row of buttons. A breadcrumb needs the width, and truncates
+    its own last crumb rather than overflowing.
+  */
+  .app-header__actions {
+    max-width: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /*
+    Each action is wrapped in a plain `<div>` that Payload renders and we
+    cannot put a class on, so the breadcrumb's own wrapper is reached through
+    `:has()`. Ordering it explicitly means the trail stays leftmost no matter
+    where a view inserts its own actions into the list, and `auto` margin
+    pushes the theme toggle and view-site button back to the right.
+  */
+  .app-header__actions > div:has(> .bir-breadcrumbs) {
+    order: -1;
+    margin-inline-end: auto;
+    min-width: 0;
+  }
+
+  // ── Sidebar ────────────────────────────────────────────────────────────
+  //
+  // Stock, the nav is the same colour as the page with a hairline down one
+  // side, so the dashboard reads as one undifferentiated field. Lifting it
+  // onto the next elevation step gives the layout a spine.
+  .nav {
+    background: var(--theme-elevation-50);
+    border-inline-end: 1px solid var(--theme-elevation-100);
+  }
+
+  /*
+    Group headings ("Content", "Inbox", "Settings"): a label, not a heading.
+
+    Colour is the site's own muted token rather than `--theme-elevation-450`,
+    which measured 3.40:1 against the light nav ground — below the 4.5:1 AA
+    floor, and these are 11px. The site token measures 5.58:1 light and 7.11:1
+    dark, so the label is legible in both and reads as the same grey the
+    website uses.
+  */
+  .nav__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--admin-muted);
+  }
+
+  /*
+    Nav links become full hit-area rows.
+
+    The negative inline start margin cancels the padding, so the label stays
+    optically aligned with the group heading above it while the hover surface
+    extends past it on both sides — the row highlights, not the words.
+  */
+  .nav__link {
+    padding-block: 6px;
+    padding-inline-start: 12px;
+    margin-inline-start: -12px;
+    border-radius: var(--style-radius-m);
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .nav__link:hover {
+    background: var(--bir-accent-soft);
+    color: var(--bir-accent);
+  }
+
+  /*
+    Payload marks the current route by rendering an extra
+    `<div class="nav__link-indicator">` inside the link — there is no
+    `--active` modifier class to hook, which is why the rule that used to live
+    here (`.nav__link--active`) matched nothing. `:has()` reads the real
+    signal.
+  */
+  .nav__link:has(.nav__link-indicator) {
+    background: var(--bir-accent-soft);
+    color: var(--bir-accent);
+    font-weight: 600;
+  }
+
+  .nav__link-indicator {
+    inset-inline-start: 3px;
+    width: 3px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--bir-accent);
+  }
+
+  .nav-group__toggle {
+    border-radius: var(--style-radius-s);
+    transition: color 150ms ease;
+  }
+
+  .nav-group__toggle:hover {
+    color: var(--bir-accent);
+  }
+
+  .nav__controls {
+    padding-top: 16px;
+    border-top: 1px solid var(--theme-elevation-100);
+  }
+
+  .nav__log-out:hover {
+    color: var(--bir-accent);
+  }
+
+  // ── App header ─────────────────────────────────────────────────────────
+  //
+  // A gold hairline across the top of the viewport, matching the one on the
+  // public site's header and footer. Two pixels of colour that tie the
+  // dashboard to the brand without adding another bar.
+  .app-header::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--bir-accent),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  // Give the header bar enough room to show the logo at full size.
+  .app-header {
+    height: auto !important;
+    min-height: var(--app-header-height, 60px);
+    padding-block: 0.5rem;
+  }
+
+  .app-header__content {
+    align-items: center;
+  }
+
+  .app-header--show-bg .app-header__bg {
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--theme-bg) 82%, transparent);
+    border-bottom: 1px solid var(--theme-elevation-100);
+  }
+
+  // ── View titles ────────────────────────────────────────────────────────
+  .list-header__title,
+  .doc-header__title {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  // ── Dashboard cards and widgets ────────────────────────────────────────
+  .card {
+    background: var(--theme-elevation-0);
+    border-radius: var(--style-radius-l);
+    border-color: var(--theme-elevation-150);
+    box-shadow: 0 1px 2px rgb(27 22 17 / 0.04);
+    transition:
+      border-color 200ms ease,
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card__title {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: 1.0625rem;
+    letter-spacing: -0.01em;
+  }
+
+  // Only the clickable cards lift — a card that moves under the cursor but
+  // does nothing when clicked is a worse lie than a card that sits still.
+  .card--has-onclick:hover {
+    transform: translateY(-2px);
+    border-color: var(--bir-accent);
+    box-shadow: 0 8px 24px -10px rgb(27 22 17 / 0.28);
+  }
+
+  .widget {
+    border-radius: var(--style-radius-l);
+  }
+
+  // ── Lists and tables ───────────────────────────────────────────────────
+  .table table thead th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    // Elevation-500 measured 4.12:1 on the dark ground; the site's muted
+    // token clears AA in both themes.
+    color: var(--admin-muted);
+    border-bottom: 1px solid var(--theme-elevation-150);
+  }
+
+  .table table tbody tr {
+    transition: background-color 120ms ease;
+  }
+
+  .table table tbody tr:hover {
+    background: var(--theme-elevation-50);
+  }
+
+  .pill {
+    border-radius: 999px;
+  }
+
+  // ── Buttons ────────────────────────────────────────────────────────────
+  //
+  // Payload's primary button is near-black on white. The public site's is a
+  // gold pill, and Save is the action a client presses fifty times a day —
+  // it should be the one gold thing on the screen.
+  //
+  // `.btn` consumes these as custom properties, so setting them is enough;
+  // no need to restate background, colour and hover rules.
+  .btn--style-primary {
+    --color: var(--bir-on-accent);
+    --bg-color: var(--bir-accent);
+    --hover-bg: var(--bir-accent-hover);
+    --hover-color: var(--bir-on-accent);
+
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .btn--style-secondary {
+    --hover-color: var(--bir-accent);
+    --hover-btn-border: 1px solid var(--bir-accent);
+
+    border-radius: 999px;
+  }
+
+  .btn--style-pill {
+    border-radius: 999px;
+  }
+
+  // ── Fields ─────────────────────────────────────────────────────────────
+  //
+  // Matching the public site's forms: rounded corners and a gold focus ring
+  // rather than the default blue outline.
+  .field-type.text:not(.has-many) input,
+  .field-type.email input,
+  .field-type.password input,
+  .field-type.confirm-password input,
+  .field-type.number:not(.has-many) input,
+  .field-type.textarea textarea,
+  .react-select .rs__control,
+  .date-time-picker .react-datepicker__input-container input {
+    border-radius: var(--style-radius-m);
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .field-type.text:not(.has-many) input:focus,
+  .field-type.email input:focus,
+  .field-type.password input:focus,
+  .field-type.confirm-password input:focus,
+  .field-type.number:not(.has-many) input:focus,
+  .field-type.textarea textarea:focus,
+  .react-select .rs__control--is-focused,
+  .date-time-picker .react-datepicker__input-container input:focus {
+    border-color: var(--bir-accent);
+    box-shadow: 0 0 0 3px var(--bir-accent-ring);
+    outline: none;
+  }
+
+  .field-label {
+    font-weight: 600;
+  }
+
+  // ── Overlays ───────────────────────────────────────────────────────────
+  .popup__content {
+    border-radius: var(--style-radius-l);
+    box-shadow: 0 16px 48px -16px rgb(0 0 0 / 0.4);
+  }
+
+  .banner {
+    border-radius: var(--style-radius-m);
+  }
+}
+
+@media (max-width: 480px) {
+  .template-minimal__wrap {
+    padding: 1.75rem 1.375rem 2rem;
+  }
+
+  .login__brand .admin-logo {
+    height: 3.75rem;
+  }
+
+  .template-minimal:not(.login) .template-minimal__wrap::before {
+    height: 3.25rem;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+// Custom dashboard components
+//
+// Everything below styles components added in `payload.config.ts` under
+// `admin.components` — the labelled logout, the two routes back to the public
+// site, and the welcome panel above the collection cards.
+// ═════════════════════════════════════════════════════════════════════════
+
+// ── Back to the website, under the sign-in form ──────────────────────────
+//
+// Unlayered, like the auth-screen rules further up: it styles a class of our
+// own rather than overriding a Payload component, and unlayered rules beat
+// every layer regardless of order.
+.back-to-site {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--bir-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+
+  span {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  // The arrow leads the eye out of the card, so it moves rather than the text.
+  &:hover {
+    color: var(--bir-gold);
+    text-decoration: none;
+
+    span {
+      transform: translateX(-3px);
+    }
+  }
+}
+
+@layer payload {
+
+  // ── Labelled logout ────────────────────────────────────────────────────
+  //
+  // `.nav__controls` is a column flex holding only this link — the settings
+  // gear beside it renders nothing unless `settingsMenu` is configured — so
+  // the label can take a full row without crowding anything.
+  //
+  // The negative inline start margin matches `.nav__link` above: it cancels
+  // the padding so the text aligns with the nav links while the hover surface
+  // still extends past it on both sides.
+  .nav__log-out {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 8px 12px;
+    margin-inline-start: -12px;
+    border-radius: var(--style-radius-m);
+
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--theme-elevation-600);
+    text-decoration: none;
+
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background: var(--bir-accent-soft);
+      color: var(--bir-accent);
+    }
+  }
+}
+
+@layer payload {
+
+  // ── Collection group headings ──────────────────────────────────────────
+  //
+  // "Content", "Page Content", "Inbox" and "Settings" ship as plain headings
+  // floating above their cards with nothing tying them to the block below. A
+  // rule running out from the label groups each section and costs no height.
+  .collections__label {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--admin-muted);
+
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--theme-elevation-150);
+    }
+  }
+
+  // More air between groups than between the cards inside one, so the grouping
+  // is legible at a glance.
+  .collections__wrap {
+    gap: 2.25rem;
+  }
+
+  /*
+    A gold edge that fades in on hover marks which card is under the cursor.
+    Only on `--has-onclick`, matching the rule further up this file: a card
+    that reacts to the cursor but does nothing when clicked is a worse lie
+    than one that sits still.
+  */
+  .collections__card-list .card {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block: 0;
+      width: 3px;
+      background: var(--bir-accent);
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    &.card--has-onclick:hover::before {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,869 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by a `dark` class on <html> (set by ThemeProvider). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Tokens are declared `inline` so every utility compiles to `var(--<token>)`
+  and resolves at runtime. That lets the palette be swapped by the `.dark`
+  class on <html>, or scoped to a subtree with `.section-dark`.
+*/
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+
+  /* Brand Colors */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+
+  --color-accent: var(--accent);
+
+  /* State colors */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+
+  /*
+    Elevation. Two stacked shadows per step — a tight contact shadow plus a
+    wide ambient one — which is what separates a card that looks lit from one
+    that looks like it has a grey box behind it. Tinted with the brand black
+    rather than pure #000 so they sit correctly on the beige ground.
+  */
+  --shadow-soft: 0 1px 2px rgb(27 22 17 / 0.04), 0 4px 16px -4px rgb(27 22 17 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(27 22 17 / 0.05), 0 12px 32px -8px rgb(27 22 17 / 0.12);
+  --shadow-float: 0 4px 8px rgb(27 22 17 / 0.06), 0 24px 56px -12px rgb(27 22 17 / 0.20);
+  --shadow-glow: 0 0 0 1px rgb(var(--primary-rgb) / 0.18), 0 16px 40px -12px rgb(var(--primary-rgb) / 0.28);
+
+  /* Radii — one step larger than the old scale, which is most of what reads
+     as "current" versus "2019 bootstrap". */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-up: fade-up 0.7s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 0.6s ease both;
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   Light theme (default) — warm beige
+   --------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --background: #f3ecdf;
+  --surface: #fbf6ec;
+  --surface-light: #ffffff;
+  --foreground: #1b1611;
+  --muted: #6b5d4c;
+  --border: #dfd3bc;
+
+  --primary: #7c5f0f;
+  --primary-hover: #5f480a;
+  --on-primary: #fffbf0;
+
+  --secondary: #000000;
+  --secondary-hover: #1f1f1f;
+
+  --accent: #b08d28;
+
+  /* Tint used for the translucent header/back-to-top surfaces */
+  --scrim: 243 236 223;
+
+  /* Channel form of --primary, so gold can be composited at low alpha for
+     glows, rings and tint washes without hardcoding a second hex. */
+  --primary-rgb: 124 95 15;
+}
+
+/* ---------------------------------------------------------------
+   Dark theme
+   --------------------------------------------------------------- */
+.dark {
+  color-scheme: dark;
+
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-light: #262626;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --border: #333333;
+
+  --primary: #d4af37;
+  --primary-hover: #b8972e;
+  --on-primary: #0a0a0a;
+
+  --secondary: #000000;
+  --secondary-hover: #1f1f1f;
+
+  --accent: #fcd34d;
+
+  --scrim: 10 10 10;
+  --primary-rgb: 212 175 55;
+}
+
+/*
+  Sections that sit on the deep purple brand color or on a darkened photo
+  are dark in BOTH themes. Scoping the dark palette here keeps `text-primary`,
+  `text-muted` and `border-border` legible inside them without touching markup
+  colors on a per-theme basis.
+*/
+.section-dark {
+  color-scheme: dark;
+
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-light: #262626;
+  --foreground: #ffffff;
+  --muted: #cbc3b6;
+  --border: rgba(255, 255, 255, 0.22);
+
+  --primary: #d4af37;
+  --primary-hover: #b8972e;
+  --on-primary: #0a0a0a;
+
+  --accent: #fcd34d;
+  --primary-rgb: 212 175 55;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  /* Playfair sets loose by default at display sizes; pulling the tracking in
+     is what makes a large headline read as typeset rather than as a browser
+     default. The value scales down as the headings get smaller. */
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h4, h5, h6 {
+  letter-spacing: -0.01em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Cross-fade the palette when the theme is toggled, but never on first paint
+   and never during a route transition of unrelated properties. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 250ms ease, border-color 250ms ease,
+    color 250ms ease, fill 250ms ease, stroke 250ms ease;
+  transition-delay: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition: none !important;
+  }
+}
+
+.newsletter-input {
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+.newsletter-input::placeholder {
+  color: var(--muted);
+}
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.donate-input {
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+.donate-input::placeholder {
+  color: var(--muted);
+}
+.donate-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.contact-input {
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+.contact-input::placeholder {
+  color: var(--muted);
+}
+.contact-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/*
+  One photo treatment, identical in both themes.
+
+  `.photo` darkens the image so it holds its own rather than being washed out by
+  the beige page. It is applied to the <img> itself, not a wrapper, so it works
+  everywhere without extra markup.
+
+  These variables are deliberately declared ONCE, on :root, and are NOT
+  overridden under `.dark` or `.section-dark`. A per-theme override is what made
+  the same photo render differently in light and dark mode — do not reintroduce
+  one. To retune the strength, change the numbers here and both themes follow.
+*/
+:root {
+  --photo-brightness: 0.82;
+  --photo-contrast: 1.03;
+  --photo-saturate: 1.02;
+}
+
+.photo {
+  filter: brightness(var(--photo-brightness)) contrast(var(--photo-contrast))
+    saturate(var(--photo-saturate));
+}
+
+/*
+  Founder portrait framing.
+
+  Both portraits were originally wide frames with the subject well off centre —
+  Chauntel at 70%% across her frame, Nancy at 29%%. Horizontal `object-position`
+  could not fix that: it only bites when the slot is *narrower* in aspect than
+  the source (0.67), and the slots these appear in are all wider than that, so
+  `object-cover` fills the width and crops top-to-bottom only. The whole frame
+  was visible either way, off-centre subject included.
+
+  The two JPEGs are therefore cropped to put each subject dead centre in the
+  asset itself, at the same portrait ratio as before. Every slot then centres
+  them for free, with no per-call-site value to keep in sync.
+
+  What remains here is vertical only: these are three-quarter-length portraits,
+  so a slot shorter than the source crops to the waist by default. Biasing the
+  crop upward keeps the face in frame. Keyed by filename so the home page,
+  founders, leadership and speakers views all agree.
+*/
+img[src$="founder-chauntel.jpg"],
+img[src$="founder-nancy.jpg"] {
+  object-position: center 25%;
+}
+
+/* Images the user is meant to inspect (galleries, product shots) lift back to
+   full brightness on hover. */
+.photo-hover-lift {
+  transition: filter 400ms ease;
+}
+
+.group:hover .photo-hover-lift,
+.photo-hover-lift:hover {
+  filter: none;
+}
+
+/*
+  Backdrop behind a photo — visible while it loads and through any transparency.
+  Fixed literal colors rather than theme tokens, so it cannot shift between
+  light and dark mode and make the same image read differently.
+*/
+.img-filler {
+  background-color: #2a2724;
+  background-image: linear-gradient(
+    135deg,
+    rgb(212 175 55 / 0.12) 0%,
+    rgb(0 0 0 / 0.35) 100%
+  );
+}
+
+/*
+  Rich-text article body.
+
+  Blog posts are authored in the CMS with Lexical, which emits bare semantic
+  tags — no classes to hook Tailwind utilities onto. These rules give that
+  output the site's typography, scoped to `.prose-article` so they cannot leak
+  into hand-built pages.
+*/
+.prose-article {
+  color: var(--color-muted);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+
+.prose-article > * + * {
+  margin-top: 1.5rem;
+}
+
+.prose-article h2,
+.prose-article h3,
+.prose-article h4 {
+  color: var(--color-foreground);
+  font-family: var(--font-playfair), serif;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 3rem;
+}
+
+.prose-article h2 { font-size: 2rem; }
+.prose-article h3 { font-size: 1.5rem; }
+.prose-article h4 { font-size: 1.25rem; }
+
+.prose-article a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-article a:hover {
+  color: var(--color-primary-hover);
+}
+
+.prose-article strong {
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+
+.prose-article ul,
+.prose-article ol {
+  padding-left: 1.5rem;
+}
+
+.prose-article ul { list-style: disc; }
+.prose-article ol { list-style: decimal; }
+
+.prose-article li + li {
+  margin-top: 0.5rem;
+}
+
+.prose-article li::marker {
+  color: var(--color-primary);
+}
+
+.prose-article blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1.5rem;
+  font-style: italic;
+  color: var(--color-foreground);
+}
+
+.prose-article img {
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+.prose-article hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin-block: 3rem;
+}
+
+.prose-article code {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.9em;
+}
+
+/* ===============================================================
+   MODERN DESIGN LAYER
+
+   Everything below is shared vocabulary — buttons, cards, eyebrows,
+   section rhythm, decorative grounds and scroll reveals. Pages compose
+   these classes instead of restating the same twelve Tailwind utilities,
+   so a change to the look of a card is one edit rather than seventy.
+
+   The palette is untouched: every rule here resolves through the tokens
+   declared above, so light, dark and `.section-dark` all follow.
+   =============================================================== */
+
+/*
+  Layering note. Tailwind v4 puts its utilities in `@layer utilities`, and an
+  unlayered rule beats *any* layered one no matter the source order. Declared
+  bare, `.card` would therefore win over a `rounded-3xl` or `bg-background`
+  utility sitting on the same element — the opposite of what a component class
+  should do. Putting these in `@layer components` restores the normal order:
+  the component supplies the defaults, a utility overrides them.
+*/
+
+@layer base {
+  /* ---- Focus -----------------------------------------------------
+     One visible focus ring for the whole site. Keyboard users get a
+     gold ring with an offset halo so it reads on both the beige and the
+     black grounds; pointer users see nothing.
+     --------------------------------------------------------------- */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 0.375rem;
+  }
+
+  ::selection {
+    background: rgb(var(--primary-rgb) / 0.25);
+    color: var(--foreground);
+  }
+
+  /* Anchor targets clear the fixed header rather than hiding behind it. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  /* ---- Scrollbar -------------------------------------------------
+     Themed, and thin enough not to become part of the design.
+     --------------------------------------------------------------- */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border: 2px solid var(--background);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--primary-rgb) / 0.6);
+  }
+}
+
+@layer components {
+  /* ---- Section rhythm --------------------------------------------
+     A single vertical scale, so consecutive sections stack at a
+     consistent cadence instead of each picking its own py-* value.
+     --------------------------------------------------------------- */
+  .section {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .section-sm {
+    padding-block: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .section-lg {
+    padding-block: clamp(5rem, 10vw, 9rem);
+  }
+
+  /* ---- Decorative grounds ----------------------------------------
+     Flat colour blocks are the single biggest tell of a dated layout.
+     These add depth without adding markup weight or an image request.
+     --------------------------------------------------------------- */
+
+  /* Two off-centre gold blooms. Deliberately low alpha — the effect
+     should be felt rather than seen. */
+  .bg-glow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .bg-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 50% 45% at 15% 0%,
+        rgb(var(--primary-rgb) / 0.10),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 45% 40% at 88% 100%,
+        rgb(var(--primary-rgb) / 0.08),
+        transparent 70%
+      );
+  }
+
+  /* Faint blueprint grid, masked so it fades out before it reaches the
+     edges and never competes with the copy sitting on it. */
+  .bg-grid {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .bg-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  }
+
+  /* Hairline rule that fades at both ends — a softer section divider
+     than a full-width 1px border. */
+  .rule-fade {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+
+  /* ---- Buttons ---------------------------------------------------
+     All three variants share one geometry: pill, 3rem minimum height
+     (comfortably over the 44px touch target floor), and a lift on
+     hover that settles rather than snapping.
+     --------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      box-shadow 250ms var(--ease-out-expo),
+      transform 250ms var(--ease-out-expo);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+    transition-duration: 80ms;
+  }
+
+  .btn-lg {
+    min-height: 3.5rem;
+    padding: 1rem 2.25rem;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--on-primary);
+    box-shadow: 0 6px 18px -6px rgb(var(--primary-rgb) / 0.45);
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    box-shadow: 0 12px 28px -8px rgb(var(--primary-rgb) / 0.55);
+  }
+
+  /* Secondary on a light ground: transparent with a hairline that
+     turns gold on hover. */
+  .btn-outline {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* Secondary over a photograph or a dark band. */
+  .btn-on-dark {
+    background: rgb(255 255 255 / 0.06);
+    border-color: rgb(255 255 255 / 0.28);
+    color: #fff;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+  }
+
+  .btn-on-dark:hover {
+    background: rgb(255 255 255 / 0.14);
+    border-color: rgb(255 255 255 / 0.5);
+    color: #fff;
+  }
+
+  /* Text link that advances its arrow on hover. Pair with an icon
+     carrying `.btn-arrow`. */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--primary);
+    transition: color 200ms ease, gap 200ms var(--ease-out-expo);
+  }
+
+  .link-arrow:hover {
+    color: var(--primary-hover);
+    gap: 0.75rem;
+  }
+
+  .btn .btn-arrow,
+  .link-arrow .btn-arrow {
+    transition: transform 250ms var(--ease-out-expo);
+  }
+
+  .btn:hover .btn-arrow,
+  .group:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---- Cards -----------------------------------------------------
+     `.card` is the flat container; add `.card-hover` where the whole
+     card is a link or otherwise interactive.
+     --------------------------------------------------------------- */
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    transition:
+      border-color 250ms ease,
+      box-shadow 300ms var(--ease-out-expo),
+      transform 300ms var(--ease-out-expo);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-6px);
+    border-color: rgb(var(--primary-rgb) / 0.45);
+    box-shadow: var(--shadow-float);
+  }
+
+  /* Sits on --background rather than --surface, for cards inside a
+     section that is itself surface-coloured. */
+  .card-sunken {
+    background: var(--background);
+  }
+
+  /* Glass panel for anything floating over a photograph. */
+  .card-glass {
+    background: rgb(var(--scrim) / 0.72);
+    backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-float);
+  }
+
+  /* ---- Icon tiles ------------------------------------------------
+     Replaces the flat `bg-primary/10` circle. A soft gold gradient with
+     an inset highlight, so the icon sits in something with a surface
+     rather than on a coloured disc.
+     --------------------------------------------------------------- */
+  .icon-tile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    color: var(--primary);
+    background: linear-gradient(
+      145deg,
+      rgb(var(--primary-rgb) / 0.18),
+      rgb(var(--primary-rgb) / 0.06)
+    );
+    border: 1px solid rgb(var(--primary-rgb) / 0.22);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.10);
+    transition:
+      transform 300ms var(--ease-spring),
+      border-color 250ms ease;
+  }
+
+  .icon-tile-lg {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1.25rem;
+  }
+
+  .group:hover .icon-tile {
+    transform: translateY(-2px) scale(1.06);
+    border-color: rgb(var(--primary-rgb) / 0.5);
+  }
+
+  /* ---- Eyebrow ---------------------------------------------------
+     The old eyebrow was bare uppercase text. As a pill with a live dot
+     it anchors the top of a section and reads as a label.
+     --------------------------------------------------------------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--primary-rgb) / 0.28);
+    background: rgb(var(--primary-rgb) / 0.08);
+    color: var(--primary);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .eyebrow-on-dark {
+    border-color: rgb(255 255 255 / 0.18);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  /* ---- Chips / badges -------------------------------------------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3125rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .chip-dark {
+    background: rgb(0 0 0 / 0.55);
+    border-color: rgb(255 255 255 / 0.2);
+    color: #fff;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ---- Display type ----------------------------------------------
+     Fluid headline sizes, replacing the old
+     `text-3xl md:text-4xl lg:text-5xl` ladders — those jumped in three
+     hard steps and left awkward sizes between the breakpoints.
+     --------------------------------------------------------------- */
+  .display-1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+
+  .display-2 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .display-3 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  /* Gold gradient on a run of text, for the accent word in a headline. */
+  .text-gold-gradient {
+    background: linear-gradient(120deg, var(--primary), var(--accent) 55%, var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---- Motion ----------------------------------------------------
+     Scroll reveal is driven by a CSS view timeline, not JavaScript:
+     no observer, no client component, no hydration cost, and the
+     content is fully visible where the browser does not support it.
+     --------------------------------------------------------------- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .reveal {
+        animation: fade-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 22%;
+      }
+    }
+
+    /* Entrance animation for above-the-fold content, which a view
+       timeline cannot drive because it is already in view. */
+    .enter {
+      animation: fade-up 0.7s var(--ease-out-expo) both;
+    }
+
+    .enter-1 { animation-delay: 80ms; }
+    .enter-2 { animation-delay: 160ms; }
+    .enter-3 { animation-delay: 240ms; }
+    .enter-4 { animation-delay: 320ms; }
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

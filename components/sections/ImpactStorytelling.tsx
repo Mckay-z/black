@@ -1,61 +1,75 @@
 import Link from "next/link";
 import { ArrowRight, HandHeart, BookOpen, Scaling } from "lucide-react";
 
+const PROGRAMS = [
+  {
+    icon: HandHeart,
+    title: "Community Service",
+    description:
+      "We partner with local organizations to provide free rehabilitation services, education, and resources to underserved populations globally.",
+    href: "/impact/service",
+  },
+  {
+    icon: BookOpen,
+    title: "Scholarships",
+    description:
+      "Breaking down financial barriers for Black students pursuing degrees in physical therapy, occupational therapy, and speech-language pathology.",
+    href: "/impact/scholarships",
+  },
+  {
+    icon: Scaling,
+    title: "Advocacy",
+    description:
+      "Championing policies that advance health equity, representation in healthcare, and better outcomes for marginalized communities.",
+    href: "/impact/advocacy",
+  },
+];
+
 export default function ImpactStorytelling() {
   return (
-    <section className="py-24 bg-surface border-t border-border">
+    <section className="section border-t border-border bg-surface">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-primary font-medium tracking-widest uppercase mb-4 text-sm">Our Impact</h2>
-          <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-6">
+        <div className="reveal mx-auto mb-14 max-w-3xl text-center">
+          <p className="eyebrow mb-5">Our Impact</p>
+          <h2 className="display-2 text-foreground">
             Real People. Real Change. Lasting Impact.
-          </h3>
-          <p className="text-muted text-lg leading-relaxed">
-            From providing scholarships to advocating for health equity, our nonprofit initiatives are designed to create systemic change in rehabilitation and the communities we serve.
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-muted">
+            From providing scholarships to advocating for health equity, our nonprofit
+            initiatives are designed to create systemic change in rehabilitation and
+            the communities we serve.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="flex flex-col h-full bg-background rounded-2xl border border-border p-8 hover:border-primary/50 transition-colors">
-            <HandHeart className="w-10 h-10 text-primary mb-6" />
-            <h4 className="text-xl font-bold text-foreground mb-4">Community Service</h4>
-            <p className="text-muted leading-relaxed flex-1 mb-8">
-              We partner with local organizations to provide free rehabilitation services, education, and resources to underserved populations globally.
-            </p>
-            <Link href="/impact/service" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition-colors mt-auto">
-              Learn More <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+        <div className="mb-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {PROGRAMS.map(({ icon: Icon, title, description, href }) => (
+            <Link
+              key={title}
+              href={href}
+              className="card card-hover card-sunken reveal group flex h-full flex-col p-8"
+            >
+              <span className="icon-tile mb-6">
+                <Icon className="h-6 w-6" aria-hidden="true" />
+              </span>
 
-          <div className="flex flex-col h-full bg-background rounded-2xl border border-border p-8 hover:border-primary/50 transition-colors">
-            <BookOpen className="w-10 h-10 text-primary mb-6" />
-            <h4 className="text-xl font-bold text-foreground mb-4">Scholarships</h4>
-            <p className="text-muted leading-relaxed flex-1 mb-8">
-              Breaking down financial barriers for Black students pursuing degrees in physical therapy, occupational therapy, and speech-language pathology.
-            </p>
-            <Link href="/impact/scholarships" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition-colors mt-auto">
-              Learn More <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+              <h3 className="mb-4 font-serif text-xl font-bold text-foreground transition-colors group-hover:text-primary">
+                {title}
+              </h3>
 
-          <div className="flex flex-col h-full bg-background rounded-2xl border border-border p-8 hover:border-primary/50 transition-colors">
-            <Scaling className="w-10 h-10 text-primary mb-6" />
-            <h4 className="text-xl font-bold text-foreground mb-4">Advocacy</h4>
-            <p className="text-muted leading-relaxed flex-1 mb-8">
-              Championing policies that advance health equity, representation in healthcare, and better outcomes for marginalized communities.
-            </p>
-            <Link href="/impact/advocacy" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition-colors mt-auto">
-              Learn More <ArrowRight className="w-4 h-4" />
+              <p className="mb-8 flex-1 leading-relaxed text-muted">{description}</p>
+
+              <span className="link-arrow mt-auto">
+                Learn More
+                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+              </span>
             </Link>
-          </div>
+          ))}
         </div>
 
         <div className="text-center">
-          <Link
-            href="/impact"
-            className="inline-block bg-primary hover:bg-primary-hover text-on-primary font-semibold py-4 px-8 rounded-full transition-colors"
-          >
+          <Link href="/impact" className="btn btn-primary btn-lg group">
             SEE OUR FULL IMPACT
+            <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
           </Link>
         </div>
       </div>
