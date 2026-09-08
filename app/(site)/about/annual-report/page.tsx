@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Download, ArrowRight } from "lucide-react";
+import { FileText, ArrowRight } from "lucide-react";
 
 export default function AnnualReportPage() {
   return (
@@ -19,7 +19,7 @@ export default function AnnualReportPage() {
               Our Impact in <span className="text-primary">Numbers</span>
             </h1>
             <p className="text-lg md:text-xl text-muted leading-relaxed">
-              Transparency is a core part of who we are. Here&apos;s a look at where we&apos;ve been, what we&apos;ve accomplished, and where we&apos;re going.
+              Transparency is a core part of who we are. Our impact reports will be published here as they are completed.
             </p>
           </div>
         </div>
@@ -28,26 +28,27 @@ export default function AnnualReportPage() {
       {/* Reports List */}
       <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-          <div className="space-y-6">
-            {[2024, 2023, 2022].map((year) => (
-              <div key={year} className="group card p-8 card-hover flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                <div>
-                  <p className="text-primary font-semibold text-sm uppercase tracking-widest mb-2">Annual Report</p>
-                  <h3 className="text-2xl font-serif font-bold text-foreground">{year} Impact Report</h3>
-                  <p className="text-muted mt-2">
-                    {year === 2024
-                      ? "[CLIENT TO PROVIDE: Brief description of the 2024 Annual Report highlights]"
-                      : `[CLIENT TO PROVIDE: Brief description of the ${year} Annual Report highlights]`}
-                  </p>
-                </div>
-                <a
-                  href="#"
-                  className="btn btn-primary group shrink-0"
-                >
-                  <Download className="w-4 h-4" /> Download PDF
-                </a>
-              </div>
-            ))}
+          {/* No published reports yet.
+
+              This was three cards — 2024, 2023 and 2022 "Impact Report" —
+              each with a "[CLIENT TO PROVIDE: …]" description and a Download
+              PDF button pointing at "#". None of those reports exist, so the
+              page was inventing a publishing history. */}
+          <div className="card card-sunken p-10 md:p-12 text-center">
+            <span className="icon-tile icon-tile-lg mx-auto mb-6">
+              <FileText className="h-7 w-7" aria-hidden="true" />
+            </span>
+            <h2 className="font-serif text-2xl font-bold text-foreground">
+              Our first report is in preparation
+            </h2>
+            <p className="mt-4 leading-relaxed text-muted max-w-md mx-auto">
+              We are gathering the figures behind our scholarships, programs, and
+              global work. Published reports will be available to download here.
+            </p>
+            <Link href="/contact" className="link-arrow mt-8 justify-center">
+              Ask for our numbers
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
 
           <div className="section-dark mt-16 bg-secondary border border-border rounded-3xl p-10 md:p-16 text-center">

@@ -67,7 +67,12 @@ export default async function Leadership() {
               href="/about/leadership"
               className="card card-hover reveal group flex flex-col overflow-hidden sm:flex-row"
             >
-              <div className="img-filler relative h-64 w-full sm:h-auto sm:w-2/5">
+              {/* Square on mobile rather than a fixed h-64. A fixed height
+                  showed a smaller share of a tall portrait the wider the
+                  phone, and on a large handset that crop landed across
+                  Nicole's chin. An aspect ratio scales with the card, so every
+                  portrait keeps the same top-two-thirds framing at any width. */}
+              <div className="img-filler relative aspect-square w-full sm:aspect-auto sm:h-auto sm:w-2/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={leader.image}
