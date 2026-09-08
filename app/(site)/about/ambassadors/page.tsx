@@ -51,7 +51,7 @@ export default async function AmbassadorsPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -72,7 +72,7 @@ export default async function AmbassadorsPage() {
       </section>
 
       {/* Cities Grid */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-3 mb-12">
             <Globe2 className="w-7 h-7 text-primary" />
@@ -127,7 +127,7 @@ export default async function AmbassadorsPage() {
                       <img
                         src={imageUrl(person.photo, PHOTOS.conferenceSpeakerMic)}
                         alt={person.name}
-                        className="photo photo-hover-lift w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                        className="photo photo-hover-lift w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                       />
                     </div>
 

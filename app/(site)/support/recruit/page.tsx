@@ -49,7 +49,7 @@ const PACKAGES = [
     features: [
       "Everything in Recruiting Partner",
       "Named student scholarship",
-      "Campus chapter sponsorship",
+      "Campus event sponsorship",
       "Clinical rotation placement program",
       "Co-designed retention programming",
     ],

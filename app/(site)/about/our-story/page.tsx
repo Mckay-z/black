@@ -6,7 +6,7 @@ export default function OurStoryPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero Section */}
-      <section className="relative isolate py-24 md:py-32 bg-surface overflow-hidden">
+      <section className="relative isolate pt-24 md:pt-32 pb-16 md:pb-20 bg-surface overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url(${PHOTOS.ghanaLawn})` }}></div>
         <div className=""></div>
         
@@ -30,7 +30,7 @@ export default function OurStoryPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="relative border-l-2 border-primary/30 pl-8 md:pl-12 space-y-20">
             

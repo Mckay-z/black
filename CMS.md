@@ -112,9 +112,13 @@ Until it is set, the button is replaced by a short note directing donors to emai
 
 Local development uses SQLite (`cms-data.db`), which needs no setup. **This will not survive a serverless deploy** — Vercel's filesystem is read-only outside `/tmp` and wiped between invocations, and `cms-data.db` is gitignored so it is never deployed in the first place.
 
-The code side is already done: `payload.config.ts` picks its adapter from `DATABASE_URI`, using `postgresAdapter` when the value starts with `postgres` and SQLite otherwise. Nothing to edit — just set the variable.
+The code side is already done: `payload.config.ts` picks its adapter from the connection string, using `postgresAdapter` for a `postgres://` value and SQLite when nothing is set. Nothing to edit — just provision a database.
 
-So all that is left is to provision a database and set `DATABASE_URI` in the host's environment. Any managed Postgres works — Neon, Supabase, Railway, RDS.
+It reads `DATABASE_URI`, then `DATABASE_URL`, then `POSTGRES_URL`. The last two are the names Vercel's Postgres integrations inject automatically, so **attaching a database from the Vercel dashboard needs no environment variable set by hand** — Storage → Create Database → pick a provider, and the connection string arrives under a name the config already looks for. Set `DATABASE_URI` explicitly only to override. Any managed Postgres works — Neon, Supabase, Railway, RDS.
+
+Use the **pooled** connection string, not the direct one. Serverless functions open a connection per invocation, which exhausts a direct Postgres connection limit quickly; Neon's pooled host has `-pooler` in it.
+
+A value that is neither `postgres://` nor `file:`/`libsql:` throws on startup with a message naming the scheme it got, rather than silently falling back to SQLite. Worth knowing because one wrong value is easy to grab: Neon's **Data API** URL (`https://…apirest…/rest/v1`) sits on the same settings page and is not a connection string.
 
 The new database starts empty, which means:
 
@@ -190,7 +194,7 @@ npm run generate:importmap    # only when adding custom admin components
 | Variable | Required | Purpose |
 |---|---|---|
 | `PAYLOAD_SECRET` | yes | Signs auth cookies. Generate per environment; changing it logs everyone out |
-| `DATABASE_URI` | production | Postgres connection string. Selects the adapter: `postgres…` uses Postgres, unset falls back to local SQLite |
+| `DATABASE_URI` | production | Postgres connection string (pooled). Selects the adapter: `postgres://` uses Postgres, unset falls back to local SQLite. `DATABASE_URL` and `POSTGRES_URL` are accepted as fallbacks, which is what Vercel's integrations inject |
 | `BLOB_READ_WRITE_TOKEN` | production | Vercel Blob token for uploads. Injected by Vercel when a Blob store is attached; unset means uploads stay on local disk |
 | `NEXT_PUBLIC_SITE_URL` | recommended | Used for CORS, sitemap URLs and absolute links |
 

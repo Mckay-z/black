@@ -71,6 +71,7 @@ export interface Config {
     events: Event;
     people: Person;
     testimonials: Testimonial;
+    'impact-stories': ImpactStory;
     stats: Stat;
     heroes: Hero;
     media: Media;
@@ -88,6 +89,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'impact-stories': ImpactStoriesSelect<false> | ImpactStoriesSelect<true>;
     stats: StatsSelect<false> | StatsSelect<true>;
     heroes: HeroesSelect<false> | HeroesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -262,7 +264,7 @@ export interface Person {
   groups: ('founder' | 'leadership' | 'speaker' | 'ambassador')[];
   photo?: (number | null) | Media;
   /**
-   * Used on cards and grid listings.
+   * One paragraph. Shown on the leadership and ambassador pages, and on card listings.
    */
   shortBio?: string | null;
   /**
@@ -391,6 +393,50 @@ export interface Testimonial {
   photo?: (number | null) | Media;
   /**
    * Confirm this person agreed to their name and quote being published.
+   */
+  consentGiven: boolean;
+  /**
+   * Lower numbers appear first on the website.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Photos and videos from the field, shown on the Impact page and the homepage.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "impact-stories".
+ */
+export interface ImpactStory {
+  id: number;
+  /**
+   * A short label for this photo or video. Shown on the card.
+   */
+  title: string;
+  /**
+   * Groups the item under one of the three filters.
+   */
+  category: 'community' | 'scholarships' | 'bookbags';
+  /**
+   * The photo. On a video entry this is the still shown before it plays, so pick a clear frame.
+   */
+  image: number | Media;
+  /**
+   * Optional. Paste a YouTube or Vimeo link, or a direct .mp4 address. Leave blank for a photo-only entry.
+   */
+  videoUrl?: string | null;
+  /**
+   * Optional. One line of context — who this is and what is happening. Keep it short; the picture is the point.
+   */
+  caption?: string | null;
+  status: 'draft' | 'published';
+  /**
+   * Also show this one in the Impact section of the homepage.
+   */
+  featured?: boolean | null;
+  /**
+   * Confirm everyone pictured agreed to appear on the website — and that a parent or guardian agreed for anyone under 18.
    */
   consentGiven: boolean;
   /**
@@ -620,6 +666,10 @@ export interface PayloadLockedDocument {
         value: number | Testimonial;
       } | null)
     | ({
+        relationTo: 'impact-stories';
+        value: number | ImpactStory;
+      } | null)
+    | ({
         relationTo: 'stats';
         value: number | Stat;
       } | null)
@@ -768,6 +818,23 @@ export interface TestimonialsSelect<T extends boolean = true> {
   status?: T;
   placement?: T;
   photo?: T;
+  consentGiven?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "impact-stories_select".
+ */
+export interface ImpactStoriesSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  image?: T;
+  videoUrl?: T;
+  caption?: T;
+  status?: T;
+  featured?: T;
   consentGiven?: T;
   order?: T;
   updatedAt?: T;

@@ -1,7 +1,15 @@
 import "server-only";
 import { getPayload, type Where } from "payload";
 import config from "@payload-config";
-import type { Post, Event, Person, Testimonial, Stat, Hero } from "@/payload-types";
+import type {
+  Post,
+  Event,
+  Person,
+  Testimonial,
+  Stat,
+  Hero,
+  ImpactStory,
+} from "@/payload-types";
 
 /**
  * Read side of the CMS, for server components.
@@ -138,6 +146,40 @@ export async function getStats(placement = "homepage"): Promise<Stat[]> {
       sort: "order",
       limit: 12,
       depth: 0,
+    });
+    return docs;
+  }, []);
+}
+
+// ── Impact gallery ──────────────────────────────────────────────────────
+
+/**
+ * Photos and videos for the Impact page.
+ *
+ * `category` narrows to one of the three filters; `featuredOnly` is what the
+ * homepage section asks for, so the client controls which handful of items
+ * gets the prime slot without needing a second collection.
+ */
+export async function getImpactStories({
+  category,
+  featuredOnly = false,
+  limit = 60,
+}: {
+  category?: ImpactStory["category"];
+  featuredOnly?: boolean;
+  limit?: number;
+} = {}): Promise<ImpactStory[]> {
+  return safe(async () => {
+    const payload = await client();
+    const where: Where = { status: { equals: "published" } };
+    if (category) where.category = { equals: category };
+    if (featuredOnly) where.featured = { equals: true };
+    const { docs } = await payload.find({
+      collection: "impact-stories",
+      where,
+      sort: "order",
+      limit,
+      depth: 1,
     });
     return docs;
   }, []);

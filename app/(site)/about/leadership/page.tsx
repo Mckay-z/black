@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Mail, ArrowRight } from "lucide-react";
 
 import { getPeople, imageUrl } from "@/lib/cms";
+import { FALLBACK_LEADERSHIP } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
 
 export const metadata: Metadata = {
@@ -19,50 +20,52 @@ function LinkedInIcon({ className }: { className?: string }) {
   );
 }
 
-/**
- * Only the two founders, who are named and photographed in the client's own
- * material. The build previously padded this grid to six with four cards
- * reading "[Team Member Name] — CLIENT TO PROVIDE", which was visible to
- * every visitor. Real team members are added in the dashboard under People,
- * tagged "Leadership Team", and replace this list entirely once present.
- */
-const FALLBACK_TEAM = [
-  {
-    id: "chauntel",
-    name: "Dr. Chauntel Altidor, OTD",
-    role: "Co-Founder & Executive Director",
-    image: PHOTOS.founderChauntel,
-    linkedin: "",
-    email: "",
-  },
-  {
-    id: "nancy",
-    name: "Nancy Yamoah, OT",
-    role: "Co-Founder & Chief Strategy Officer",
-    image: PHOTOS.founderNancy,
-    linkedin: "",
-    email: "",
-  },
-];
+type Member = {
+  id: string;
+  name: string;
+  role: string;
+  credentials: string;
+  image: string;
+  bio: string;
+  linkedin: string;
+  email: string;
+};
 
+/**
+ * Leadership profiles.
+ *
+ * Laid out as alternating full-width rows rather than the thin card grid this
+ * page used to have: the client supplied a real paragraph for each person,
+ * and a 3-up card had nowhere to put it. The portrait keeps its own column so
+ * a tall image and a long bio do not fight each other.
+ */
 export default async function LeadershipPage() {
   const people = await getPeople("leadership");
 
-  const team = people.length
+  const team: Member[] = people.length
     ? people.map((person) => ({
         id: String(person.id),
         name: person.name,
         role: person.role,
+        credentials: "",
         image: imageUrl(person.photo, PHOTOS.conferenceSpeakerMic),
+        bio: person.shortBio ?? "",
         linkedin: person.linkedin ?? "",
         email: person.email ?? "",
       }))
-    : FALLBACK_TEAM;
+    : FALLBACK_LEADERSHIP.map((member) => ({
+        ...member,
+        linkedin: "",
+        email: "",
+      }));
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      {/* Hero. Top padding matches the other About pages; the bottom is
+          tightened because the first thing below it is a full-height portrait
+          row rather than the compact card grid this page used to have, and
+          the stock pairing left a visible hole between the two. */}
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -82,52 +85,79 @@ export default async function LeadershipPage() {
         </div>
       </section>
 
-      {/* Team grid */}
-      <section className="py-24">
+      {/* Profiles. `.section` sits in @layer components, so these paddings
+          win — the shorthand's top value would otherwise reopen the gap. */}
+      <section className="section pt-12 md:pt-16">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member) => (
-              <div
+          <div className="flex flex-col gap-16 md:gap-20">
+            {team.map((member, index) => (
+              <article
                 key={member.id}
-                className="group card overflow-hidden card-hover"
+                className="reveal group grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-12"
               >
-                <div className="h-72 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="photo photo-hover-lift w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
-                  />
+                <div
+                  className={`md:col-span-5 ${
+                    // Alternate which side the portrait falls on. Source order
+                    // stays name-then-bio, so a screen reader and a narrow
+                    // viewport both read each profile in the same order.
+                    index % 2 === 1 ? "md:order-2" : ""
+                  }`}
+                >
+                  <div className="img-filler relative aspect-4/5 overflow-hidden rounded-[var(--radius-card)] border border-border shadow-soft">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      loading="lazy"
+                      className="photo photo-hover-lift absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                  </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-1">{member.name}</h3>
-                  <p className="text-primary text-sm font-medium mb-4">{member.role}</p>
+
+                <div className="md:col-span-7">
+                  <h2 className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                    {member.name}
+                  </h2>
+                  <p className="mt-2 text-base font-semibold text-primary">
+                    {member.role}
+                  </p>
+                  {member.credentials && (
+                    <p className="mt-2 text-sm leading-relaxed text-muted/80">
+                      {member.credentials}
+                    </p>
+                  )}
+
+                  {member.bio && (
+                    <p className="mt-6 text-lg leading-relaxed text-muted">
+                      {member.bio}
+                    </p>
+                  )}
 
                   {/* Each link appears only when it has a real destination. */}
                   {(member.linkedin || member.email) && (
-                    <div className="flex gap-3">
+                    <div className="mt-7 flex gap-5">
                       {member.linkedin && (
                         <a
                           href={member.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary transition-colors"
+                          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-primary"
                         >
-                          <LinkedInIcon className="w-4 h-4" /> LinkedIn
+                          <LinkedInIcon className="h-4 w-4" /> LinkedIn
                         </a>
                       )}
                       {member.email && (
                         <a
                           href={`mailto:${member.email}`}
-                          className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary transition-colors"
+                          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-primary"
                         >
-                          <Mail className="w-4 h-4" /> Contact
+                          <Mail className="h-4 w-4" /> Contact
                         </a>
                       )}
                     </div>
                   )}
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>

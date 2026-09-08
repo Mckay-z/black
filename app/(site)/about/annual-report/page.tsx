@@ -5,7 +5,7 @@ export default function AnnualReportPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -26,7 +26,7 @@ export default function AnnualReportPage() {
       </section>
 
       {/* Reports List */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6 max-w-4xl">
           <div className="space-y-6">
             {[2024, 2023, 2022].map((year) => (

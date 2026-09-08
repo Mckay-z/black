@@ -37,7 +37,7 @@ const REQUIREMENTS = [
 export default function ScholarshipsPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -56,7 +56,7 @@ export default function ScholarshipsPage() {
       </section>
 
       {/* Available Scholarships */}
-      <section className="section bg-background">
+      <section className="section pt-12 md:pt-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl font-serif font-bold text-foreground mb-12">Available Scholarships</h2>
           <div className="space-y-6">

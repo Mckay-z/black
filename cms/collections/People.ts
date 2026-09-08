@@ -56,8 +56,15 @@ export const People: CollectionConfig = {
     {
       name: "shortBio",
       type: "textarea",
-      maxLength: 300,
-      admin: { description: "Used on cards and grid listings." },
+      // Raised from 300 to fit the bios the client actually supplied — the
+      // shortest of the four leadership paragraphs is already over 350
+      // characters. Nothing truncates this field, so a longer bio only makes
+      // its card or profile row taller.
+      maxLength: 600,
+      admin: {
+        description:
+          "One paragraph. Shown on the leadership and ambassador pages, and on card listings.",
+      },
     },
     {
       name: "bio",

@@ -4,7 +4,7 @@ import { PHOTOS } from "@/lib/images";
 
 const BENEFITS = [
   "Access exclusive professional development resources",
-  "Connect with global chapters and local ambassador cities",
+  "Connect with members and local ambassador cities worldwide",
   "Participate in life-changing global experiences",
 ];
 

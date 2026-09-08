@@ -68,7 +68,7 @@ const EVENTS: EventItem[] = [
       "A four-day intensive for clinicians stepping into department, faculty, and ownership roles.",
   },
   {
-    title: "Student Chapter Summit",
+    title: "Student Leadership Summit",
     category: "Student",
     date: "September 20, 2025",
     time: "10:00 AM – 4:00 PM ET",
@@ -77,7 +77,7 @@ const EVENTS: EventItem[] = [
     image: PHOTOS.studentsLectureHall,
     href: "/community/students",
     description:
-      "Chapter leaders from PT, OT, and SLP programs nationwide meet to plan the academic year.",
+      "Student leaders from PT, OT, and SLP programs nationwide meet to plan the academic year.",
   },
   {
     title: "Ambassador Meetup — Houston",

@@ -31,24 +31,16 @@ const BENEFITS = [
   },
   {
     icon: <School className="w-6 h-6 text-primary" />,
-    title: "Campus Chapters",
-    desc: "Start or join a chapter at your program with a playbook, budget, and national backing.",
+    title: "Campus Speaking Visits",
+    desc: "Invite Black in Rehab to your program for a panel, workshop, or career talk.",
   },
 ];
 
-const CHAPTERS = [
-  { school: "University — client to confirm", program: "DPT", members: "24 members", status: "Active" },
-  { school: "University — client to confirm", program: "MOT", members: "18 members", status: "Active" },
-  { school: "University — client to confirm", program: "SLP", members: "15 members", status: "Active" },
-  { school: "University — client to confirm", program: "DPT", members: "31 members", status: "Active" },
-  { school: "Your program", program: "PT / OT / SLP", members: "Start one", status: "Open" },
-];
-
-const START_STEPS = [
-  "Find three classmates who want in",
-  "Send us your program name and a faculty contact",
-  "We send the chapter playbook and starter budget",
-  "Run your first event within 60 days, with our help",
+const VISIT_STEPS = [
+  "Tell us your program and who the audience will be",
+  "Pick a format — panel, workshop, or career talk",
+  "We match you with a speaker and confirm a date",
+  "We show up, on campus or virtually",
 ];
 
 export default function StudentCommunityPage() {
@@ -96,56 +88,7 @@ export default function StudentCommunityPage() {
         </div>
       </section>
 
-      {/* Chapters */}
-      <section className="section bg-surface border-y border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Campus Chapters"
-            title="Chapters Across the Country"
-            description="Chapters run study groups, service events, and mentorship nights on their own campuses."
-            className="mb-16"
-          />
-          <div className="space-y-4">
-            {CHAPTERS.map((chapter, idx) => (
-              <div
-                key={idx}
-                className={`rounded-2xl p-7 border flex flex-col sm:flex-row sm:items-center justify-between gap-5 transition-colors ${
-                  chapter.status === "Active"
-                    ? "bg-background border-border hover:border-primary/50"
-                    : "bg-background border-dashed border-primary/40"
-                }`}
-              >
-                <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <School className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-foreground">{chapter.school}</h3>
-                    <p className="text-muted text-sm">{chapter.program}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 sm:justify-end">
-                  <span className="text-muted text-sm">{chapter.members}</span>
-                  {chapter.status === "Open" ? (
-                    <Link
-                      href="/contact"
-                      className="link-arrow"
-                    >
-                      Start a chapter <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  ) : (
-                    <span className="text-primary text-xs font-bold uppercase tracking-wider">
-                      Active
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Start a chapter */}
+      {/* Invite us to campus */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -157,12 +100,12 @@ export default function StudentCommunityPage() {
             />
             <div>
               <SectionHeading
-                eyebrow="Start One"
-                title="Four Steps to a Chapter on Your Campus"
-                description="You do not need faculty sponsorship or a constitution to begin. You need three classmates and a date."
+                eyebrow="Bring Us In"
+                title="Invite Us to Speak at Your Program"
+                description="We visit PT, OT, and SLP programs to talk about careers, representation, and life after graduation — in person or virtually."
               />
               <div className="space-y-3 mt-8">
-                {START_STEPS.map((step, idx) => (
+                {VISIT_STEPS.map((step, idx) => (
                   <div
                     key={step}
                     className="flex items-start gap-4 card rounded-xl p-5"
@@ -175,10 +118,10 @@ export default function StudentCommunityPage() {
                 ))}
               </div>
               <Link
-                href="/contact"
+                href="/speakers/book"
                 className="btn btn-primary btn-lg group mt-10"
               >
-                REQUEST THE PLAYBOOK <ArrowRight className="w-5 h-5" />
+                REQUEST A SPEAKER <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
           </div>

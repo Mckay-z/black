@@ -9,6 +9,7 @@ const RESOURCES = [
       "Articles, insights, and stories from leaders in rehabilitation and health equity.",
     action: "Read Articles",
     href: "/resources/blog",
+    comingSoon: true,
   },
   {
     icon: Headphones,
@@ -34,8 +35,56 @@ const RESOURCES = [
       "Career advice, exam prep resources, and mentorship connections for students.",
     action: "Explore Resources",
     href: "/resources/students",
+    comingSoon: true,
   },
 ];
+
+type Resource = (typeof RESOURCES)[number];
+
+/**
+ * Card body, shared by both branches below so the two treatments cannot drift
+ * apart. A "Coming Soon" card shows the badge and drops the call to action —
+ * there is nothing to act on yet.
+ */
+function CardBody({ resource }: { resource: Resource }) {
+  const { icon: Icon, title, description, action } = resource;
+  const comingSoon = "comingSoon" in resource && resource.comingSoon;
+
+  return (
+    <>
+      {comingSoon && (
+        <span className="chip absolute right-4 top-4 text-[0.6875rem] uppercase tracking-[0.1em] text-muted">
+          Coming Soon
+        </span>
+      )}
+
+      <span className="icon-tile mb-6">
+        <Icon className="h-6 w-6" aria-hidden="true" />
+      </span>
+
+      <h3
+        className={`mb-3 font-serif text-xl font-bold text-foreground ${
+          comingSoon ? "" : "transition-colors group-hover:text-primary"
+        }`}
+      >
+        {title}
+      </h3>
+
+      <p className="mb-8 flex-1 text-sm leading-relaxed text-muted">{description}</p>
+
+      {comingSoon ? (
+        <span className="mt-auto text-sm font-semibold text-muted/70">
+          Available soon
+        </span>
+      ) : (
+        <span className="link-arrow mt-auto">
+          {action}
+          <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+        </span>
+      )}
+    </>
+  );
+}
 
 export default function ResourcesSection() {
   return (
@@ -51,36 +100,29 @@ export default function ResourcesSection() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {RESOURCES.map(({ icon: Icon, title, description, action, href, comingSoon }) => (
-            <Link
-              key={title}
-              href={href}
-              className="card card-hover reveal group relative flex h-full flex-col overflow-hidden p-8"
-            >
-              {comingSoon && (
-                <span className="chip absolute right-4 top-4 text-[0.6875rem] uppercase tracking-[0.1em] text-muted">
-                  Coming Soon
-                </span>
-              )}
+          {RESOURCES.map((resource) => {
+            const comingSoon = "comingSoon" in resource && resource.comingSoon;
+            // A card marked "Coming Soon" is not a link. It previously
+            // navigated to a placeholder page, which is the more annoying of
+            // the two failures — the badge said one thing and the click did
+            // another.
+            const shared =
+              "card reveal group relative flex h-full flex-col overflow-hidden p-8";
 
-              <span className="icon-tile mb-6">
-                <Icon className="h-6 w-6" aria-hidden="true" />
-              </span>
-
-              <h3 className="mb-3 font-serif text-xl font-bold text-foreground transition-colors group-hover:text-primary">
-                {title}
-              </h3>
-
-              <p className="mb-8 flex-1 text-sm leading-relaxed text-muted">
-                {description}
-              </p>
-
-              <span className="link-arrow mt-auto">
-                {action}
-                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
-              </span>
-            </Link>
-          ))}
+            return comingSoon ? (
+              <div key={resource.title} className={shared} aria-disabled="true">
+                <CardBody resource={resource} />
+              </div>
+            ) : (
+              <Link
+                key={resource.title}
+                href={resource.href}
+                className={`${shared} card-hover`}
+              >
+                <CardBody resource={resource} />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

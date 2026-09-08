@@ -25,6 +25,20 @@ export const PHOTOS = {
   foundersPortrait: "/photos/founders-pair-portrait.jpg", // portrait
   foundersStanding: "/photos/founders-pair-standing.jpg", // portrait
 
+  // ── Team & ambassadors ────────────────────────────────────────────────
+  // Supplied by the client in the "Website edits" revision document, one
+  // portrait per named person. Each is tied to a specific individual — never
+  // reuse one of these for a different name or as generic filler.
+  teamNancy: "/photos/team-nancy-yamoah.jpg", // landscape — Nancy Yamoah, Founder & CEO
+  teamNicole: "/photos/team-nicole-mcdaniel.jpg", // portrait — Nicole McDaniel, COO
+  teamAlexys: "/photos/team-alexys-taylor.jpg", // portrait — Alexys Taylor, Lead Ambassador (USA)
+  teamFaith: "/photos/team-faith-ene-akor.jpg", // square — Faith Ene Akor, Ghana Ambassador
+  teamWinner: "/photos/team-winner-addo.jpg", // portrait — Winner Naa Adjeley Addo, Personal Assistant
+
+  // ── Publications ──────────────────────────────────────────────────────
+  // Cover of Nancy's ebook, sold through her own LovelyyOT store on Payhip.
+  bookAdultRehabBlueprint: "/photos/book-adult-rehab-blueprint.jpg", // portrait
+
   // ── Conference ────────────────────────────────────────────────────────
   conferenceCelebration: "/photos/conference-group-celebration.jpg", // landscape
   conferenceGroupBranded: "/photos/conference-group-branded.jpg", // landscape

@@ -51,7 +51,7 @@ export default function ShopPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
@@ -76,7 +76,7 @@ export default function ShopPage() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {PRODUCTS.map((product) => (

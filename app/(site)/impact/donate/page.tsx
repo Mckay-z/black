@@ -33,7 +33,7 @@ export default async function DonatePage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="section-dark relative py-24 md:py-32 overflow-hidden bg-secondary">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 overflow-hidden bg-secondary">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-15"
           style={{ backgroundImage: `url(${PHOTOS.impactBackpacks})` }}
@@ -57,7 +57,7 @@ export default async function DonatePage() {
       </section>
 
       {/* Donation form */}
-      <section className="section bg-background">
+      <section className="section pt-12 md:pt-16 bg-background">
         <div className="container mx-auto px-4 md:px-6 max-w-2xl">
           <DonateWidget
             donationUrl={settings?.donationUrl}

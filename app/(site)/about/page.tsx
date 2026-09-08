@@ -28,7 +28,7 @@ const ABOUT_PAGES = [
     icon: <Users className="w-6 h-6 text-primary" />,
   },
   {
-    title: "Ambassadors & Chapters",
+    title: "Ambassadors",
     description: "Local leaders building community in cities around the world.",
     href: "/about/ambassadors",
     icon: <Globe2 className="w-6 h-6 text-primary" />,
@@ -50,7 +50,7 @@ const ABOUT_PAGES = [
 export default function AboutPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative isolate py-24 md:py-32 overflow-hidden">
+      <section className="relative isolate pt-24 md:pt-32 pb-16 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url(${PHOTOS.conferenceGroupBranded})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -67,7 +67,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {ABOUT_PAGES.map((page) => (

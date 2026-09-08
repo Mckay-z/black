@@ -9,10 +9,12 @@ const SPEAKER: SpeakerProfileData = {
     "Clinician, entrepreneur, and global leader with a heart for service and a vision for transformation. Dr. Chauntel speaks on representation, leadership, and building institutions that outlast the people who start them.",
   portrait: PHOTOS.founderChauntel,
   heroImage: PHOTOS.conferenceSession,
+  // One real paragraph, and nothing else. The build shipped two further
+  // "[CLIENT TO PROVIDE: …]" paragraphs that were rendering to visitors; a
+  // short biography reads as deliberate, a visible request to the client does
+  // not. Her full biography goes here when it is supplied.
   bio: [
     "Dr. Chauntel Altidor is a Doctor of Occupational Therapy, entrepreneur, and the co-founder of Black in Rehab. She leads with purpose — creating opportunities, building bridges, and equipping rehabilitation professionals to change lives in their clinics and their communities.",
-    "[CLIENT TO PROVIDE: Full speaker biography for Dr. Chauntel Altidor, including practice background, academic appointments, notable engagements, and awards.]",
-    "[CLIENT TO PROVIDE: A short paragraph on speaking style and the audiences she works with best — conferences, university programs, health systems, or media.]",
   ],
   topics: [
     "Representation and Diversity in Rehabilitation",

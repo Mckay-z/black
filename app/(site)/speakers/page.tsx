@@ -22,30 +22,25 @@ const TOPICS = [
   "Cultural Competency in Clinical Practice",
 ];
 
+/*
+  The two named speakers, and only those.
+
+  This list also carried two "[Guest Speaker Name] — CLIENT TO PROVIDE"
+  cards that were rendering to visitors. Guest speakers get added here as
+  the client supplies them; an empty slot is better than a visible one.
+*/
 const SPEAKERS = [
+  {
+    name: "Nancy Yamoah, OTR/L",
+    title: "Founder, CEO & President, Black in Rehab",
+    specialty: "Clinician Wellness · Leadership · Global Impact",
+    image: PHOTOS.teamNancy,
+  },
   {
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Executive Director, Black in Rehab",
     specialty: "Leadership · Global Health · Representation",
     image: PHOTOS.founderChauntel,
-  },
-  {
-    name: "Nancy Yamoah, OT",
-    title: "Co-Founder & Chief Strategy Officer, Black in Rehab",
-    specialty: "Community Building · Student Development · Purpose",
-    image: PHOTOS.founderNancy,
-  },
-  {
-    name: "[Guest Speaker Name]",
-    title: "[Title & Credentials] — CLIENT TO PROVIDE",
-    specialty: "[Specialty Topics] — CLIENT TO PROVIDE",
-    image: PHOTOS.conferenceSpeakerMic,
-  },
-  {
-    name: "[Guest Speaker Name]",
-    title: "[Title & Credentials] — CLIENT TO PROVIDE",
-    specialty: "[Specialty Topics] — CLIENT TO PROVIDE",
-    image: PHOTOS.conferenceSpeakerBw,
   },
 ];
 
@@ -73,7 +68,7 @@ export default async function SpeakersPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${PHOTOS.retreatGroupOutdoors})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -94,7 +89,7 @@ export default async function SpeakersPage() {
       </section>
 
       {/* Speaking Topics */}
-      <section className="section bg-background">
+      <section className="section pt-12 md:pt-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
@@ -121,7 +116,7 @@ export default async function SpeakersPage() {
                 <div key={idx} className="group card p-6 flex gap-5 items-center card-hover">
                   <div className="w-20 h-20 rounded-full overflow-hidden shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={speaker.image} alt={speaker.name} className="photo photo-hover-lift w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img src={speaker.image} alt={speaker.name} className="photo photo-hover-lift w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-foreground mb-1">{speaker.name}</h4>

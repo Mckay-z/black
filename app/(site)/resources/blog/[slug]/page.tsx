@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: Params) {
   return (
     <article className="bg-background min-h-screen">
       {/* Header over the featured image */}
-      <header className="section-dark relative overflow-hidden bg-secondary py-24 md:py-32">
+      <header className="section-dark relative overflow-hidden bg-secondary pt-24 md:pt-32 pb-16 md:pb-20">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-25"
           style={{ backgroundImage: `url('${image}')` }}

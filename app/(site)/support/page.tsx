@@ -36,7 +36,7 @@ const SUPPORT_OPTIONS = [
 export default function SupportPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.ghanaCertificates})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -53,7 +53,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {SUPPORT_OPTIONS.map((option) => (

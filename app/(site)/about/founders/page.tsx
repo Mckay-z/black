@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Mail, ArrowRight } from "lucide-react";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { getPeople, imageUrl } from "@/lib/cms";
+import { NANCY_BIO, NANCY_BOOK } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
+import BookCallout from "@/components/ui/BookCallout";
 
 export const metadata: Metadata = {
   title: "Meet the Founders | Black in Rehab Foundation",
   description:
-    "Dr. Chauntel Altidor and Nancy Yamoah founded Black in Rehab on community, representation, and service.",
+    "Nancy Yamoah and Dr. Chauntel Altidor founded Black in Rehab on community, representation, and service.",
 };
 
 function LinkedInIcon({ className }: { className?: string }) {
@@ -28,21 +31,25 @@ function LinkedInIcon({ className }: { className?: string }) {
  */
 const FOUNDERS = [
   {
+    slug: "nancy-yamoah",
+    name: "Nancy Yamoah, OTR/L",
+    title: "Founder, CEO & President",
+    photo: PHOTOS.teamNancy,
+    intro: NANCY_BIO[0],
+    // The client's full biography, supplied in their revision document.
+    fullBio: NANCY_BIO,
+    book: NANCY_BOOK,
+    reverse: false,
+  },
+  {
     slug: "dr-chauntel-altidor",
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Visionary Leader",
     photo: PHOTOS.founderChauntel,
     intro:
       "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation. Dr. Chauntel leads with purpose—creating opportunities, building bridges, and empowering professionals to change lives.",
-    reverse: false,
-  },
-  {
-    slug: "nancy-yamoah",
-    name: "Nancy Yamoah, OT",
-    title: "Co-Founder & Strategic Leader",
-    photo: PHOTOS.founderNancy,
-    intro:
-      "Rehabilitation professional, mentor, and community builder with a passion for people and global impact. Nancy leads with compassion and integrity—creating space for connection, collaboration, and growth.",
+    fullBio: undefined as string[] | undefined,
+    book: undefined as typeof NANCY_BOOK | undefined,
     reverse: true,
   },
 ];
@@ -54,7 +61,7 @@ export default async function FoundersPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -68,14 +75,14 @@ export default async function FoundersPage() {
               Meet the <span className="text-primary">Founders</span>
             </h1>
             <p className="text-lg md:text-xl text-muted leading-relaxed">
-              We&apos;re Dr. Chauntel Altidor and Nancy Yamoah—two friends, professionals, and purpose-driven leaders who believed in the power of community, representation, and service to change lives.
+              We&apos;re Nancy Yamoah and Dr. Chauntel Altidor—two friends, professionals, and purpose-driven leaders who believed in the power of community, representation, and service to change lives.
             </p>
           </div>
         </div>
       </section>
 
       {/* Profiles */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6 space-y-24">
           {FOUNDERS.map((founder) => {
             const record = bySlug.get(founder.slug);
@@ -97,7 +104,7 @@ export default async function FoundersPage() {
                   <img
                     src={photo}
                     alt={founder.name}
-                    className="photo photo-hover-lift w-full h-full object-cover"
+                    className="photo photo-hover-lift w-full h-full object-cover object-top"
                   />
                 </div>
 
@@ -113,9 +120,20 @@ export default async function FoundersPage() {
                     {record?.name || founder.name}
                   </h2>
 
+                  {/* Order of preference: a rich-text biography written in
+                      the dashboard, then the full bio the client supplied in
+                      their revision document, then the one-line intro. */}
                   <div className="space-y-4 text-muted text-lg leading-relaxed mb-8">
-                    <p>{record?.shortBio || founder.intro}</p>
+                    {record?.bio ? (
+                      <RichText data={record.bio} />
+                    ) : (
+                      (founder.fullBio ?? [record?.shortBio || founder.intro]).map(
+                        (paragraph, idx) => <p key={idx}>{paragraph}</p>,
+                      )
+                    )}
                   </div>
+
+                  {founder.book && <BookCallout {...founder.book} className="mb-8" />}
 
                   {/* Each link renders only once it has a real destination. */}
                   {(linkedin || email) && (

@@ -11,11 +11,11 @@ const COMMUNITY_LINKS = [
     cta: "View Membership Options",
   },
   {
-    title: "Ambassadors & Chapters",
-    description: "Find your local chapter or apply to become an ambassador in your city.",
+    title: "Ambassadors",
+    description: "Meet the ambassadors representing Black in Rehab, or apply to become one in your city.",
     href: "/about/ambassadors",
     icon: <Globe2 className="w-6 h-6 text-primary" />,
-    cta: "Find a Chapter",
+    cta: "Meet the Ambassadors",
   },
   {
     title: "Student Hub",
@@ -36,7 +36,7 @@ const COMMUNITY_LINKS = [
 export default function CommunityPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.conferenceCelebration})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -59,7 +59,7 @@ export default function CommunityPage() {
         </div>
       </section>
 
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {COMMUNITY_LINKS.map((item) => (

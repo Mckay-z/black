@@ -6,6 +6,14 @@ import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
 
+/** The client's own framing of the programme, taken verbatim from their brief. */
+const SANKOFA_PRINCIPLES = [
+  "Sankofa Return is the ongoing global program.",
+  "Ghana is the inaugural destination.",
+  "The initiative can expand to Jamaica, Kenya, Tanzania, and other Diaspora communities.",
+  "The purpose is mutual exchange and sustainable partnership, not a one-time mission trip.",
+];
+
 const DESTINATIONS = [
   {
     title: "Ghana",
@@ -80,15 +88,41 @@ export default function GlobalExperiencesPage() {
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Experiences", href: "/experiences" },
-          { label: "Global Experiences" },
+          { label: "Sankofa Return" },
         ]}
-        title="Healing Beyond"
-        highlight="Borders"
-        description="Our global experiences combine professional development, cultural immersion, and community service. We travel to learn, to serve, and to build lasting partnerships with rehabilitation communities around the world."
+        title="Sankofa"
+        highlight="Return"
+        description="Advancing Health and Healing Across the African Diaspora. A global initiative connecting rehabilitation and wellness professionals of the African Diaspora through clinical education, community engagement, cultural exchange, and sustainable partnerships. Our journey begins in Ghana—building connections and a model for continued collaboration throughout Africa and across the Diaspora."
         image={PHOTOS.ghanaFreedomArch}
+        meta={
+          <>
+            <span className="chip chip-dark">Clinical &amp; Cultural Exchange</span>
+            <span className="chip chip-dark">Ghana 2027</span>
+          </>
+        }
         cta={{ label: "VIEW UPCOMING TRIPS", href: "/experiences/upcoming-events" }}
         size="tall"
       />
+
+      {/* What Sankofa Return is. The client was specific that this reads as an
+          ongoing programme rather than a trip, and explicitly not as a mission
+          trip — so those four points are stated plainly rather than left to be
+          inferred from the destination cards below. */}
+      <section className="section-sm bg-surface border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {SANKOFA_PRINCIPLES.map((principle) => (
+              <li key={principle} className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                />
+                <p className="text-base leading-relaxed text-muted">{principle}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       {/* Pillars */}
       <section className="section bg-background">

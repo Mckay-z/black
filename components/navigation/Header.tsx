@@ -21,21 +21,20 @@ const NAV_LINKS: NavLink[] = [
       { name: "Meet the Founders", href: "/about/founders" },
       { name: "Leadership Team", href: "/about/leadership" },
       { name: "Ambassadors", href: "/about/ambassadors" },
-      { name: "Annual Report", href: "/about/annual-report" },
+      // Annual Report is hidden at the client's request until there is a report
+      // to publish. The route still resolves, so restoring it is one line.
       { name: "Media & Press", href: "/about/media-press" },
     ],
   },
   {
     name: "Experiences",
     href: "/experiences",
+    // Trimmed to the two the client is actively running. The conference,
+    // retreat, global and local-event routes are untouched and still resolve —
+    // they are simply off the menu until there is something to announce.
     dropdownItems: [
-      { name: "Annual Conference", href: "/experiences/annual-conference" },
       { name: "Upcoming Events", href: "/experiences/upcoming-events" },
-      { name: "Wellness Retreats", href: "/experiences/wellness-retreats" },
-      { name: "Leadership Retreats", href: "/experiences/leadership-retreats" },
-      { name: "Global Experiences (Ghana, Jamaica)", href: "/experiences/global" },
       { name: "Ambassador Meetups", href: "/experiences/ambassador-meetups" },
-      { name: "Local Events", href: "/experiences/local-events" },
     ],
   },
   {
@@ -56,7 +55,7 @@ const NAV_LINKS: NavLink[] = [
     name: "Community",
     href: "/community",
     dropdownItems: [
-      { name: "Online Community", href: "/community/online" },
+      // Online Community hidden at the client's request.
       { name: "Students", href: "/community/students" },
       { name: "Share Your Story", href: "/community/share-your-story" },
       { name: "Partner With Us", href: "/community/partner" },
@@ -65,36 +64,33 @@ const NAV_LINKS: NavLink[] = [
   {
     name: "Resources",
     href: "/resources",
+    // Everything except the library is hidden until it has real content —
+    // the blog, podcast, research and career pages currently show placeholder
+    // copy, and the homepage marks them "Coming Soon" to match.
     dropdownItems: [
-      { name: "Blog", href: "/resources/blog" },
-      { name: "Podcast", href: "/resources/podcast" },
       { name: "Resource Library", href: "/resources/library" },
-      { name: "Career Resources", href: "/resources/career" },
-      { name: "Student Resources", href: "/resources/student" },
-      { name: "Research", href: "/resources/research" },
-      { name: "FAQs", href: "/resources/faqs" },
     ],
   },
   {
     name: "Speakers",
     href: "/speakers",
+    // Speaking Topics hidden at the client's request; "Book a Speaker" stays,
+    // since they separately asked for more ways to book school visits.
     dropdownItems: [
+      { name: "Nancy Yamoah, OTR/L", href: "/speakers/nancy-yamoah" },
       { name: "Dr. Chauntel Altidor, OTD", href: "/speakers/dr-chauntel-altidor" },
-      { name: "Nancy Yamoah, OT", href: "/speakers/nancy-yamoah" },
-      { name: "Speaking Topics", href: "/speakers/topics" },
       { name: "Book a Speaker", href: "/speakers/book" },
     ],
   },
   {
     name: "Support",
     href: "/support",
+    // Healthcare Systems, Recruit With Us and Career Lounge are hidden at the
+    // client's request; "Universities" is now Mentorship Placement.
     dropdownItems: [
       { name: "Become a Sponsor", href: "/support/sponsor" },
       { name: "Corporate Partnerships", href: "/support/corporate" },
-      { name: "Universities", href: "/support/universities" },
-      { name: "Healthcare Systems", href: "/support/healthcare-systems" },
-      { name: "Recruit With Us", href: "/support/recruit" },
-      { name: "Career Lounge", href: "/support/career-lounge" },
+      { name: "Mentorship Placement", href: "/support/universities" },
       { name: "Donate", href: "/support/donate" },
     ],
   },

@@ -46,7 +46,7 @@ export default function StudentHubPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.conferenceSession})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -69,7 +69,7 @@ export default function StudentHubPage() {
       </section>
 
       {/* Resources Grid */}
-      <section className="section bg-background">
+      <section className="section pt-12 md:pt-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="eyebrow mb-5">For Students</h2>

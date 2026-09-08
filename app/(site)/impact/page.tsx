@@ -1,30 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, GraduationCap, HandHeart, Scaling } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
-
-const PILLARS = [
-  {
-    icon: <GraduationCap className="w-8 h-8 text-primary" />,
-    title: "Scholarships",
-    description: "Breaking down financial barriers for Black students pursuing degrees in physical therapy, occupational therapy, and speech-language pathology.",
-    href: "/impact/scholarships",
-    cta: "Apply for Scholarship",
-  },
-  {
-    icon: <HandHeart className="w-8 h-8 text-primary" />,
-    title: "Community Service",
-    description: "Providing free rehabilitation services and education to underserved populations through local and global partnerships.",
-    href: "/impact/service",
-    cta: "Learn About Our Service",
-  },
-  {
-    icon: <Scaling className="w-8 h-8 text-primary" />,
-    title: "Advocacy",
-    description: "Championing policies that advance health equity and better outcomes for Black communities and marginalized populations.",
-    href: "/impact/advocacy",
-    cta: "Join Our Advocacy",
-  },
-];
+import ImpactGallerySection from "@/components/sections/ImpactGallerySection";
 
 const STATS = [
   { value: "10K+", label: "Professionals Empowered" },
@@ -71,27 +48,13 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* Pillars */}
-      <section className="section bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-16">
-            <h2 className="eyebrow mb-5">How We Create Change</h2>
-            <h3 className="display-2 text-foreground">Three Pillars of Impact</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {PILLARS.map((p, idx) => (
-              <div key={idx} className="card p-10 flex flex-col card-hover">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-8">{p.icon}</div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">{p.title}</h3>
-                <p className="text-muted leading-relaxed flex-1 mb-8">{p.description}</p>
-                <Link href={p.href} className="link-arrow">
-                  {p.cta} <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Impact gallery */}
+      <ImpactGallerySection
+        eyebrow="How We Create Change"
+        heading="The Work, In Pictures"
+        description="Scholarships, bookbags, and the everyday work of showing up. Filter by what you want to see."
+        className="section bg-background"
+      />
 
       {/* Donate CTA */}
       <section className="section bg-surface border-t border-border">

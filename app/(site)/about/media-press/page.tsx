@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, FileText, Camera, Mic } from "lucide-react";
+import { ArrowRight, Newspaper, FileText, Camera, Mic } from "lucide-react";
 
 export default function MediaPressPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="py-24 md:py-32 bg-surface border-b border-border">
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -26,7 +26,7 @@ export default function MediaPressPage() {
       </section>
 
       {/* Press Kit + Contact */}
-      <section className="py-24">
+      <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <div className="card p-8 card-hover flex flex-col">
@@ -35,12 +35,9 @@ export default function MediaPressPage() {
               <p className="text-muted text-sm leading-relaxed flex-1 mb-8">
                 Download our official press kit with logos, brand assets, organizational facts, and leadership bios.
               </p>
-              <a
-                href="#"
-                className="link-arrow"
-              >
-                Download Press Kit <ArrowRight className="w-4 h-4" />
-              </a>
+              <Link href="/contact" className="link-arrow">
+                Request Press Kit <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
 
             <div className="card p-8 card-hover flex flex-col">
@@ -49,12 +46,9 @@ export default function MediaPressPage() {
               <p className="text-muted text-sm leading-relaxed flex-1 mb-8">
                 Browse and download high-resolution photos from our events, global experiences, and community programs.
               </p>
-              <a
-                href="#"
-                className="link-arrow"
-              >
-                View Gallery <ArrowRight className="w-4 h-4" />
-              </a>
+              <Link href="/contact" className="link-arrow">
+                Request Photos <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
 
             <div className="card p-8 card-hover flex flex-col">
@@ -72,21 +66,24 @@ export default function MediaPressPage() {
             </div>
           </div>
 
-          {/* Press Coverage Placeholder */}
+          {/* No press coverage to list yet.
+
+              This was three cards reading "[Publication Name] — CLIENT TO
+              PROVIDE" / "[Article Headline — CLIENT TO PROVIDE]", each behind
+              a "Read Article" link pointing at "#". An empty state is the
+              honest version until there is real coverage to link to. */}
           <div>
             <h2 className="text-2xl font-serif font-bold text-foreground mb-8">In the News</h2>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="card rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div>
-                    <p className="text-primary text-xs font-semibold uppercase tracking-widest mb-1">[Publication Name] — CLIENT TO PROVIDE</p>
-                    <h4 className="text-foreground font-bold">[Article Headline — CLIENT TO PROVIDE]</h4>
-                  </div>
-                  <a href="#" className="text-sm font-semibold text-muted hover:text-primary transition-colors shrink-0 flex items-center gap-1">
-                    Read Article <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-              ))}
+            <div className="card card-sunken p-10 text-center">
+              <Newspaper className="w-10 h-10 text-primary mx-auto mb-5" aria-hidden="true" />
+              <p className="text-foreground font-bold mb-2">Coverage coming soon</p>
+              <p className="text-muted text-sm leading-relaxed max-w-md mx-auto">
+                Press mentions and interviews will be collected here. Writing about
+                our work? We would love to hear from you.
+              </p>
+              <Link href="/contact" className="link-arrow mt-8 justify-center">
+                Get in touch <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </div>

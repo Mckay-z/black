@@ -22,7 +22,7 @@ const DEFAULTS = {
   image: PHOTOS.retreatGroupBlazers,
   description:
     "Black in Rehab equips rehabilitation professionals to lead with excellence, serve with purpose, and create lasting impact worldwide.",
-  cta: { label: "JOIN THE MOVEMENT", href: "/join-the-movement" },
+  cta: { label: "DONATE", href: "/impact/donate" },
   secondaryCta: { label: "EXPLORE OUR IMPACT", href: "/impact" },
 };
 
@@ -66,7 +66,7 @@ export default async function Hero() {
 
       <div className="container relative mx-auto px-4 md:px-6 pt-28 pb-24 text-center">
         <p className="eyebrow eyebrow-on-dark enter mx-auto mb-7">
-          Healing Beyond Borders
+          Sankofa Return · Clinical &amp; Cultural Exchange
         </p>
 
         <h1 className="display-1 enter enter-1 mx-auto max-w-4xl text-white">

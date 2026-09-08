@@ -1,4 +1,5 @@
 import "dotenv/config";
+import path from "path";
 import { getPayload, type CollectionSlug, type Where } from "payload";
 import config from "../payload.config";
 
@@ -122,6 +123,155 @@ async function main() {
     );
   }
 
+  // ── Leadership team ───────────────────────────────────────────────────
+  /*
+    Names, titles, bios and portraits supplied by the client in their
+    "Website edits" revision document.
+
+    This block UPDATES an existing person rather than skipping them, which is
+    the opposite of `ensure` above. That is deliberate and narrow: the people
+    records already in the dashboard carry the placeholder titles invented
+    during the build ("Co-Founder & Chief Strategy Officer"), and replacing
+    those with what the client actually sent is the entire point. Only the
+    four fields below are written, so anything else an editor has changed —
+    links, speaking topics, ordering — survives.
+  */
+  console.log("\nLeadership team");
+
+  /** Upload a portrait once; match on filename so re-runs reuse it. */
+  async function ensurePhoto(file: string, alt: string) {
+    const filename = path.basename(file);
+    const found = await payload.find({
+      collection: "media",
+      where: { filename: { equals: filename } },
+      limit: 1,
+    });
+    if (found.docs.length) return found.docs[0];
+
+    const doc = await payload.create({
+      collection: "media",
+      filePath: path.resolve(file),
+      data: { alt },
+    });
+    log(`+ photo ${filename}`);
+    return doc;
+  }
+
+  const LEADERSHIP = [
+    {
+      slug: "nancy-yamoah",
+      name: "Nancy Yamoah, OTR/L",
+      role: "Founder, CEO & President",
+      groups: ["founder", "leadership", "speaker"],
+      shortBio:
+        "An occupational therapist, entrepreneur, educator, content creator, and visionary leader dedicated to transforming rehabilitation through representation, education, whole-person wellness, community, and global impact.",
+      photoPath: "public/photos/team-nancy-yamoah.jpg",
+      photoAlt: "Nancy Yamoah, Founder, CEO and President of the Black in Rehab Foundation",
+    },
+    {
+      slug: "nicole-mcdaniel",
+      name: "Nicole McDaniel",
+      role: "Chief Operating Officer",
+      groups: ["leadership"],
+      shortBio:
+        "Nicole brings more than 30 years of experience in business operations, strategic planning, marketing, branding, travel, and event management. Working closely with the founders, she transforms vision into organized strategies, effective systems, and meaningful experiences — supporting staff coordination, partnerships, fundraising, ambassador initiatives, conferences, and global clinical and cultural programs.",
+      photoPath: "public/photos/team-nicole-mcdaniel.jpg",
+      photoAlt: "Nicole McDaniel, Chief Operating Officer of the Black in Rehab Foundation",
+    },
+    {
+      slug: "alexys-taylor",
+      name: "Alexys Taylor, OTR/L",
+      role: "Lead Ambassador, USA",
+      groups: ["leadership", "ambassador"],
+      city: "Northern Virginia",
+      shortBio:
+        "A pediatric occupational therapist based in Northern Virginia with a passion for mental health, resilience, and helping others develop a strong sense of self. A member of Black in Rehab for the past four years, Alexys is excited to pour back into the community that has poured into her by fostering connection, representation, and opportunities for others to grow.",
+      photoPath: "public/photos/team-alexys-taylor.jpg",
+      photoAlt: "Alexys Taylor, Lead Ambassador for the United States",
+    },
+    {
+      slug: "faith-ene-akor",
+      name: "Faith Ene Akor",
+      role: "Ghana Ambassador Lead",
+      groups: ["leadership", "ambassador"],
+      city: "Ghana",
+      shortBio:
+        "An Occupational Therapist based in Ghana with interests in inclusive healthcare, advocacy, and community development. She is passionate about women's health and contributing to systems that expand services across the lifespan. Her other interests include geriatrics, research, AI in healthcare, and expanding health education to support healthier communities.",
+      photoPath: "public/photos/team-faith-ene-akor.jpg",
+      photoAlt: "Faith Ene Akor, Ghana Ambassador Lead",
+    },
+    {
+      slug: "winner-naa-adjeley-addo",
+      name: "Winner Naa Adjeley Addo",
+      role: "Personal Assistant",
+      groups: ["leadership"],
+      shortBio:
+        "An Occupational Therapy student at the University of Ghana, supporting the foundation's leadership team as Personal Assistant.",
+      photoPath: "public/photos/team-winner-addo.jpg",
+      photoAlt: "Winner Naa Adjeley Addo, Personal Assistant at the Black in Rehab Foundation",
+    },
+  ];
+
+  for (const [index, person] of LEADERSHIP.entries()) {
+    const { photoPath, photoAlt, slug, ...fields } = person;
+    const photo = await ensurePhoto(photoPath, photoAlt);
+
+    const found = await payload.find({
+      collection: "people",
+      where: { slug: { equals: slug } },
+      limit: 1,
+    });
+
+    // Spaced by ten so a person who is not in this array — currently only
+    // Dr. Chauntel Altidor, whose status is still with the client — can be
+    // slotted between two of them without renumbering everyone.
+    const data = { ...fields, photo: photo.id, status: "published", order: index * 10 };
+
+    // Cast at the call, not on `data` — see the note on `ensure` above: a
+    // per-field cast collapses Payload's overload union and the compiler then
+    // demands every collection's fields at once.
+    if (found.docs.length) {
+      await payload.update({
+        collection: "people",
+        id: found.docs[0].id,
+        data,
+      } as Parameters<typeof payload.update>[0]);
+      log(`~ ${person.name} (updated from the revision document)`);
+    } else {
+      await payload.create({
+        collection: "people",
+        data: { ...data, slug },
+      } as Parameters<typeof payload.create>[0]);
+      created += 1;
+      log(`+ ${person.name}`);
+    }
+  }
+
+  /*
+    Chauntel is seeded by the FOUNDERS block above with `order: 0`, the same
+    value Nancy now has — and a tie sorts arbitrarily, which was putting a
+    Co-Founder above the CEO on the leadership page. Placing her at 5 puts her
+    directly after Nancy and before the rest.
+
+    Only her `order` is touched, so nothing about her profile is presumed
+    while the client decides whether she stays on the site at all.
+  */
+  {
+    const found = await payload.find({
+      collection: "people",
+      where: { slug: { equals: "dr-chauntel-altidor" } },
+      limit: 1,
+    });
+    if (found.docs.length && found.docs[0].order !== 5) {
+      await payload.update({
+        collection: "people",
+        id: found.docs[0].id,
+        data: { order: 5 },
+      } as Parameters<typeof payload.update>[0]);
+      log("~ Dr. Chauntel Altidor, OTD (ordering only)");
+    }
+  }
+
   // ── Events ────────────────────────────────────────────────────────────
   console.log("\nEvents");
   const EVENTS = [
@@ -174,14 +324,14 @@ async function main() {
       featured: false,
     },
     {
-      title: "Student Chapter Summit",
-      slug: "student-chapter-summit-2025",
+      title: "Student Leadership Summit",
+      slug: "student-leadership-summit-2025",
       type: "local",
       startDate: "2025-09-20",
       location: "Online",
       price: "Free",
       summary:
-        "Chapter leaders from PT, OT, and SLP programs nationwide meet to plan the academic year.",
+        "Student leaders from PT, OT, and SLP programs nationwide meet to plan the academic year.",
       featured: false,
     },
     {

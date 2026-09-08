@@ -33,7 +33,7 @@ const EVENT_TYPES = [
   {
     icon: <Users className="w-6 h-6 text-primary" />,
     title: "Service Days",
-    desc: "Half-day community screenings and health fairs organised by the local chapter.",
+    desc: "Half-day community screenings and health fairs organised by local ambassadors.",
   },
 ];
 

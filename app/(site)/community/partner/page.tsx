@@ -24,7 +24,7 @@ const PARTNER_TYPES = [
   {
     icon: <GraduationCap className="w-6 h-6 text-primary" />,
     title: "Universities & Programs",
-    desc: "Student chapter support, admissions outreach, and pipeline work with PT, OT, and SLP programs.",
+    desc: "Campus speaking visits, admissions outreach, and mentorship placement with PT, OT, and SLP programs.",
     href: "/support/universities",
   },
   {

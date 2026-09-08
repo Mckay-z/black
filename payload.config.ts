@@ -13,6 +13,7 @@ import { Posts } from "./cms/collections/Posts";
 import { Events } from "./cms/collections/Events";
 import { People } from "./cms/collections/People";
 import { Testimonials } from "./cms/collections/Testimonials";
+import { ImpactStories } from "./cms/collections/ImpactStories";
 import { Stats } from "./cms/collections/Stats";
 import { Heroes } from "./cms/collections/Heroes";
 import { Submissions } from "./cms/collections/Submissions";
@@ -20,6 +21,54 @@ import { Documents } from "./cms/collections/Documents";
 import { SiteSettings } from "./cms/globals/SiteSettings";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * ── Database connection ───────────────────────────────────────────────────
+ *
+ * `DATABASE_URI` is this project's own name for the connection string and
+ * wins when set. `DATABASE_URL` and `POSTGRES_URL` are the names Vercel's
+ * Postgres integrations inject on your behalf when you attach a database in
+ * the dashboard; accepting them means that needs no follow-up copy into a
+ * differently spelled variable. Both are the pooled string, which is the one
+ * to use from a serverless function.
+ */
+const databaseURI =
+  process.env.DATABASE_URI ||
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL;
+
+const isPostgres = /^postgres(ql)?:\/\//.test(databaseURI ?? "");
+
+// Unset is the local default; `file:`/`libsql:` is someone pointing SQLite
+// somewhere deliberately.
+const isSqlite = !databaseURI || /^(file:|libsql:)/.test(databaseURI);
+
+/*
+  Fail loudly on a connection string we do not recognise.
+
+  Without this the adapter check below simply falls through to SQLite, so a
+  wrong value — a Neon *Data API* URL (`https://…apirest…/rest/v1`) is the
+  easy mistake, since it is also on the database's settings page — produces a
+  dashboard that will not start and a log with nothing in it about why. The
+  public site keeps rendering throughout, because every read in `lib/cms.ts`
+  falls back to hardcoded content, which removes the last clue that anything
+  is misconfigured.
+
+  Only the scheme goes in the message: the rest of the string is a password.
+*/
+if (databaseURI && !isPostgres && !isSqlite) {
+  // Never interpolate the value itself, only its scheme — and a string with
+  // no `://` has no scheme to quote, so say that rather than echoing it.
+  const found = databaseURI.includes("://")
+    ? `scheme "${databaseURI.split("://")[0]}://"`
+    : "no scheme";
+  throw new Error(
+    `Unrecognised database connection string (${found}). Expected ` +
+      `postgres:// for a hosted database, or file:/libsql: for local SQLite. ` +
+      `Note that Neon's Data API URL is not a connection string — take the ` +
+      `one under "Connect", with "Pooled connection" selected.`,
+  );
+}
 
 export default buildConfig({
   admin: {
@@ -89,6 +138,7 @@ export default buildConfig({
     Events,
     People,
     Testimonials,
+    ImpactStories,
     Stats,
     Heroes,
     Media,
@@ -112,8 +162,8 @@ export default buildConfig({
   },
 
   /**
-   * The adapter follows `DATABASE_URI`, so the same config serves both
-   * environments without an edit between them.
+   * The adapter follows the resolved connection string above, so the same
+   * config serves both environments without an edit between them.
    *
    * SQLite keeps local work zero-config: no database server to install, and
    * the whole dataset is one file. It is NOT usable on a serverless host —
@@ -122,17 +172,13 @@ export default buildConfig({
    * Left on SQLite there, the public site still renders (every read in
    * `lib/cms.ts` falls back to hardcoded content) but `/admin` cannot start.
    *
-   * So production sets `DATABASE_URI` to a Postgres connection string and gets
-   * `postgresAdapter`; anything else — including unset — stays on the local
-   * file. See "Going to production" in CMS.md.
+   * So production sets a Postgres connection string and gets
+   * `postgresAdapter`; unset stays on the local file. See "Going to
+   * production" in CMS.md.
    */
-  db: process.env.DATABASE_URI?.startsWith("postgres")
-    ? postgresAdapter({
-        pool: { connectionString: process.env.DATABASE_URI },
-      })
-    : sqliteAdapter({
-        client: { url: process.env.DATABASE_URI || "file:./cms-data.db" },
-      }),
+  db: isPostgres
+    ? postgresAdapter({ pool: { connectionString: databaseURI } })
+    : sqliteAdapter({ client: { url: databaseURI || "file:./cms-data.db" } }),
 
   /**
    * Uploads go to Vercel Blob in production and stay on disk locally.

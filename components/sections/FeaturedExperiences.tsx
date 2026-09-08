@@ -30,7 +30,7 @@ const EXPERIENCES = [
   {
     id: "community",
     title: "Community Events",
-    description: "Local meetups, ambassador cities, and global chapters.",
+    description: "Local meetups, ambassador cities, and community gatherings.",
     Icon: MessageSquare,
     image: PHOTOS.conferenceTableTalk,
     link: "/experiences/community",

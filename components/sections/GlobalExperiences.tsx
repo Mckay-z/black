@@ -61,7 +61,10 @@ function CardBody({
         loading="lazy"
         className="photo photo-hover-lift absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.07]"
       />
-      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
+      {/* The region label and title sit roughly two-thirds down, which on a
+          bright or busy photo the old `via-black/35` did not cover. Darker
+          through the middle, and no longer fully transparent at the top. */}
+      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/55 to-black/15" />
 
       <div className="relative flex h-full flex-col justify-between p-7">
         <div className="flex justify-end">
@@ -99,18 +102,31 @@ export default function GlobalExperiences() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="reveal mb-14 max-w-3xl">
           <p className="eyebrow mb-5">Global Reach</p>
-          <h2 className="display-2 text-foreground">Healing Beyond Borders</h2>
+          <h2 className="display-2 text-foreground">
+            Sankofa Return: Clinical &amp; Cultural Exchange
+          </h2>
+          <p className="mt-4 font-serif text-lg font-semibold text-primary">
+            Ghana 2027 · Advancing Health and Healing Across the African Diaspora
+          </p>
           <p className="mt-5 text-lg leading-relaxed text-muted">
-            Our international experiences combine professional development, cultural
-            immersion, service, and unforgettable travel. Together, we strengthen
-            rehabilitation around the world.
+            A global initiative connecting rehabilitation and wellness professionals of
+            the African Diaspora through clinical education, community engagement,
+            cultural exchange, and sustainable partnerships. Our journey begins in
+            Ghana&mdash;building connections and a model for continued collaboration
+            throughout Africa and across the Diaspora.
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {DESTINATIONS.map((destination) => {
+            // `section-dark` because these cards are always dark — a photo
+            // under a black scrim — whatever theme the page is in. Without it
+            // `text-primary` resolves to the light palette's #7c5f0f, a dark
+            // olive-gold that all but disappeared against the photograph; the
+            // dark palette's #d4af37 is the legible one. It also switches
+            // `border-border` to the white hairline these cards want.
             const shared =
-              "group relative isolate h-100 overflow-hidden rounded-[var(--radius-card)] border border-border shadow-soft transition-[transform,box-shadow,border-color] duration-300";
+              "section-dark group relative isolate h-100 overflow-hidden rounded-[var(--radius-card)] border border-border shadow-soft transition-[transform,box-shadow,border-color] duration-300";
 
             return destination.status === "Active" ? (
               <Link

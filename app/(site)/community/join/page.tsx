@@ -58,7 +58,7 @@ export default function JoinPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className="section-dark relative py-24 md:py-32 bg-secondary overflow-hidden">
+      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-15" style={{ backgroundImage: `url(${PHOTOS.retreatGroupColorful})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white mb-6">
@@ -76,7 +76,7 @@ export default function JoinPage() {
       </section>
 
       {/* Benefits */}
-      <section className="section bg-background">
+      <section className="section pt-12 md:pt-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="eyebrow mb-5">Why Join</h2>

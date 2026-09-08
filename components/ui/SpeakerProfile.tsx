@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, Award, Mail, Mic } from "lucide-react";
+import { Award, Mail, Mic } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
+import BookCallout from "@/components/ui/BookCallout";
 import FillerImage from "@/components/ui/FillerImage";
 
 export type SpeakerProfileData = {
@@ -13,7 +14,20 @@ export type SpeakerProfileData = {
   portrait: string;
   heroImage: string;
   bio: string[];
+  /**
+   * Flat topic list — the original shape, still used where a speaker has no
+   * themed breakdown.
+   */
   topics: string[];
+  /**
+   * Topics grouped under a theme, each with the line the speaker leads with.
+   * When present this replaces the flat `topics` grid.
+   */
+  topicAreas?: { title: string; message: string; topics: string[] }[];
+  /** Named talks with a one-line description of what each covers. */
+  signatureTalks?: { title: string; description: string }[];
+  /** A book by this speaker, shown under the biography. */
+  book?: { title: string; url: string; description: string };
   formats: string[];
   highlights: { value: string; label: string }[];
   gallery: { src: string; alt: string }[];
@@ -33,7 +47,10 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         description={speaker.tagline}
         image={speaker.heroImage}
         cta={{ label: "BOOK THIS SPEAKER", href: "/speakers/book" }}
-        secondaryCta={{ label: "Speaking Topics", href: "/speakers/topics" }}
+        // Was "Speaking Topics" → /speakers/topics, which the client has since
+        // asked us to hide. The topics are listed in full further down this
+        // page, so the secondary action points back to the speaker index.
+        secondaryCta={{ label: "Meet All Speakers", href: "/speakers" }}
       />
 
       {/* Bio */}
@@ -81,16 +98,22 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
                 ))}
               </div>
 
+              {speaker.book && <BookCallout {...speaker.book} className="mt-10" />}
+
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12">
                 {speaker.highlights.map((item) => (
                   <div
                     key={item.label}
-                    className="card p-6 text-center"
+                    className="card flex min-w-0 flex-col justify-center p-6 text-center"
                   >
-                    <p className="display-3 text-primary mb-1">
+                    {/* Not `display-3`: that clamps up to 2rem, and a value
+                        like "LovelyyOT" or "Whole Health" then runs outside a
+                        quarter-width card. Smaller, wrapping, and allowed to
+                        break so any value the client writes stays inside. */}
+                    <p className="mb-1.5 break-words font-serif text-xl font-bold leading-tight tracking-tight text-primary md:text-2xl">
                       {item.value}
                     </p>
-                    <p className="text-muted text-xs leading-relaxed">{item.label}</p>
+                    <p className="text-xs leading-relaxed text-muted">{item.label}</p>
                   </div>
                 ))}
               </div>
@@ -104,24 +127,47 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              <SectionHeading eyebrow="Signature Talks" title="Topics" className="mb-8" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {speaker.topics.map((topic) => (
-                  <div
-                    key={topic}
-                    className="flex items-start gap-3 card card-sunken rounded-xl p-4 card-hover"
-                  >
-                    <Mic className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                    <span className="text-foreground text-sm font-medium">{topic}</span>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/speakers/topics"
-                className="link-arrow mt-8"
-              >
-                See all speaking topics <ArrowRight className="w-4 h-4" />
-              </Link>
+              <SectionHeading eyebrow="What I Speak On" title="Topics" className="mb-8" />
+
+              {speaker.topicAreas ? (
+                <div className="space-y-10">
+                  {speaker.topicAreas.map((area) => (
+                    <div key={area.title}>
+                      <h3 className="font-serif text-xl font-bold text-foreground">
+                        {area.title}
+                      </h3>
+                      <blockquote className="mt-3 border-l-2 border-primary/50 pl-4 text-base italic leading-relaxed text-muted">
+                        &ldquo;{area.message}&rdquo;
+                      </blockquote>
+                      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {area.topics.map((topic) => (
+                          <div
+                            key={topic}
+                            className="flex items-start gap-3 card card-sunken rounded-xl p-4 card-hover"
+                          >
+                            <Mic className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                            <span className="text-foreground text-sm font-medium">
+                              {topic}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {speaker.topics.map((topic) => (
+                    <div
+                      key={topic}
+                      className="flex items-start gap-3 card card-sunken rounded-xl p-4 card-hover"
+                    >
+                      <Mic className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <span className="text-foreground text-sm font-medium">{topic}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div>
@@ -139,8 +185,37 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         </div>
       </section>
 
+      {/* Signature talks. Rendered only for speakers who have named talks —
+          a title plus what it covers, which is how they are actually pitched
+          to an event organiser. */}
+      {speaker.signatureTalks && (
+        <section className="section bg-background">
+          <div className="container mx-auto px-4 md:px-6">
+            <SectionHeading
+              eyebrow="Signature Talks"
+              title="Ready to Book"
+              align="center"
+              className="mb-12"
+            />
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {speaker.signatureTalks.map((talk) => (
+                <article key={talk.title} className="card card-hover flex flex-col p-8">
+                  <Mic className="mb-5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                  <h3 className="font-serif text-lg font-bold leading-snug text-foreground">
+                    &ldquo;{talk.title}&rdquo;
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                    {talk.description}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Gallery */}
-      <section className="section bg-background">
+      <section className="section bg-surface border-t border-border">
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeading title="On Stage" align="center" className="mb-12" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
