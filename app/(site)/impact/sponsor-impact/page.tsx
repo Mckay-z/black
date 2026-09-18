@@ -20,13 +20,6 @@ const ALLOCATION = [
   { label: "Operations & reporting", value: 12 },
 ];
 
-const OUTCOMES = [
-  { value: "$186k", label: "Awarded to students since 2021" },
-  { value: "74", label: "Scholarship recipients" },
-  { value: "2,150", label: "Patient visits delivered on mission projects" },
-  { value: "31", label: "Sponsor organizations" },
-];
-
 const REPORTING = [
   {
     icon: <FileText className="w-6 h-6 text-primary" />,
@@ -79,22 +72,6 @@ export default function SponsorImpactPage() {
         cta={{ label: "VIEW SPONSORSHIP TIERS", href: "/support/sponsors" }}
       />
 
-      {/* Outcomes */}
-      <section className="py-16 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {OUTCOMES.map((item) => (
-              <div key={item.label} className="text-center">
-                <p className="text-4xl md:text-5xl font-serif font-bold text-primary mb-2">
-                  {item.value}
-                </p>
-                <p className="text-muted text-sm leading-relaxed">{item.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Allocation */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
@@ -112,7 +89,7 @@ export default function SponsorImpactPage() {
                       <span className="text-foreground text-sm font-medium">{item.label}</span>
                       <span className="text-primary font-bold text-sm">{item.value}%</span>
                     </div>
-                    <div className="h-2 w-full rounded-full bg-surface-light overflow-hidden">
+                    <div className="h-2 w-full rounded-full bg-border overflow-hidden">
                       <div
                         className="h-full rounded-full bg-primary"
                         style={{ width: `${item.value}%` }}

@@ -3,7 +3,7 @@ import { signedIn, publishedOrSignedIn } from "../access";
 import { statusField, orderField } from "../fields";
 
 /**
- * Photos and videos of the work itself — the people served, the bookbags
+ * Photos and videos of the work itself — the people served, the donations
  * handed out, the scholarship recipients.
  *
  * This is what the Impact page is now built from. It replaced three
@@ -49,7 +49,12 @@ export const ImpactStories: CollectionConfig = {
       options: [
         { label: "Community Highlights", value: "community" },
         { label: "Scholarships", value: "scholarships" },
-        { label: "Bookbags", value: "bookbags" },
+        // Renamed from "Bookbags". The value moved with the label rather
+        // than a label being pinned over a stale one — the collection held no
+        // documents at the time, so there was nothing to migrate. If that is
+        // ever not true again, changing a stored value needs the rows updating
+        // with it or they drop out of their filter.
+        { label: "Donations", value: "donations" },
       ],
       admin: {
         description: "Groups the item under one of the three filters.",

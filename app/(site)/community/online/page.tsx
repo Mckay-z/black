@@ -12,7 +12,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Online Community | Black In Rehab Foundation",
+});
 const CHANNELS = [
   {
     icon: <MessagesSquare className="w-6 h-6 text-primary" />,
@@ -44,13 +51,6 @@ const RULES = [
   "Students are welcome everywhere, in every room",
 ];
 
-const STATS = [
-  { value: "2,400+", label: "Members" },
-  { value: "38", label: "States represented" },
-  { value: "11", label: "Discussion channels" },
-  { value: "94%", label: "Would recommend it" },
-];
-
 export default function OnlineCommunityPage() {
   return (
     <div className="bg-background min-h-screen">
@@ -58,7 +58,7 @@ export default function OnlineCommunityPage() {
         page="/community/online"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Community", href: "/community" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Online Community" },
         ]}
         title="The Online"
@@ -67,22 +67,6 @@ export default function OnlineCommunityPage() {
         image={PHOTOS.conferenceSession}
         cta={{ label: "REQUEST AN INVITE", href: "/community/join" }}
       />
-
-      {/* Stats */}
-      <section className="py-16 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-4xl md:text-5xl font-serif font-bold text-primary mb-2">
-                  {stat.value}
-                </p>
-                <p className="text-muted text-sm uppercase tracking-wider">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Channels */}
       <section className="section bg-background">
@@ -162,7 +146,7 @@ export default function OnlineCommunityPage() {
                 SEE MEMBERSHIP TIERS <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/community"
+                href="/get-involved"
                 className="inline-flex items-center justify-center gap-2 border border-border hover:border-primary text-foreground font-semibold py-4 px-8 rounded-full transition-colors"
               >
                 Explore the Community
@@ -175,7 +159,7 @@ export default function OnlineCommunityPage() {
       <CTABand
         title="You Should Not Have to Do This Alone"
         description="Join a few thousand people who understand exactly what your week looked like."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/join-the-movement" }}
+        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
       />
     </div>
   );

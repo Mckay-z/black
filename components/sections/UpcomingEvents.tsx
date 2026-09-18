@@ -1,59 +1,65 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerLink } from "@/components/motion/Stagger";
 
+/**
+ * The next four dates, from the client's revision document. Kept in step with
+ * `lib/trips.ts` — see the date note there.
+ */
 const EVENTS = [
   {
-    id: "annual-conference-2025",
-    title: "Annual Conference",
-    date: "Jun 20-22, 2025",
-    location: "New Orleans, LA",
-    image: PHOTOS.conferenceAudience,
-    link: "/experiences/conference",
+    id: "breast-cancer-walk",
+    title: "Breast Cancer Walk",
+    date: "Oct 17, 2026",
+    location: "Atlanta, GA",
+    image: PHOTOS.impactHandsUp,
+    link: "/impact/service",
   },
   {
-    id: "wellness-retreat-jamaica",
-    title: "Wellness Retreat",
-    date: "Aug 15-18, 2025",
-    location: "Jamaica",
-    image: PHOTOS.retreatBeachYoga,
-    link: "/experiences/retreats",
+    id: "asha-dinner",
+    title: "ASHA Convention Dinner",
+    date: "Nov 20, 2026",
+    location: "Indianapolis, IN",
+    image: PHOTOS.retreatDinner,
+    link: "/trips/upcoming-events",
   },
   {
-    id: "ghana-global",
-    title: "Ghana Global Experience",
-    date: "Oct 10-17, 2025",
+    id: "ghana-sankofa-return",
+    title: "Ghana: Sankofa Return",
+    date: "Mar 10-22, 2027",
     location: "Accra, Ghana",
     image: PHOTOS.ghanaAirport,
-    link: "/experiences/ghana",
+    link: "/trips/ghana",
   },
   {
-    id: "leadership-retreat",
-    title: "Leadership Retreat",
-    date: "Mar 12-15, 2026",
-    location: "Atlanta, GA",
-    image: PHOTOS.conferencePresentation,
-    link: "/experiences/retreats",
+    id: "sixth-annual-retreat",
+    title: "6th Annual Retreat",
+    date: "Jun 17-20, 2027",
+    location: "New Orleans, LA",
+    image: PHOTOS.conferenceAudience,
+    link: "/trips/conference",
   },
 ];
 
 export default function UpcomingEvents() {
   return (
-    <section className="section border-t border-border bg-surface">
+    <section className="section bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow mb-5">Join Us</p>
             <h2 className="display-2 text-foreground">Upcoming Events</h2>
           </div>
 
-          <Link href="/experiences" className="link-arrow group shrink-0">
+          <Link href="/trips" className="link-arrow group shrink-0">
             VIEW ALL EVENTS
             <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {EVENTS.map((event) => (
             /*
               `section-dark` rather than `card-sunken`.
@@ -71,10 +77,10 @@ export default function UpcomingEvents() {
               reads white-on-gold over the image either way and the photograph
               can run at full strength underneath.
             */
-            <Link
+            <StaggerLink
               key={event.id}
               href={event.link}
-              className="card card-hover section-dark reveal group relative isolate flex h-75 flex-col justify-end overflow-hidden p-6"
+              className="card card-hover section-dark group relative isolate flex h-75 flex-col justify-end overflow-hidden p-6"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -110,9 +116,9 @@ export default function UpcomingEvents() {
                 <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
                 {event.location}
               </p>
-            </Link>
+            </StaggerLink>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

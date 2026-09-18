@@ -6,94 +6,29 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import Logo from "@/components/navigation/Logo";
+import { NAV_SECTIONS } from "@/lib/navigation";
 
 type NavItem = { name: string; href: string };
 type NavLink = NavItem & { dropdownItems?: NavItem[] };
 
+/**
+ * The menu is derived from `lib/navigation.ts` rather than written out here.
+ *
+ * It used to be a hand-maintained list, and it drifted: seven pages lived
+ * under Resources with one of them in the menu, ten under Trips with two.
+ * Anything deliberately kept out of the menu now says so in `UNLISTED`
+ * there, where the reason is recorded next to it.
+ */
 const NAV_LINKS: NavLink[] = [
   { name: "Home", href: "/" },
-  {
-    name: "About",
-    href: "/about",
-    dropdownItems: [
-      { name: "Our Story", href: "/about/our-story" },
-      { name: "Mission, Vision & Values", href: "/about/mission-vision-values" },
-      { name: "Meet the Founders", href: "/about/founders" },
-      { name: "Leadership Team", href: "/about/leadership" },
-      { name: "Ambassadors", href: "/about/ambassadors" },
-      // Annual Report is hidden at the client's request until there is a report
-      // to publish. The route still resolves, so restoring it is one line.
-      { name: "Media & Press", href: "/about/media-press" },
-    ],
-  },
-  {
-    name: "Experiences",
-    href: "/experiences",
-    // Trimmed to the two the client is actively running. The conference,
-    // retreat, global and local-event routes are untouched and still resolve —
-    // they are simply off the menu until there is something to announce.
-    dropdownItems: [
-      { name: "Upcoming Events", href: "/experiences/upcoming-events" },
-      { name: "Ambassador Meetups", href: "/experiences/ambassador-meetups" },
-    ],
-  },
-  {
-    name: "Impact",
-    href: "/impact",
-    dropdownItems: [
-      { name: "Scholarships", href: "/impact/scholarships" },
-      { name: "Mission Projects", href: "/impact/mission-projects" },
-      { name: "Community Service", href: "/impact/community-service" },
-      { name: "Advocacy", href: "/impact/advocacy" },
-      { name: "Volunteer", href: "/impact/volunteer" },
-      { name: "Student Support", href: "/impact/student-support" },
-      { name: "Sponsor Impact", href: "/impact/sponsor-impact" },
-      { name: "Donate", href: "/impact/donate" },
-    ],
-  },
-  {
-    name: "Community",
-    href: "/community",
-    dropdownItems: [
-      // Online Community hidden at the client's request.
-      { name: "Students", href: "/community/students" },
-      { name: "Share Your Story", href: "/community/share-your-story" },
-      { name: "Partner With Us", href: "/community/partner" },
-    ],
-  },
-  {
-    name: "Resources",
-    href: "/resources",
-    // Everything except the library is hidden until it has real content —
-    // the blog, podcast, research and career pages currently show placeholder
-    // copy, and the homepage marks them "Coming Soon" to match.
-    dropdownItems: [
-      { name: "Resource Library", href: "/resources/library" },
-    ],
-  },
-  {
-    name: "Speakers",
-    href: "/speakers",
-    // Speaking Topics hidden at the client's request; "Book a Speaker" stays,
-    // since they separately asked for more ways to book school visits.
-    dropdownItems: [
-      { name: "Nancy Yamoah, OTR/L", href: "/speakers/nancy-yamoah" },
-      { name: "Dr. Chauntel Altidor, OTD", href: "/speakers/dr-chauntel-altidor" },
-      { name: "Book a Speaker", href: "/speakers/book" },
-    ],
-  },
-  {
-    name: "Support",
-    href: "/support",
-    // Healthcare Systems, Recruit With Us and Career Lounge are hidden at the
-    // client's request; "Universities" is now Mentorship Placement.
-    dropdownItems: [
-      { name: "Become a Sponsor", href: "/support/sponsor" },
-      { name: "Corporate Partnerships", href: "/support/corporate" },
-      { name: "Mentorship Placement", href: "/support/universities" },
-      { name: "Donate", href: "/support/donate" },
-    ],
-  },
+  ...NAV_SECTIONS.map((section) => ({
+    name: section.label,
+    href: section.href,
+    dropdownItems: section.children.map((child) => ({
+      name: child.label,
+      href: child.href,
+    })),
+  })),
 ];
 
 // A top-level link is "active" on an exact match, or on any nested route below it

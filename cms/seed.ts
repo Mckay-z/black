@@ -62,7 +62,7 @@ async function main() {
   await payload.updateGlobal({
     slug: "site-settings",
     data: {
-      email: "info@blackinrehab.org",
+      email: "info@blackinrehab.com",
       organisationName: "Black in Rehab Foundation",
       tagline: "Healing Beyond Borders",
       nonprofitStatus: "501(c)(3)",
@@ -101,9 +101,9 @@ async function main() {
   console.log("\nPeople");
   const FOUNDERS = [
     {
-      name: "Dr. Chauntel Altidor, OTD",
+      name: "Dr. Chauntel Altidor, OTD, OTR/L",
       slug: "dr-chauntel-altidor",
-      role: "Co-Founder & Executive Director",
+      role: "Co-Founder & Vice President",
       groups: ["founder", "leadership", "speaker"],
     },
     {
@@ -169,6 +169,16 @@ async function main() {
       photoAlt: "Nancy Yamoah, Founder, CEO and President of the Black in Rehab Foundation",
     },
     {
+      slug: "dr-chauntel-altidor",
+      name: "Dr. Chauntel Altidor, OTD, OTR/L",
+      role: "Co-Founder & Vice President",
+      groups: ["founder", "leadership", "speaker"],
+      shortBio:
+        "An autism and sensory processing specialist whose clinical background also spans adult neurorehabilitation. Beyond practice, she is an educator, speaker, entrepreneur, and advocate creating spaces where rehabilitation professionals feel seen, supported, and empowered.",
+      photoPath: "public/photos/team-chauntel-altidor.jpg",
+      photoAlt: "Dr. Chauntel Altidor, Co-Founder and Vice President of the Black in Rehab Foundation",
+    },
+    {
       slug: "nicole-mcdaniel",
       name: "Nicole McDaniel",
       role: "Chief Operating Officer",
@@ -222,9 +232,8 @@ async function main() {
       limit: 1,
     });
 
-    // Spaced by ten so a person who is not in this array — currently only
-    // Dr. Chauntel Altidor, whose status is still with the client — can be
-    // slotted between two of them without renumbering everyone.
+    // Spaced by ten so someone who is not in this array can be slotted
+    // between two of them without renumbering everyone.
     const data = { ...fields, photo: photo.id, status: "published", order: index * 10 };
 
     // Cast at the call, not on `data` — see the note on `ensure` above: a
@@ -244,31 +253,6 @@ async function main() {
       } as Parameters<typeof payload.create>[0]);
       created += 1;
       log(`+ ${person.name}`);
-    }
-  }
-
-  /*
-    Chauntel is seeded by the FOUNDERS block above with `order: 0`, the same
-    value Nancy now has — and a tie sorts arbitrarily, which was putting a
-    Co-Founder above the CEO on the leadership page. Placing her at 5 puts her
-    directly after Nancy and before the rest.
-
-    Only her `order` is touched, so nothing about her profile is presumed
-    while the client decides whether she stays on the site at all.
-  */
-  {
-    const found = await payload.find({
-      collection: "people",
-      where: { slug: { equals: "dr-chauntel-altidor" } },
-      limit: 1,
-    });
-    if (found.docs.length && found.docs[0].order !== 5) {
-      await payload.update({
-        collection: "people",
-        id: found.docs[0].id,
-        data: { order: 5 },
-      } as Parameters<typeof payload.update>[0]);
-      log("~ Dr. Chauntel Altidor, OTD (ordering only)");
     }
   }
 
@@ -526,12 +510,12 @@ const PAGE_BANNERS = [
   { pageName: "Partner With Us", page: "/community/partner" },
   { pageName: "Share Your Story", page: "/community/share-your-story" },
   { pageName: "Students", page: "/community/students" },
-  { pageName: "Ambassador Meetups", page: "/experiences/ambassador-meetups" },
-  { pageName: "Global Experiences", page: "/experiences/global" },
-  { pageName: "Jamaica Experience", page: "/experiences/jamaica" },
-  { pageName: "Leadership Retreats", page: "/experiences/leadership-retreats" },
-  { pageName: "Local Events", page: "/experiences/local-events" },
-  { pageName: "Upcoming Events", page: "/experiences/upcoming-events" },
+  { pageName: "Ambassador Meetups", page: "/trips/ambassador-meetups" },
+  { pageName: "Global Experiences", page: "/trips/global" },
+  { pageName: "Jamaica Experience", page: "/trips/jamaica" },
+  { pageName: "Leadership Retreats", page: "/trips/leadership-retreats" },
+  { pageName: "Local Events", page: "/trips/local-events" },
+  { pageName: "Upcoming Events", page: "/trips/upcoming-events" },
   { pageName: "Mission Projects", page: "/impact/mission-projects" },
   { pageName: "Sponsor Impact", page: "/impact/sponsor-impact" },
   { pageName: "Student Support", page: "/impact/student-support" },

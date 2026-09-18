@@ -13,6 +13,21 @@
  * ones safe to use as full-bleed hero and banner backgrounds.
  */
 
+/**
+ * Video.
+ *
+ * Kept small and few on purpose. These are served straight out of `public`,
+ * so every byte here ships in the deploy — there is no CDN in front of them
+ * and no adaptive bitrate. Anything longer than a short clip belongs on
+ * YouTube or Vimeo, referenced by link, which is what `lib/video.ts` and the
+ * impact gallery already support.
+ */
+export const VIDEOS = {
+  // 13s, 2.7MB. Two longer takes of the same session were supplied (53s/10.5MB
+  // and 90s/9.1MB) and were left out for the reason above.
+  speakingNancyWagmc: "/video/speaking-nancy-wagmc.mp4",
+} as const;
+
 export const PHOTOS = {
   // ── Founders ──────────────────────────────────────────────────────────
   // Individual portraits, supplied and named by the client. Use these wherever
@@ -30,10 +45,31 @@ export const PHOTOS = {
   // portrait per named person. Each is tied to a specific individual — never
   // reuse one of these for a different name or as generic filler.
   teamNancy: "/photos/team-nancy-yamoah.jpg", // landscape — Nancy Yamoah, Founder & CEO
+  teamChauntel: "/photos/team-chauntel-altidor.jpg", // portrait — Dr. Chauntel Altidor, Co-Founder & VP
   teamNicole: "/photos/team-nicole-mcdaniel.jpg", // portrait — Nicole McDaniel, COO
   teamAlexys: "/photos/team-alexys-taylor.jpg", // portrait — Alexys Taylor, Lead Ambassador (USA)
   teamFaith: "/photos/team-faith-ene-akor.jpg", // square — Faith Ene Akor, Ghana Ambassador
   teamWinner: "/photos/team-winner-addo.jpg", // portrait — Winner Naa Adjeley Addo, Personal Assistant
+
+  // ── Ambassador cards ──────────────────────────────────────────────────
+  // The client's "Meet Our Ambassador" social graphics, one per ambassador.
+  // Unlike everything else here these are NOT photographs: each is a finished
+  // square composition that already carries the logo, the person's name, their
+  // title and their city as artwork. So they are used whole, never cropped to
+  // a face and never paired with a caption repeating what is printed on them.
+  ambassadorMarcellaPrice: "/photos/ambassador-marcella-price.jpg", // square
+  ambassadorChanelleMiller: "/photos/ambassador-chanelle-miller.jpg", // square
+  ambassadorAkorFaithEne: "/photos/ambassador-akor-faith-ene.jpg", // square
+  ambassadorBrittneyHarvey: "/photos/ambassador-brittney-harvey.jpg", // square
+  ambassadorAkidaGreene: "/photos/ambassador-akida-greene.jpg", // square
+  ambassadorImaniJohnson: "/photos/ambassador-imani-johnson.jpg", // square
+  ambassadorYamiletteBaez: "/photos/ambassador-yamilette-baez.jpg", // square
+  ambassadorKourtneyNew: "/photos/ambassador-kourtney-new.jpg", // square
+  ambassadorJasminSeaberry: "/photos/ambassador-jasmin-seaberry.jpg", // square
+  ambassadorKanoshaGrady: "/photos/ambassador-kanosha-grady.jpg", // square
+  ambassadorChantiaTankou: "/photos/ambassador-chantia-tankou.jpg", // square
+  ambassadorAmandaPericles: "/photos/ambassador-amanda-pericles.jpg", // square
+  ambassadorJalisaMosley: "/photos/ambassador-jalisa-mosley.jpg", // square
 
   // ── Publications ──────────────────────────────────────────────────────
   // Cover of Nancy's ebook, sold through her own LovelyyOT store on Payhip.
@@ -111,6 +147,28 @@ export const PHOTOS = {
   // ── Students ──────────────────────────────────────────────────────────
   studentsAwards: "/photos/students-awards.jpg", // portrait
   studentsLectureHall: "/photos/students-lecture-hall.jpg", // portrait
+
+  // ── Speaking engagements ──────────────────────────────────────────────
+  // Supplied in the revision document as the replacement for the "Invite Us
+  // to Speak at Your Program" photo: the founders on stage at the Africa
+  // Business Investment Summit. Shows the pair, so it is not a portrait slot.
+  speakingAfricaSummit: "/photos/speaking-africa-summit.jpg", // portrait
+
+  // Ghana, at the West African Genetic Medicine Centre. Supplied by the client
+  // as "Nancy on stage". Both are upright: they belong in a portrait or square
+  // slot, not in a full-bleed banner, where the crop would take a narrow strip
+  // out of the middle of the room.
+  speakingNancyWagmc: "/photos/speaking-nancy-wagmc.jpg", // portrait — Nancy at the podium
+  speakingTeamWagmc: "/photos/speaking-team-wagmc.jpg", // portrait — the team on stage
+  // Still frame for the clip in VIDEOS, so the player is not a black rectangle
+  // before it is played.
+  speakingNancyWagmcPoster: "/photos/speaking-nancy-wagmc-poster.jpg", // portrait
+
+  // The Africa Business Investment Summit, from the same "on stage" set. These
+  // three came off a phone at 768x1024 and are not upscaled: they hold up at
+  // card and tile size and should not be given a large or full-bleed slot.
+  speakingSummitFireside: "/photos/speaking-summit-fireside.jpg", // portrait — small source
+  speakingSummitPodium: "/photos/speaking-summit-podium.jpg", // portrait — small source
 
   // ── Merchandise ───────────────────────────────────────────────────────
   // Lifestyle shots of real branded apparel. There is no product photography

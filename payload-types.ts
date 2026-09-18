@@ -307,7 +307,7 @@ export interface Person {
   createdAt: string;
 }
 /**
- * Every dated event on the site. Dates and prices here drive the Experiences pages.
+ * Every dated event on the site. Dates and prices here drive the Trips pages.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
@@ -388,9 +388,13 @@ export interface Testimonial {
   status: 'draft' | 'published';
   placement: ('homepage' | 'sponsor-impact' | 'student-support' | 'scholarships')[];
   /**
-   * Optional. With no photo the card shows the person's initials instead.
+   * Optional. With no photo the card shows the person's initials instead. On a video testimonial this is the still shown before it plays, so pick a clear frame.
    */
   photo?: (number | null) | Media;
+  /**
+   * Optional. Paste a YouTube or Vimeo link, or a direct .mp4 address, and this testimonial becomes a video. Leave blank for a written quote.
+   */
+  videoUrl?: string | null;
   /**
    * Confirm this person agreed to their name and quote being published.
    */
@@ -417,7 +421,7 @@ export interface ImpactStory {
   /**
    * Groups the item under one of the three filters.
    */
-  category: 'community' | 'scholarships' | 'bookbags';
+  category: 'community' | 'scholarships' | 'donations';
   /**
    * The photo. On a video entry this is the still shown before it plays, so pick a clear frame.
    */
@@ -486,7 +490,7 @@ export interface Hero {
    */
   pageName: string;
   /**
-   * The page address this banner belongs to, e.g. "/experiences/ghana".
+   * The page address this banner belongs to, e.g. "/trips/ghana".
    */
   page: string;
   status: 'draft' | 'published';
@@ -818,6 +822,7 @@ export interface TestimonialsSelect<T extends boolean = true> {
   status?: T;
   placement?: T;
   photo?: T;
+  videoUrl?: T;
   consentGiven?: T;
   order?: T;
   updatedAt?: T;

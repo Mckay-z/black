@@ -62,7 +62,7 @@ export default function TermsPage() {
               <h2 className="text-xl font-serif font-bold text-foreground mb-4">Contact</h2>
               <p>
                 Questions about these terms? Contact us at{" "}
-                <a href="mailto:info@blackinrehab.org" className="text-primary hover:text-primary-hover">info@blackinrehab.org</a>.
+                <a href="mailto:info@blackinrehab.com" className="text-primary hover:text-primary-hover">info@blackinrehab.com</a>.
               </p>
             </div>
           </div>

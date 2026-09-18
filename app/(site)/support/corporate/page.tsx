@@ -58,7 +58,7 @@ export default function CorporatePartnershipsPage() {
         page="/support/corporate"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Support", href: "/support" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Corporate Partnerships" },
         ]}
         title="Corporate"
@@ -184,7 +184,7 @@ export default function CorporatePartnershipsPage() {
           </div>
           <div className="text-center mt-12">
             <Link
-              href="/partnerships"
+              href="/support/sponsors"
               className="link-arrow"
             >
               See all partnerships <ArrowRight className="w-4 h-4" />

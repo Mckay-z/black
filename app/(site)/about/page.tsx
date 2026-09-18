@@ -1,56 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Users, Award, Globe2, FileText, Newspaper } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import SectionHub from "@/components/navigation/SectionHub";
 import { PHOTOS } from "@/lib/images";
-
-const ABOUT_PAGES = [
-  {
-    title: "Our Story",
-    description: "How two friends turned a shared vision into a global movement.",
-    href: "/about/our-story",
-    icon: <BookOpen className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Mission, Vision & Values",
-    description: "The principles that guide everything we do.",
-    href: "/about/mission-vision-values",
-    icon: <Award className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Founders",
-    description: "Meet Dr. Chauntel Altidor and Nancy Yamoah — the visionaries behind Black in Rehab.",
-    href: "/about/founders",
-    icon: <Users className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Leadership Team",
-    description: "The leaders driving our mission forward every day.",
-    href: "/about/leadership",
-    icon: <Users className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Ambassadors",
-    description: "Local leaders building community in cities around the world.",
-    href: "/about/ambassadors",
-    icon: <Globe2 className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Annual Report",
-    description: "Transparency, impact metrics, and year-in-review highlights.",
-    href: "/about/annual-report",
-    icon: <FileText className="w-6 h-6 text-primary" />,
-  },
-  {
-    title: "Media & Press",
-    description: "Press kit, media coverage, and brand assets.",
-    href: "/about/media-press",
-    icon: <Newspaper className="w-6 h-6 text-primary" />,
-  },
-];
 
 export default function AboutPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="relative isolate pt-24 md:pt-32 pb-16 md:pb-20 overflow-hidden">
+      <section className="relative isolate overflow-hidden bg-surface pt-24 pb-16 md:pt-32 md:pb-20">
         <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{ backgroundImage: `url(${PHOTOS.conferenceGroupBranded})` }}></div>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
@@ -67,30 +23,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="pt-12 md:pt-16 pb-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ABOUT_PAGES.map((page) => (
-              <Link
-                key={page.href}
-                href={page.href}
-                className="group card p-8 card-hover flex flex-col"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {page.icon}
-                </div>
-                <h2 className="text-xl font-serif font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {page.title}
-                </h2>
-                <p className="text-muted text-sm leading-relaxed flex-1 mb-6">{page.description}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SectionHub section="/about" />
 
       <section className="section bg-surface border-t border-border">
         <div className="container mx-auto px-4 md:px-6 text-center">

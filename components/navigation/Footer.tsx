@@ -4,34 +4,34 @@ import Logo from "@/components/navigation/Logo";
 import SocialLinks from "@/components/navigation/SocialLinks";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import { getSiteSettings } from "@/lib/cms";
+import { NAV_SECTIONS } from "@/lib/navigation";
 
 /**
  * Site footer.
  *
- * The link groups are data rather than hand-written <li> blocks, so adding a
- * column or a link is one line and every item is guaranteed the same
- * treatment.
+ * The first column is every section of the site, derived from
+ * `lib/navigation.ts` so it cannot fall out of step with the header menu. The
+ * second is a short list of the things people most often arrive looking for —
+ * hand-picked on purpose, because "most wanted" is not something the IA can
+ * work out for itself.
  */
+const SECTION_LINKS = NAV_SECTIONS.map((section) => ({
+  label: section.label,
+  href: section.href,
+}));
+
+const POPULAR_LINKS = [
+  { label: "Upcoming Events", href: "/trips/upcoming-events" },
+  { label: "Become a Member", href: "/community/join" },
+  { label: "Scholarships", href: "/impact/scholarships" },
+  { label: "Book a Speaker", href: "/speakers/book" },
+  { label: "Donate", href: "/impact/donate" },
+  { label: "Contact Us", href: "/contact" },
+];
+
 const LINK_GROUPS: { heading: string; links: { label: string; href: string }[] }[] = [
-  {
-    heading: "Explore",
-    links: [
-      { label: "About Us", href: "/about" },
-      { label: "Experiences", href: "/experiences" },
-      { label: "Impact", href: "/impact" },
-      { label: "Community", href: "/community" },
-      { label: "Share Your Story", href: "/community/share-your-story" },
-    ],
-  },
-  {
-    heading: "Resources & Support",
-    links: [
-      { label: "Resource Library", href: "/resources" },
-      { label: "Book a Speaker", href: "/speakers" },
-      { label: "Become a Sponsor", href: "/support/sponsors" },
-      { label: "Donate", href: "/impact/donate" },
-    ],
-  },
+  { heading: "Explore", links: SECTION_LINKS },
+  { heading: "Most Visited", links: POPULAR_LINKS },
 ];
 
 const LEGAL_LINKS = [
@@ -44,7 +44,7 @@ export default async function Footer() {
   const settings = await getSiteSettings();
 
   return (
-    <footer className="relative w-full border-t border-border bg-surface">
+    <footer className="relative w-full border-t border-border bg-background">
       {/* Gold hairline along the top edge, matching the header's. */}
       <div
         aria-hidden="true"
@@ -96,7 +96,7 @@ export default async function Footer() {
           {/* Newsletter. Boxed, because it is the one thing in the footer that
               asks the visitor to do something. */}
           <div className="lg:col-span-4">
-            <div className="card card-sunken p-6">
+            <div className="card p-6">
               <h2 className="font-serif text-lg font-bold text-foreground">
                 Stay Connected
               </h2>

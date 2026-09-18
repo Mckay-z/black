@@ -6,6 +6,8 @@ import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { getPostBySlug, getPosts, imageUrl } from "@/lib/cms";
 import { FALLBACK_POSTS } from "@/lib/fallback-content";
+import { isUnlisted } from "@/lib/navigation";
+import { unlistedMetadata } from "@/lib/seo";
 import { PHOTOS } from "@/lib/images";
 
 /**
@@ -43,7 +45,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   if (!title) return { title: "Article not found" };
 
-  return {
+  // A post follows its index. While /resources/blog is unlisted (see UNLISTED
+  // in lib/navigation.ts) there is no route into these pages from the site,
+  // so they stay out of search results too.
+  const base: Metadata = {
     title: `${title} | Black in Rehab Foundation`,
     description,
     openGraph: {
@@ -53,6 +58,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       publishedTime: post?.publishedDate ?? undefined,
     },
   };
+
+  return isUnlisted("/resources/blog") ? unlistedMetadata(base) : base;
 }
 
 export default async function BlogPostPage({ params }: Params) {

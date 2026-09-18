@@ -34,7 +34,7 @@ export const People: CollectionConfig = {
       name: "role",
       type: "text",
       required: true,
-      admin: { placeholder: "Co-Founder & Executive Director" },
+      admin: { placeholder: "Co-Founder & Vice President" },
     },
     {
       name: "groups",

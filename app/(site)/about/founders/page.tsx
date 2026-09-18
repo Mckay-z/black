@@ -4,9 +4,16 @@ import { Mail, ArrowRight } from "lucide-react";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { getPeople, imageUrl } from "@/lib/cms";
-import { NANCY_BIO, NANCY_BOOK } from "@/lib/fallback-content";
+import {
+  CHAUNTEL_BIO,
+  CHAUNTEL_OFFERINGS,
+  NANCY_BIO,
+  NANCY_BOOK,
+} from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
 import BookCallout from "@/components/ui/BookCallout";
+import OfferingsList from "@/components/ui/OfferingsList";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Meet the Founders | Black in Rehab Foundation",
@@ -23,11 +30,10 @@ function LinkedInIcon({ className }: { className?: string }) {
 }
 
 /**
- * The short bios the site shipped with. The build also rendered a second
- * paragraph reading "[CLIENT TO PROVIDE: Full Founder Biography]" directly to
- * visitors; that is gone. The full biography now comes from the People record
- * in the dashboard, and until it is written the page simply shows the short
- * intro rather than announcing the gap.
+ * Both founders, with the full biographies the client supplied in their
+ * revision document. A People record written in the dashboard overrides what
+ * is here; until one exists, this is the client's own copy rather than the
+ * "[CLIENT TO PROVIDE: …]" placeholder the build used to render to visitors.
  */
 const FOUNDERS = [
   {
@@ -43,12 +49,11 @@ const FOUNDERS = [
   },
   {
     slug: "dr-chauntel-altidor",
-    name: "Dr. Chauntel Altidor, OTD",
-    title: "Co-Founder & Visionary Leader",
-    photo: PHOTOS.founderChauntel,
-    intro:
-      "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation. Dr. Chauntel leads with purpose—creating opportunities, building bridges, and empowering professionals to change lives.",
-    fullBio: undefined as string[] | undefined,
+    name: "Dr. Chauntel Altidor, OTD, OTR/L",
+    title: "Co-Founder & Vice President",
+    photo: PHOTOS.teamChauntel,
+    intro: CHAUNTEL_BIO[0],
+    fullBio: CHAUNTEL_BIO,
     book: undefined as typeof NANCY_BOOK | undefined,
     reverse: true,
   },
@@ -162,6 +167,23 @@ export default async function FoundersPage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Dr. Altidor's own practice.
+
+          Her own programmes, not the Foundation's — so they sit in a section
+          of their own that says whose they are, rather than inside her
+          biography where they would read as something Black in Rehab runs. */}
+      <section className="section bg-background border-t border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <SectionHeading
+            eyebrow="From OT with Faith"
+            title="Working With Dr. Altidor"
+            description="Dr. Altidor supports parents of neurodivergent children through OT with Faith, her own practice. Bookings and purchases are handled there and are separate from donations to the Foundation."
+            className="mb-12"
+          />
+          <OfferingsList offerings={CHAUNTEL_OFFERINGS} />
         </div>
       </section>
 

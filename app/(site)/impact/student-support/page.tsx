@@ -40,7 +40,7 @@ const SUPPORTS = [
     icon: <BookOpen className="w-6 h-6 text-primary" />,
     title: "Board Exam Support",
     desc: "Peer study groups, discounted prep materials, and a repeat-taker support track.",
-    href: "/resources/students",
+    href: "/community/students",
     cta: "Student resources",
   },
 ];

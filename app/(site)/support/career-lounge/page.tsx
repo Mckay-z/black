@@ -13,7 +13,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Career Lounge | Black In Rehab Foundation",
+});
 const SERVICES = [
   {
     icon: <Briefcase className="w-6 h-6 text-primary" />,
@@ -59,7 +66,7 @@ export default function CareerLoungePage() {
         page="/support/career-lounge"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Support", href: "/support" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Career Lounge" },
         ]}
         title="The Career"
@@ -168,7 +175,7 @@ export default function CareerLoungePage() {
                 ))}
               </div>
               <Link
-                href="/experiences/conference"
+                href="/trips/conference"
                 className="btn btn-primary btn-lg group mt-10"
               >
                 CONFERENCE DETAILS <ArrowRight className="w-5 h-5" />
@@ -205,7 +212,7 @@ export default function CareerLoungePage() {
       <CTABand
         title="Your Next Role Starts Here"
         description="Career lounge access is included with every membership tier, including free student membership."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/join-the-movement" }}
+        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
         secondaryCta={{ label: "Career Resources", href: "/resources/career" }}
       />
     </div>

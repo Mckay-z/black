@@ -26,7 +26,7 @@ const IMPACT_TIERS = [
  */
 export default async function DonatePage() {
   const settings = await getSiteSettings();
-  const contactEmail = settings?.email || "info@blackinrehab.org";
+  const contactEmail = settings?.email || "info@blackinrehab.com";
   const status = settings?.nonprofitStatus || "501(c)(3)";
   const orgName = settings?.organisationName || "Black in Rehab";
 

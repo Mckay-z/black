@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Play, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
 
 import { parseVideoUrl } from "@/lib/video";
 
 export type GalleryItem = {
   id: string;
   title: string;
-  category: "community" | "scholarships" | "bookbags";
+  category: "community" | "scholarships" | "donations";
   image: string;
   videoUrl?: string | null;
   caption?: string | null;
@@ -18,7 +18,7 @@ const CATEGORIES = [
   { value: "all", label: "All" },
   { value: "community", label: "Community Highlights" },
   { value: "scholarships", label: "Scholarships" },
-  { value: "bookbags", label: "Bookbags" },
+  { value: "donations", label: "Donations" },
 ] as const;
 
 type Filter = (typeof CATEGORIES)[number]["value"];
@@ -38,7 +38,7 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Only offer a filter the gallery can actually satisfy, so the client does
-  // not end up with a "Bookbags" tab that shows an empty grid.
+  // not end up with a "Donations" tab that shows an empty grid.
   const available = useMemo(
     () =>
       CATEGORIES.filter(
@@ -52,8 +52,34 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
     [items, filter],
   );
 
-  const open = openId ? (items.find((i) => i.id === openId) ?? null) : null;
+  /*
+    The overlay walks the *filtered* list, not the whole gallery.
+
+    What someone can page through should be what they were just looking at:
+    open the third of four Donations and the arrow keys should give the other
+    three, not the eleven behind the filter. `index` is therefore resolved
+    against `visible`, and falls back to closing if the open item somehow is
+    not in it.
+  */
+  const index = openId ? visible.findIndex((i) => i.id === openId) : -1;
+  const open = index >= 0 ? visible[index] : null;
+
   const close = useCallback(() => setOpenId(null), []);
+
+  const step = useCallback(
+    (delta: number) => {
+      setOpenId((current) => {
+        const at = visible.findIndex((i) => i.id === current);
+        if (at < 0 || visible.length === 0) return current;
+        const next = (at + delta + visible.length) % visible.length;
+        return visible[next].id;
+      });
+    },
+    [visible],
+  );
+
+  const prev = useCallback(() => step(-1), [step]);
+  const next = useCallback(() => step(1), [step]);
 
   if (!items.length) return null;
 
@@ -110,7 +136,7 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
 
                 <span
                   aria-hidden="true"
-                  className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-transparent"
+                  className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/0"
                 />
 
                 {isVideo && (
@@ -122,18 +148,9 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
                   </span>
                 )}
 
-                <span className="absolute inset-x-0 bottom-0 p-6">
-                  <span className="block font-serif text-lg font-bold leading-snug text-white">
-                    {item.title}
-                  </span>
-                  {item.caption && (
-                    <span className="mt-1.5 block text-sm leading-relaxed text-white/70">
-                      {item.caption}
-                    </span>
-                  )}
-                  <span className="sr-only">
-                    {isVideo ? " — play video" : " — view larger"}
-                  </span>
+                <span className="sr-only">
+                  {item.title}
+                  {isVideo ? " — play video" : " — view larger"}
                 </span>
               </button>
             </li>
@@ -141,38 +158,80 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
         })}
       </ul>
 
-      {open && <Lightbox item={open} onClose={close} />}
+      {open && (
+        <Lightbox
+          item={open}
+          onClose={close}
+          onPrev={prev}
+          onNext={next}
+          position={index + 1}
+          total={visible.length}
+        />
+      )}
     </>
   );
 }
 
 /**
- * Overlay player / larger view.
+ * Overlay player / larger view, and the gallery's second way to browse.
  *
  * Mounted only while something is open, so the iframe is created on click and
  * torn down on close — which is also what stops a YouTube embed carrying on
- * playing behind a closed overlay.
+ * playing behind a closed overlay. The media block is keyed on the item id so
+ * that teardown also happens when you page from one video to the next, rather
+ * than the same iframe being handed a new src while it is still playing.
+ *
+ * Left and right arrows page through, and wrap at both ends. The on-screen
+ * buttons are not decoration: the keyboard shortcut is invisible, and a
+ * pointer or touch user has no way to guess it.
  */
-function Lightbox({ item, onClose }: { item: GalleryItem; onClose: () => void }) {
+function Lightbox({
+  item,
+  onClose,
+  onPrev,
+  onNext,
+  position,
+  total,
+}: {
+  item: GalleryItem;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  position: number;
+  total: number;
+}) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const video = parseVideoUrl(item.videoUrl);
+  const many = total > 1;
 
   useEffect(() => {
     closeRef.current?.focus();
+  }, []);
 
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
+      if (!many) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        onPrev();
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        onNext();
+      }
     };
     document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onClose, onPrev, onNext, many]);
 
+  useEffect(() => {
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previous;
     };
-  }, [onClose]);
+  }, []);
 
   return (
     <div
@@ -196,7 +255,31 @@ function Lightbox({ item, onClose }: { item: GalleryItem; onClose: () => void })
           <X className="h-5 w-5" />
         </button>
 
-        <div className="overflow-hidden rounded-[var(--radius-card)] bg-black">
+        {many && (
+          <>
+            <button
+              type="button"
+              onClick={onPrev}
+              aria-label="Previous image"
+              className="absolute left-0 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-primary hover:text-on-primary md:-left-16"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              type="button"
+              onClick={onNext}
+              aria-label="Next image"
+              className="absolute right-0 top-1/2 z-10 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-colors hover:bg-primary hover:text-on-primary md:-right-16"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
+        )}
+
+        <div
+          key={item.id}
+          className="overflow-hidden rounded-[var(--radius-card)] bg-black"
+        >
           {video?.kind === "iframe" ? (
             <iframe
               // An unlisted Vimeo link already carries its privacy hash as a
@@ -226,10 +309,20 @@ function Lightbox({ item, onClose }: { item: GalleryItem; onClose: () => void })
           )}
         </div>
 
-        <div className="pt-4">
-          <p className="font-serif text-lg font-bold text-white">{item.title}</p>
-          {item.caption && (
-            <p className="mt-1 text-sm leading-relaxed text-white/70">{item.caption}</p>
+        <div className="flex items-end justify-between gap-6 pt-4">
+          <div aria-live="polite" aria-atomic="true">
+            <p className="font-serif text-lg font-bold text-white">{item.title}</p>
+            {item.caption && (
+              <p className="mt-1 text-sm leading-relaxed text-white/70">
+                {item.caption}
+              </p>
+            )}
+          </div>
+
+          {many && (
+            <p className="shrink-0 text-sm tabular-nums text-white/60">
+              {position} / {total}
+            </p>
           )}
         </div>
       </div>

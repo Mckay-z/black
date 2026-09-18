@@ -11,7 +11,8 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx cms/seed.ts"
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx cms/seed.ts",
+    "migrate:trips": "cross-env NODE_OPTIONS=--no-deprecation tsx cms/rename-experiences-to-trips.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

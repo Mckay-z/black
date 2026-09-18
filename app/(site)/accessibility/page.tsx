@@ -53,7 +53,7 @@ export default function AccessibilityPage() {
               </p>
               <p className="mt-4">
                 Email:{" "}
-                <a href="mailto:info@blackinrehab.org" className="text-primary hover:text-primary-hover">info@blackinrehab.org</a>
+                <a href="mailto:info@blackinrehab.com" className="text-primary hover:text-primary-hover">info@blackinrehab.com</a>
                 <br />
                 Or visit our{" "}
                 <Link href="/contact" className="text-primary hover:text-primary-hover">contact page</Link>.

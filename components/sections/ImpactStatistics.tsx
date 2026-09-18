@@ -8,8 +8,10 @@ import {
   HandHeart,
 } from "lucide-react";
 
+import CountUp from "@/components/motion/CountUp";
 import { getStats } from "@/lib/cms";
 import { FALLBACK_STATS } from "@/lib/fallback-content";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 /**
  * The headline impact numbers.
@@ -51,7 +53,7 @@ export default async function ImpactStatistics() {
     : FALLBACK_STATS.map((s, i) => ({ ...s, id: `fallback-${i}` }));
 
   return (
-    <section className="section-sm relative border-y border-border bg-surface">
+    <section className="section-sm relative border-y border-border bg-background">
       {/* The band reads as a plinth under the mission statement above it, so
           it gets a gold hairline on its top edge rather than another 1px
           border in the same colour as everything else. */}
@@ -61,24 +63,24 @@ export default async function ImpactStatistics() {
       />
 
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">
+        <Stagger className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">
           {stats.map((stat) => (
-            <div
+            <StaggerItem
               key={stat.id}
-              className="reveal group flex flex-col items-center text-center"
+              className="group flex flex-col items-center text-center"
             >
               <span className="icon-tile mb-4">
                 <StatIcon name={stat.icon} />
               </span>
               <div className="font-serif text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                {stat.value}
+                <CountUp value={stat.value} />
               </div>
               <div className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">
                 {stat.label}
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

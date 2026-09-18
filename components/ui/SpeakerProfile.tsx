@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import BookCallout from "@/components/ui/BookCallout";
 import FillerImage from "@/components/ui/FillerImage";
+import OfferingsList, { type Offering } from "@/components/ui/OfferingsList";
 
 export type SpeakerProfileData = {
   name: string;
@@ -28,12 +29,35 @@ export type SpeakerProfileData = {
   signatureTalks?: { title: string; description: string }[];
   /** A book by this speaker, shown under the biography. */
   book?: { title: string; url: string; description: string };
+  /**
+   * Programmes this speaker sells through their own practice, shown in a
+   * section of their own. Separate from `book` because these are services
+   * with their own booking pages rather than a single title.
+   */
+  offerings?: readonly Offering[];
+  /** Lede for the offerings section — says whose they are and who takes payment. */
+  offeringsIntro?: string;
   formats: string[];
   highlights: { value: string; label: string }[];
   gallery: { src: string; alt: string }[];
+  /**
+   * An optional clip for the "On Stage" band.
+   *
+   * Served from `public`, so it is deliberately optional and deliberately
+   * short — see the note on `VIDEOS` in `lib/images.ts`. `preload="none"`
+   * matters: without it every visitor downloads the file whether or not they
+   * ever press play, and the poster exists precisely so nothing needs to be
+   * fetched to draw the section.
+   */
+  video?: { src: string; poster: string; caption?: string };
 };
 
 export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileData }) {
+  // Cells in the "On Stage" row: the photographs, plus the clip when there is
+  // one. The row sizes itself from this rather than from the photo count, or
+  // adding a video would silently push the last picture onto a line of its own.
+  const tiles = speaker.gallery.length + (speaker.video ? 1 : 0);
+
   return (
     <div className="bg-background min-h-screen">
       <PageHero
@@ -78,7 +102,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
                     <Mic className="w-4 h-4 text-primary" />
                   </Link>
                   <a
-                    href="mailto:info@blackinrehab.org"
+                    href="mailto:info@blackinrehab.com"
                     aria-label={`Email about ${speaker.name}`}
                     className="w-10 h-10 rounded-full bg-background border border-border hover:border-primary flex items-center justify-center transition-colors"
                   >
@@ -214,11 +238,67 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         </section>
       )}
 
+      {/* The speaker's own programmes, where they have any. Their practice,
+          not the Foundation's, which is why it is a labelled section rather
+          than another block inside the biography. */}
+      {speaker.offerings && speaker.offerings.length > 0 && (
+        <section className="section bg-background border-t border-border">
+          <div className="container mx-auto px-4 md:px-6">
+            <SectionHeading
+              eyebrow="Work With Me"
+              title="Programs & Resources"
+              description={speaker.offeringsIntro}
+              align="center"
+              className="mb-12"
+            />
+            <OfferingsList offerings={speaker.offerings} />
+          </div>
+        </section>
+      )}
+
       {/* Gallery */}
       <section className="section bg-surface border-t border-border">
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeading title="On Stage" align="center" className="mb-12" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          {/*
+            Track count follows the number of tiles, the clip included. Fixed
+            at four, a speaker with two real pictures reads as two that failed
+            to load — which is the pressure that gets bands like this padded
+            out with stock in the first place.
+          */}
+          <div
+            className={`grid gap-4 ${
+              tiles >= 7
+                ? "grid-cols-2 md:grid-cols-4"
+                : tiles >= 5
+                  ? "grid-cols-2 md:grid-cols-3"
+                  : tiles === 4
+                    ? "grid-cols-2 md:grid-cols-4"
+                    : tiles === 3
+                      ? "grid-cols-2 md:grid-cols-3"
+                      : "mx-auto max-w-3xl grid-cols-2"
+            }`}
+          >
+            {speaker.video && (
+              /*
+                A square cell like its neighbours, but `object-contain` on
+                black: the clip is upright, and cropping it to fill a square
+                would cut the speaker out of her own frame. `preload="none"`
+                keeps the file off the wire until someone presses play — the
+                poster is what draws the tile.
+              */
+              <video
+                src={speaker.video.src}
+                poster={speaker.video.poster}
+                controls
+                preload="none"
+                playsInline
+                aria-label={speaker.video.caption ?? `${speaker.name} speaking`}
+                className="aspect-square w-full rounded-2xl bg-black object-contain"
+              />
+            )}
+
             {speaker.gallery.map((item, idx) => (
               <FillerImage
                 key={idx}

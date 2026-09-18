@@ -59,7 +59,31 @@ export const Testimonials: CollectionConfig = {
       relationTo: "media",
       admin: {
         description:
-          "Optional. With no photo the card shows the person's initials instead.",
+          "Optional. With no photo the card shows the person's initials instead. On a video testimonial this is the still shown before it plays, so pick a clear frame.",
+      },
+    },
+    {
+      // The client asked for video testimonials — people talking about what
+      // Black in Rehab has meant to them. Same shape as Impact Stories: the
+      // video lives on YouTube or Vimeo and is referenced by link, because
+      // the Media collection takes images only.
+      name: "videoUrl",
+      type: "text",
+      admin: {
+        placeholder: "https://www.youtube.com/watch?v=…",
+        description:
+          "Optional. Paste a YouTube or Vimeo link, or a direct .mp4 address, and this testimonial becomes a video. Leave blank for a written quote.",
+      },
+      validate: (value: string | null | undefined) => {
+        if (!value) return true;
+        let url: URL;
+        try {
+          url = new URL(value);
+        } catch {
+          return "Enter a full web address, starting with https://";
+        }
+        if (url.protocol !== "https:") return "The address must start with https://";
+        return true;
       },
     },
     {

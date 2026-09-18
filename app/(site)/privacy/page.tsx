@@ -54,14 +54,14 @@ export default function PrivacyPage() {
               <h2 className="text-xl font-serif font-bold text-foreground mb-4">Your Rights</h2>
               <p>
                 You may request access to, correction of, or deletion of your personal data by contacting us at{" "}
-                <a href="mailto:info@blackinrehab.org" className="text-primary hover:text-primary-hover">info@blackinrehab.org</a>.
+                <a href="mailto:info@blackinrehab.com" className="text-primary hover:text-primary-hover">info@blackinrehab.com</a>.
               </p>
             </div>
             <div>
               <h2 className="text-xl font-serif font-bold text-foreground mb-4">Contact Us</h2>
               <p>
                 For questions about this Privacy Policy, please contact us at{" "}
-                <a href="mailto:info@blackinrehab.org" className="text-primary hover:text-primary-hover">info@blackinrehab.org</a> or visit our{" "}
+                <a href="mailto:info@blackinrehab.com" className="text-primary hover:text-primary-hover">info@blackinrehab.com</a> or visit our{" "}
                 <Link href="/contact" className="text-primary hover:text-primary-hover">contact page</Link>.
               </p>
             </div>

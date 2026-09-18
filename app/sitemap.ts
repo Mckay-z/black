@@ -3,6 +3,7 @@ import { readdir } from "fs/promises";
 import path from "path";
 
 import { getPosts } from "@/lib/cms";
+import { isUnlisted } from "@/lib/navigation";
 
 /**
  * Sitemap.
@@ -56,20 +57,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getPosts(),
   ]);
 
-  const staticEntries = [...new Set(routes)].map((route) => ({
-    url: `${BASE_URL}${route === "/" ? "" : route}`,
-    lastModified: new Date(),
-    // The homepage outranks section landing pages, which outrank leaf pages.
-    priority: route === "/" ? 1 : route.split("/").length === 2 ? 0.8 : 0.6,
-    changeFrequency: (route === "/" ? "weekly" : "monthly") as "weekly" | "monthly",
-  }));
+  // Pages kept out of the navigation are also kept out of the sitemap. They
+  // carry `noindex` (see lib/seo.ts), so listing them here would be asking
+  // a crawler to fetch a page only to be told not to index it.
+  const staticEntries = [...new Set(routes)]
+    .filter((route) => !isUnlisted(route))
+    .map((route) => ({
+      url: `${BASE_URL}${route === "/" ? "" : route}`,
+      lastModified: new Date(),
+      // The homepage outranks section landing pages, which outrank leaf pages.
+      priority: route === "/" ? 1 : route.split("/").length === 2 ? 0.8 : 0.6,
+      changeFrequency: (route === "/" ? "weekly" : "monthly") as "weekly" | "monthly",
+    }));
 
-  const postEntries = posts.map((post) => ({
-    url: `${BASE_URL}/resources/blog/${post.slug}`,
-    lastModified: new Date(post.updatedAt),
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  }));
+  // Individual posts follow their index: with /resources/blog unlisted there
+  // is no route into them from the site, so listing them here would offer a
+  // crawler a back door into a section the client has hidden.
+  const postEntries = isUnlisted("/resources/blog")
+    ? []
+    : posts.map((post) => ({
+        url: `${BASE_URL}/resources/blog/${post.slug}`,
+        lastModified: new Date(post.updatedAt),
+        priority: 0.7,
+        changeFrequency: "monthly" as const,
+      }));
 
   return [...staticEntries, ...postEntries];
 }

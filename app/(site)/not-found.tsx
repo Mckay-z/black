@@ -44,9 +44,9 @@ export default function NotFound() {
           <p className="text-muted text-sm mb-4">Popular sections</p>
           <div className="flex flex-wrap gap-x-6 gap-y-3 justify-center text-sm">
             {[
-              { label: "Experiences", href: "/experiences" },
+              { label: "Trips", href: "/trips" },
               { label: "Impact", href: "/impact" },
-              { label: "Community", href: "/community" },
+              { label: "Get Involved", href: "/get-involved" },
               { label: "Resources", href: "/resources" },
               { label: "Speakers", href: "/speakers" },
             ].map((link) => (

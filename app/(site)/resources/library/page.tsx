@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Script from "next/script";
 import BookCallout from "@/components/ui/BookCallout";
-import { NANCY_BOOK } from "@/lib/fallback-content";
+import OfferingsList from "@/components/ui/OfferingsList";
+import { CHAUNTEL_OFFERINGS, NANCY_BOOK } from "@/lib/fallback-content";
 import { ArrowRight, FileText } from "lucide-react";
 
 export default function ResourceLibraryPage() {
@@ -66,12 +67,33 @@ export default function ResourceLibraryPage() {
         </div>
       </section>
 
+      {/* Dr. Altidor's parent resources.
+
+          Same attribution logic as the section above: these are hers, sold
+          through OT with Faith, and the lede says so before anyone clicks a
+          button on a charity's website. */}
+      <section className="section border-t border-border bg-surface">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-10 max-w-2xl">
+            <p className="eyebrow mb-5">From Our Co-Founder</p>
+            <h2 className="display-2 text-foreground">For Parents & Families</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Dr. Chauntel Altidor supports parents of neurodivergent children
+              through OT with Faith, her own practice. Bookings and purchases are
+              handled there and are separate from donations to the Foundation.
+            </p>
+          </div>
+
+          <OfferingsList offerings={CHAUNTEL_OFFERINGS} />
+        </div>
+      </section>
+
       {/* Awaiting the client's own resources. Deliberately an empty state
           rather than sample cards: the previous version listed nine invented
           titles behind "Download Free" buttons that were wired to nothing. */}
       <section className="section border-t border-border bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="card card-sunken mx-auto max-w-xl p-12 text-center">
+          <div className="card mx-auto max-w-xl p-12 text-center">
             <span className="icon-tile icon-tile-lg mx-auto mb-6">
               <FileText className="h-7 w-7" aria-hidden="true" />
             </span>

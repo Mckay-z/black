@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { ArrowRight, BookOpen, Headphones, Library, GraduationCap } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem, StaggerLink } from "@/components/motion/Stagger";
 
 const RESOURCES = [
   {
@@ -34,7 +35,7 @@ const RESOURCES = [
     description:
       "Career advice, exam prep resources, and mentorship connections for students.",
     action: "Explore Resources",
-    href: "/resources/students",
+    href: "/community/students",
     comingSoon: true,
   },
 ];
@@ -47,7 +48,7 @@ type Resource = (typeof RESOURCES)[number];
  * there is nothing to act on yet.
  */
 function CardBody({ resource }: { resource: Resource }) {
-  const { icon: Icon, title, description, action } = resource;
+  const { title, description, action } = resource;
   const comingSoon = "comingSoon" in resource && resource.comingSoon;
 
   return (
@@ -58,9 +59,10 @@ function CardBody({ resource }: { resource: Resource }) {
         </span>
       )}
 
-      <span className="icon-tile mb-6">
-        <Icon className="h-6 w-6" aria-hidden="true" />
-      </span>
+      <span
+        aria-hidden="true"
+        className="mb-6 block h-0.5 w-10 rounded-full bg-primary"
+      />
 
       <h3
         className={`mb-3 font-serif text-xl font-bold text-foreground ${
@@ -88,18 +90,18 @@ function CardBody({ resource }: { resource: Resource }) {
 
 export default function ResourcesSection() {
   return (
-    <section className="section bg-background">
+    <section className="section bg-surface">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mb-14 max-w-3xl">
+        <Reveal className="mb-14 max-w-3xl">
           <p className="eyebrow mb-5">Empowering Your Journey</p>
           <h2 className="display-2 text-foreground">Resources &amp; Insights</h2>
           <p className="mt-5 text-lg leading-relaxed text-muted">
             Equipping rehabilitation professionals and students with the knowledge,
             research, and tools they need to succeed and lead.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {RESOURCES.map((resource) => {
             const comingSoon = "comingSoon" in resource && resource.comingSoon;
             // A card marked "Coming Soon" is not a link. It previously
@@ -107,23 +109,26 @@ export default function ResourcesSection() {
             // the two failures — the badge said one thing and the click did
             // another.
             const shared =
-              "card reveal group relative flex h-full flex-col overflow-hidden p-8";
+              "card group relative flex h-full flex-col overflow-hidden p-8";
 
             return comingSoon ? (
-              <div key={resource.title} className={shared} aria-disabled="true">
+              <StaggerItem
+                key={resource.title}
+                className={shared}
+              >
                 <CardBody resource={resource} />
-              </div>
+              </StaggerItem>
             ) : (
-              <Link
+              <StaggerLink
                 key={resource.title}
                 href={resource.href}
                 className={`${shared} card-hover`}
               >
                 <CardBody resource={resource} />
-              </Link>
+              </StaggerLink>
             );
           })}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

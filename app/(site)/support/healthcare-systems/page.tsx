@@ -13,7 +13,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "For Healthcare Systems | Black In Rehab Foundation",
+});
 const SERVICES = [
   {
     icon: <Users className="w-6 h-6 text-primary" />,
@@ -57,7 +64,7 @@ export default function HealthcareSystemsPage() {
         page="/support/healthcare-systems"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Support", href: "/support" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Healthcare Systems" },
         ]}
         title="For Healthcare"
@@ -232,7 +239,7 @@ export default function HealthcareSystemsPage() {
         title="Start With the Data You Already Have"
         description="Most departments know something is wrong but cannot name it. The assessment is where that gets specific."
         cta={{ label: "REQUEST AN ASSESSMENT", href: "/contact" }}
-        secondaryCta={{ label: "See All Support Options", href: "/support" }}
+        secondaryCta={{ label: "All Ways to Get Involved", href: "/get-involved" }}
       />
     </div>
   );

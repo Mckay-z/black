@@ -59,7 +59,7 @@ export default function ShareYourStoryPage() {
         page="/community/share-your-story"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Community", href: "/community" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Share Your Story" },
         ]}
         title="Share Your"
@@ -188,8 +188,8 @@ export default function ShareYourStoryPage() {
       <CTABand
         title="Not Ready to Write? Come Say Hello."
         description="Join the community first. Plenty of the stories we publish started as a conversation in a meetup."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/join-the-movement" }}
-        secondaryCta={{ label: "Explore the Community", href: "/community" }}
+        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
+        secondaryCta={{ label: "Explore the Community", href: "/get-involved" }}
       />
     </div>
   );

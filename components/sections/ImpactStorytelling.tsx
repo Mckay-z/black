@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, HandHeart, BookOpen, Scaling } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerLink } from "@/components/motion/Stagger";
 
 const PROGRAMS = [
   {
@@ -29,7 +31,7 @@ export default function ImpactStorytelling() {
   return (
     <section className="section border-t border-border bg-surface">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mx-auto mb-14 max-w-3xl text-center">
+        <Reveal className="mx-auto mb-14 max-w-3xl text-center">
           <p className="eyebrow mb-5">Our Impact</p>
           <h2 className="display-2 text-foreground">
             Real People. Real Change. Lasting Impact.
@@ -39,14 +41,14 @@ export default function ImpactStorytelling() {
             initiatives are designed to create systemic change in rehabilitation and
             the communities we serve.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mb-14 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <Stagger className="mb-14 grid grid-cols-1 gap-6 md:grid-cols-3">
           {PROGRAMS.map(({ icon: Icon, title, description, href }) => (
-            <Link
+            <StaggerLink
               key={title}
               href={href}
-              className="card card-hover card-sunken reveal group flex h-full flex-col p-8"
+              className="card card-hover card-sunken group flex h-full flex-col p-8"
             >
               <span className="icon-tile mb-6">
                 <Icon className="h-6 w-6" aria-hidden="true" />
@@ -62,9 +64,9 @@ export default function ImpactStorytelling() {
                 Learn More
                 <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
               </span>
-            </Link>
+            </StaggerLink>
           ))}
-        </div>
+        </Stagger>
 
         <div className="text-center">
           <Link href="/impact" className="btn btn-primary btn-lg group">

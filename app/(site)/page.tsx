@@ -1,8 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Mission from "@/components/sections/Mission";
-import ImpactStatistics from "@/components/sections/ImpactStatistics";
-import FeaturedExperiences from "@/components/sections/FeaturedExperiences";
-import GlobalExperiences from "@/components/sections/GlobalExperiences";
+import FeaturedTrips from "@/components/sections/FeaturedTrips";
+import GlobalTrips from "@/components/sections/GlobalTrips";
 import Community from "@/components/sections/Community";
 import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import ImpactGallerySection from "@/components/sections/ImpactGallerySection";
@@ -19,9 +18,8 @@ export default function Home() {
       {/* Leadership sits high on the page at the client's request — who runs
           this, immediately after what it is. */}
       <Leadership />
-      <ImpactStatistics />
-      <FeaturedExperiences />
-      <GlobalExperiences />
+      <FeaturedTrips />
+      <GlobalTrips />
       <Community />
       <UpcomingEvents />
       <ImpactGallerySection

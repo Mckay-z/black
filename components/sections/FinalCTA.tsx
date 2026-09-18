@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+import Reveal from "@/components/motion/Reveal";
 
 export default function FinalCTA() {
   return (
@@ -8,7 +9,7 @@ export default function FinalCTA() {
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-20 bg-cover bg-center opacity-15 mix-blend-overlay"
-        style={{ backgroundImage: `url(${PHOTOS.ghanaFreedomArch})` }}
+        style={{ backgroundImage: `url(${PHOTOS.retreatGroupColorful})` }}
       />
 
       {/* Wide gold bloom low in the frame, so the closing statement sits in
@@ -24,21 +25,21 @@ export default function FinalCTA() {
       />
 
       <div className="container relative mx-auto px-4 text-center md:px-6">
-        <h2 className="display-1 reveal mx-auto max-w-4xl text-white">
+        <Reveal as="h2" className="display-1 mx-auto max-w-4xl text-white">
           THIS IS OUR STORY.
           <br />
           <span className="text-gold-gradient">THIS IS OUR PURPOSE.</span>
-        </h2>
+        </Reveal>
 
-        <p className="reveal mx-auto mt-8 max-w-2xl text-lg md:text-xl font-light leading-relaxed text-white/80">
+        <Reveal as="p" delay={0.08} className="mx-auto mt-8 max-w-2xl text-lg md:text-xl font-light leading-relaxed text-white/80">
           We&apos;re just getting started—and you can be part of what&apos;s next. Your
           support empowers professionals, inspires students, and strengthens
           communities across the globe.
-        </p>
+        </Reveal>
 
-        <div className="reveal mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <Reveal delay={0.16} className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
-            href="/join-the-movement"
+            href="/get-involved"
             className="btn btn-primary btn-lg group w-full sm:w-auto"
           >
             JOIN THE MOVEMENT
@@ -50,7 +51,7 @@ export default function FinalCTA() {
           >
             MAKE AN IMPACT
           </Link>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

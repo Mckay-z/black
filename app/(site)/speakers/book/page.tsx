@@ -193,13 +193,16 @@ export default function BookSpeakerPage() {
                     placeholder="e.g. Representation in rehabilitation, leadership development"
                     className="contact-input w-full bg-surface rounded-xl px-4 py-3"
                   />
+                  {/* Was /speakers/topics, now hidden at the client's
+                      request. Each speaker's own page lists their topics in
+                      full, so the prompt points there instead. */}
                   <p className="text-muted text-xs mt-2">
                     Not sure yet?{" "}
                     <Link
-                      href="/speakers/topics"
+                      href="/speakers"
                       className="text-primary font-semibold hover:text-primary-hover transition-colors"
                     >
-                      Browse our speaking topics
+                      Browse our speakers and their topics
                     </Link>
                     .
                   </p>
@@ -286,10 +289,10 @@ export default function BookSpeakerPage() {
                   Send your event details directly and we will pick it up from there.
                 </p>
                 <a
-                  href="mailto:info@blackinrehab.org"
+                  href="mailto:info@blackinrehab.com"
                   className="link-arrow break-all"
                 >
-                  info@blackinrehab.org
+                  info@blackinrehab.com
                 </a>
               </div>
             </aside>

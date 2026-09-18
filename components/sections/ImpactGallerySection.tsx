@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import ImpactGallery, { type GalleryItem } from "@/components/impact/ImpactGallery";
 import { getImpactStories, imageUrl } from "@/lib/cms";
 import { FALLBACK_IMPACT_STORIES } from "@/lib/fallback-content";
+import Reveal from "@/components/motion/Reveal";
 
 /**
  * The Impact section, as pictures rather than prose.
@@ -55,13 +56,13 @@ export default async function ImpactGallerySection({
   return (
     <section className={className}>
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mx-auto mb-12 max-w-3xl text-center">
+        <Reveal className="mx-auto mb-12 max-w-3xl text-center">
           <p className="eyebrow mb-5">{eyebrow}</p>
           <h2 className="display-2 text-foreground">{heading}</h2>
           {description && (
             <p className="mt-5 text-lg leading-relaxed text-muted">{description}</p>
           )}
-        </div>
+        </Reveal>
 
         <ImpactGallery items={items} />
 

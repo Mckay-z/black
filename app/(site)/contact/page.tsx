@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Questions, partnership ideas, speaking requests — get in touch with the Black in Rehab Foundation team.",
 };
 
-const FALLBACK_EMAIL = "info@blackinrehab.org";
+const FALLBACK_EMAIL = "info@blackinrehab.com";
 
 /**
  * Contact page.
@@ -88,7 +88,7 @@ export default async function ContactPage() {
                     <option value="speaking">Speaking Request</option>
                     <option value="media">Media / Press</option>
                     <option value="membership">Membership</option>
-                    <option value="experiences">Programs &amp; Experiences</option>
+                    <option value="experiences">Trips &amp; Programs</option>
                   </select>
                 </div>
                 <div>
@@ -164,7 +164,7 @@ export default async function ContactPage() {
                 <p className="text-white/70 text-sm mb-6 leading-relaxed">
                   Interested in partnering with Black in Rehab? We offer a range of sponsorship opportunities that align your brand with our mission.
                 </p>
-                <Link href="/partnerships" className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:text-primary-hover transition-colors">
+                <Link href="/support/sponsors" className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:text-primary-hover transition-colors">
                   VIEW PARTNERSHIP DECKS <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

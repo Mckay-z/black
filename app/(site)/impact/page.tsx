@@ -2,13 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
 import ImpactGallerySection from "@/components/sections/ImpactGallerySection";
-
-const STATS = [
-  { value: "10K+", label: "Professionals Empowered" },
-  { value: "3K+", label: "Students Inspired" },
-  { value: "12+", label: "Countries Reached" },
-  { value: "$250K+", label: "Scholarships Awarded" },
-];
+import SectionHub from "@/components/navigation/SectionHub";
 
 export default function ImpactPage() {
   return (
@@ -34,30 +28,22 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            {STATS.map((s, idx) => (
-              <div key={idx}>
-                <p className="text-4xl md:text-5xl font-serif font-bold text-primary mb-2">{s.value}</p>
-                <p className="text-muted text-sm uppercase tracking-wider font-medium">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SectionHub
+        section="/impact"
+        title="Where the Work Goes"
+        description="Seven programmes, and the one page that lets you fund any of them."
+      />
 
       {/* Impact gallery */}
       <ImpactGallerySection
         eyebrow="How We Create Change"
         heading="The Work, In Pictures"
-        description="Scholarships, bookbags, and the everyday work of showing up. Filter by what you want to see."
-        className="section bg-background"
+        description="Scholarships, donations, and the everyday work of showing up. Filter by what you want to see."
+        className="section bg-surface"
       />
 
       {/* Donate CTA */}
-      <section className="section bg-surface border-t border-border">
+      <section className="section bg-background border-t border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="section-dark bg-secondary border border-border rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="max-w-xl">

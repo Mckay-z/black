@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+import Reveal from "@/components/motion/Reveal";
 
 const BENEFITS = [
   "Access exclusive professional development resources",
@@ -10,11 +11,11 @@ const BENEFITS = [
 
 export default function Community() {
   return (
-    <section className="section bg-background">
+    <section className="section bg-surface">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* Content */}
-          <div className="reveal">
+          <Reveal direction="right">
             <p className="eyebrow mb-5">You Belong Here</p>
             <h2 className="display-2 text-foreground">
               Join a global community of rehabilitation professionals leading with
@@ -42,16 +43,16 @@ export default function Community() {
               ))}
             </ul>
 
-            <Link href="/community" className="btn btn-primary btn-lg group mt-10">
+            <Link href="/get-involved" className="btn btn-primary btn-lg group mt-10">
               JOIN OUR COMMUNITY
               <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
             </Link>
-          </div>
+          </Reveal>
 
           {/* Photograph, with the shop card overlapping its lower-left corner.
               The overlap is what stops the two halves reading as a plain
               two-column grid. */}
-          <div className="reveal relative">
+          <Reveal direction="left" className="relative">
             <div className="img-filler relative aspect-square overflow-hidden rounded-[var(--radius-panel)] shadow-float md:aspect-4/3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -80,7 +81,7 @@ export default function Community() {
                 <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

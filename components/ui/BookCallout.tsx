@@ -16,6 +16,7 @@ export default function BookCallout({
   description,
   image,
   eyebrow = "Her Book",
+  host = "Payhip",
   className = "",
 }: {
   title: string;
@@ -24,6 +25,12 @@ export default function BookCallout({
   /** Cover art. Falls back to a generic icon when a book has no cover. */
   image?: string;
   eyebrow?: string;
+  /**
+   * Where the link lands, named in the screen-reader hint. Every destination
+   * here is a third-party store or booking page, and which one it is belongs
+   * in the announcement rather than being hardcoded to the first one we had.
+   */
+  host?: string;
   /** Spacing is the caller's, since the surrounding bio blocks differ. */
   className?: string;
 }) {
@@ -69,7 +76,7 @@ export default function BookCallout({
         className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-primary"
         aria-hidden="true"
       />
-      <span className="sr-only">(opens on Payhip in a new tab)</span>
+      <span className="sr-only">(opens on {host} in a new tab)</span>
     </a>
   );
 }

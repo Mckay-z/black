@@ -13,7 +13,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Career Resources | Black In Rehab Foundation",
+});
 const GUIDES = [
   {
     icon: <FileText className="w-6 h-6 text-primary" />,
@@ -61,10 +68,10 @@ const PATHWAYS = [
 ];
 
 const STAGES = [
-  { stage: "Student", focus: "Clinical rotations, board prep, and first-job search", href: "/resources/students" },
+  { stage: "Student", focus: "Clinical rotations, board prep, and first-job search", href: "/community/students" },
   { stage: "Early Career", focus: "Licensure, mentorship, and specialization decisions", href: "/community/join" },
-  { stage: "Mid Career", focus: "Leadership readiness, teaching, and advanced certification", href: "/experiences/leadership-retreats" },
-  { stage: "Senior", focus: "Executive roles, ownership, and sponsoring the next generation", href: "/impact/volunteer" },
+  { stage: "Mid Career", focus: "Leadership readiness, teaching, and advanced certification", href: "/trips/leadership-retreats" },
+  { stage: "Senior", focus: "Executive roles, ownership, and sponsoring the next generation", href: "/impact/service" },
 ];
 
 export default function CareerResourcesPage() {

@@ -140,6 +140,65 @@ export const NANCY_BOOK = {
 };
 
 /**
+ * Dr. Chauntel Altidor's biography and credential line, exactly as the client
+ * supplied them in their revision document. Shared by her founder profile,
+ * her speaker profile and the leadership list, for the same reason Nancy's
+ * biography is shared: three pages must not drift apart.
+ *
+ * Real client copy, not placeholder. Safe to publish as it stands.
+ *
+ * NOTE: this corrects a factual error the build shipped with — every page
+ * described her as a "Doctor of Physical Therapy". She is an occupational
+ * therapist (OTD, OTR/L).
+ */
+export const CHAUNTEL_CREDENTIALS =
+  "Occupational Therapist | Healthcare & Rehabilitation Leader | Neurodiversity Educator | Co-Founder & Vice President, Black in Rehab | Founder, OT with Faith | Global Health & Diaspora Advocate";
+
+export const CHAUNTEL_BIO = [
+  "Dr. Altidor is an autism and sensory processing / neurodivergent children specialist. Her clinical background also spans adult neurorehabilitation, including stroke, traumatic brain injury, and spinal cord injury rehabilitation.",
+  "Beyond clinical practice, Dr. Altidor is an educator, speaker, entrepreneur, and advocate passionate about creating spaces where rehabilitation professionals feel seen, supported, and empowered to expand what is possible for themselves and the communities they serve. Her work through Black in Rehab extends beyond representation — building meaningful connections, developing future leaders, and creating opportunities for rehabilitation professionals to make an impact both nationally and globally.",
+];
+
+/**
+ * Dr. Altidor's parent-support offerings, sold through OT with Faith — her
+ * own practice, not a Foundation programme. Each carries the destination the
+ * client gave for its button.
+ *
+ * `external: true` on all three because every one of them leaves the site for
+ * a third-party booking page or checkout, which a reader should be able to
+ * see before they click.
+ */
+export const CHAUNTEL_OFFERINGS = [
+  {
+    title: "From Chaos to Calm",
+    subtitle: "12-Week Neurodiverse Parent Support Program",
+    description:
+      "A 12-week personalized parent support experience designed to help you better understand your child's sensory needs, behaviors, triggers, and patterns. Together you build practical strategies for everyday challenges like meltdowns, transitions, routines, regulation, and sensory overwhelm — so you can parent with more clarity and confidence.",
+    cta: "Book a Clarity Call",
+    url: "https://www.otwithfaith.com",
+    host: "OT with Faith",
+  },
+  {
+    title: "Parent Clarity Intensive",
+    subtitle: "90-Minute 1:1 Session",
+    description:
+      "A focused 90-minute session with dedicated time to unpack your biggest concerns, identify patterns behind your child's behavior, and create practical next steps tailored to your family. You leave with a clearer understanding of what your child may be communicating, and what you can start doing differently at home.",
+    cta: "Book a Clarity Call",
+    url: "https://www.otwithfaith.com",
+    host: "OT with Faith",
+  },
+  {
+    title: "The Sensory Behavior Handbook",
+    subtitle: "A Self-Guided Resource for Parents",
+    description:
+      "A practical handbook that helps you look beyond the behavior and begin identifying the sensory patterns, triggers, and unmet needs that may be influencing your child's responses. It gives you a framework for understanding what may be happening before, during, and after challenging moments — so you can respond with greater confidence instead of constantly guessing.",
+    cta: "Get the Handbook",
+    url: "https://www.paypal.com/ncp/payment/KEHLTAR3TF6W4",
+    host: "PayPal",
+  },
+] as const;
+
+/**
  * The leadership team.
  *
  * Unlike most of this file this is REAL client-supplied content — names,
@@ -150,12 +209,6 @@ export const NANCY_BOOK = {
  *
  * `credentials` is the long pipe-separated line the client writes after a
  * name; `role` is the short title used where there is no room for it.
- *
- * NOTE: Dr. Chauntel Altidor is carried over from the previous version of
- * this page. The revision document never mentions her, and it also restyles
- * Nancy from "Co-Founder" to "Founder, CEO & President" — so the two entries
- * currently disagree about whether there is one founder or two. Awaiting the
- * client's answer; removing a named person is not a change to guess at.
  */
 export const FALLBACK_LEADERSHIP = [
   {
@@ -169,11 +222,11 @@ export const FALLBACK_LEADERSHIP = [
   },
   {
     id: "chauntel",
-    name: "Dr. Chauntel Altidor, OTD",
-    role: "Co-Founder & Executive Director",
-    credentials: "",
-    image: PHOTOS.founderChauntel,
-    bio: "Doctor of Physical Therapy, entrepreneur, and global leader with a heart for service and a vision for transformation.",
+    name: "Dr. Chauntel Altidor, OTD, OTR/L",
+    role: "Co-Founder & Vice President",
+    credentials: CHAUNTEL_CREDENTIALS,
+    image: PHOTOS.teamChauntel,
+    bio: "An autism and sensory processing specialist whose clinical background also spans adult neurorehabilitation. Beyond practice, she is an educator, speaker, entrepreneur, and advocate creating spaces where rehabilitation professionals feel seen, supported, and empowered.",
   },
   {
     id: "nicole",
@@ -213,6 +266,122 @@ export const FALLBACK_LEADERSHIP = [
 ] as const;
 
 /**
+ * The ambassador roster, from the client's own "Meet Our Ambassador" cards.
+ *
+ * Like the leadership list above, every name, title and city here is the
+ * client's, read straight off the artwork they supplied — nothing is invented,
+ * so this is safe to publish as it stands.
+ *
+ * `card` is the finished square graphic, which already prints the name, title
+ * and city. It is what the page renders. `name`, `role` and `city` are here
+ * because that text lives inside a JPEG where no screen reader or search
+ * engine can reach it: the page spends them on the image's alt text and on the
+ * city list, not on a visible caption that would say it all twice.
+ *
+ * Faith also appears in FALLBACK_LEADERSHIP as Ghana Ambassador Lead. That is
+ * correct — she holds both roles, and each page names the one it is about.
+ *
+ * This list is the whole roster the ambassadors page renders — it does not
+ * read People → "Ambassador" from the dashboard at all. Two of the leadership
+ * team carry that tag, and letting them through put ordinary portraits beside
+ * finished cards in the same grid. An ambassador joins this page by getting a
+ * card here, not a dashboard record.
+ */
+export const FALLBACK_AMBASSADORS = [
+  {
+    id: "marcella-price",
+    name: "Dr. Marcella Price, OTD",
+    role: "Occupational Therapist",
+    city: "New Orleans, Louisiana",
+    card: PHOTOS.ambassadorMarcellaPrice,
+  },
+  {
+    id: "chanelle-miller",
+    name: "Chanelle Miller",
+    role: "OT Clinician",
+    city: "Jacksonville, Florida",
+    card: PHOTOS.ambassadorChanelleMiller,
+  },
+  {
+    id: "akor-faith-ene",
+    name: "Akor Faith Ene",
+    role: "Occupational Therapist",
+    city: "Accra, Ghana",
+    card: PHOTOS.ambassadorAkorFaithEne,
+  },
+  {
+    id: "brittney-harvey",
+    name: "Brittney (Bri) Harvey",
+    role: "Pediatric Occupational Therapist",
+    city: "Oklahoma City, Oklahoma",
+    card: PHOTOS.ambassadorBrittneyHarvey,
+  },
+  {
+    id: "akida-greene",
+    name: "Akida Greene",
+    role: "Occupational Therapist",
+    city: "Miami, Florida",
+    card: PHOTOS.ambassadorAkidaGreene,
+  },
+  {
+    id: "imani-johnson",
+    name: "Imani Johnson",
+    role: "Occupational Therapist",
+    city: "Los Angeles, California",
+    card: PHOTOS.ambassadorImaniJohnson,
+  },
+  {
+    id: "yamilette-baez",
+    name: "Yamilette Baez",
+    role: "Occupational Therapist Supervisor",
+    city: "Long Island, New York",
+    card: PHOTOS.ambassadorYamiletteBaez,
+  },
+  {
+    id: "kourtney-new",
+    name: "Kourtney New",
+    role: "Speech Therapist",
+    city: "Chicago, Illinois",
+    card: PHOTOS.ambassadorKourtneyNew,
+  },
+  {
+    id: "jasmin-seaberry",
+    name: "Dr. Jasmin Seaberry",
+    role: "Occupational Therapist",
+    city: "Chesapeake, Virginia",
+    card: PHOTOS.ambassadorJasminSeaberry,
+  },
+  {
+    id: "kanosha-grady",
+    name: "Kanosha Grady",
+    role: "DPT",
+    city: "Los Angeles, California",
+    card: PHOTOS.ambassadorKanoshaGrady,
+  },
+  {
+    id: "chantia-tankou",
+    name: "Chantia Tankou",
+    role: "COTA Student",
+    city: "Dallas, Texas",
+    card: PHOTOS.ambassadorChantiaTankou,
+  },
+  {
+    id: "amanda-pericles",
+    name: "Amanda Pericles",
+    role: "Speech-Language Pathologist",
+    city: "Charlotte, North Carolina",
+    card: PHOTOS.ambassadorAmandaPericles,
+  },
+  {
+    id: "jalisa-mosley",
+    name: "Jalisa Mosley",
+    role: "Occupational Therapist",
+    city: "Gary, Indiana",
+    card: PHOTOS.ambassadorJalisaMosley,
+  },
+] as const;
+
+/**
  * Impact gallery shown until the client publishes their own entries.
  *
  * Unlike most of this file these are REAL client photographs already in
@@ -225,14 +394,28 @@ export const FALLBACK_LEADERSHIP = [
  * moment a link is added to its record in the dashboard.
  */
 export const FALLBACK_IMPACT_STORIES = [
-  { title: "Bookbag handout", category: "bookbags", image: PHOTOS.impactBackpacks },
-  { title: "Volunteers with students", category: "bookbags", image: PHOTOS.impactVolunteersKids },
+  /*
+    ORDER MATTERS AT THE TOP OF THIS LIST. The home page renders the first six
+    (`limit={6}`); the impact page renders them all behind category filters.
+    Those first six are therefore ordered to avoid the three photographs the
+    home page already spends elsewhere — the lecture hall and the volunteers
+    with children are in Mission, and the raised hands are the Breast Cancer
+    Walk in Upcoming Events. They are still here, just below the fold of the
+    home page's six, so the impact page loses nothing.
+
+    Reordering freely is fine once the client publishes their own entries in
+    the dashboard, which replaces this list wholesale.
+  */
+  { title: "Bookbag handout", category: "donations", image: PHOTOS.impactBackpacks },
+  { title: "Volunteers with students", category: "donations", image: PHOTOS.impactVolunteersKids },
   { title: "Student awards", category: "scholarships", image: PHOTOS.studentsAwards },
-  { title: "On campus", category: "scholarships", image: PHOTOS.studentsLectureHall },
   { title: "Community day", category: "community", image: PHOTOS.impactChildren },
-  { title: "Out in the community", category: "community", image: PHOTOS.impactVolunteerChildren },
   { title: "Therapy session", category: "community", image: PHOTOS.impactTherapy },
   { title: "Pediatric care", category: "community", image: PHOTOS.impactPediatric },
+
+  // Below the home page's six.
+  { title: "On campus", category: "scholarships", image: PHOTOS.studentsLectureHall },
+  { title: "Out in the community", category: "community", image: PHOTOS.impactVolunteerChildren },
   { title: "Neurodiversity day", category: "community", image: PHOTOS.impactNeurodiversity },
   { title: "Speaking up", category: "community", image: PHOTOS.impactAdvocacySpeaker },
   { title: "Together", category: "community", image: PHOTOS.impactHandsUp },

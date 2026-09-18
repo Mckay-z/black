@@ -17,7 +17,7 @@ export const Events: CollectionConfig = {
     useAsTitle: "title",
     defaultColumns: ["title", "type", "startDate", "location", "status"],
     description:
-      "Every dated event on the site. Dates and prices here drive the Experiences pages.",
+      "Every dated event on the site. Dates and prices here drive the Trips pages.",
   },
   access: {
     read: publishedOrSignedIn,

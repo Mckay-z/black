@@ -1,27 +1,33 @@
 import Link from "next/link";
 import { ArrowRight, GraduationCap, CheckCircle } from "lucide-react";
 
+/**
+ * Applications are closed, at the client's instruction in their revision
+ * document. The page still describes each award and what it takes to qualify
+ * — a student planning ahead needs that — but nothing here invites an
+ * application that cannot be submitted.
+ *
+ * The 2025 deadlines the build shipped with are gone rather than rolled
+ * forward: the client has not given the next round's dates. Put them back,
+ * with `applicationsOpen` flipped to true, when they do.
+ */
+const APPLICATIONS_OPEN = false;
+
 const SCHOLARSHIPS = [
   {
     name: "Black in Rehab General Scholarship",
     amount: "$1,000 – $2,500",
     eligibility: "Black students enrolled in an accredited PT, OT, or SLP graduate program.",
-    deadline: "March 31, 2025",
-    status: "Open",
   },
   {
     name: "Leadership Excellence Award",
     amount: "$2,500",
     eligibility: "Demonstrated leadership, community service, and academic excellence.",
-    deadline: "March 31, 2025",
-    status: "Open",
   },
   {
     name: "Community Impact Scholar",
     amount: "$1,500",
     eligibility: "Students who have shown outstanding commitment to underserved communities.",
-    deadline: "April 15, 2025",
-    status: "Open",
   },
 ];
 
@@ -52,6 +58,13 @@ export default function ScholarshipsPage() {
           <p className="text-lg md:text-xl text-muted max-w-2xl">
             We believe every qualified student deserves access to education. Our scholarship program breaks down financial barriers so the next generation of Black rehabilitation professionals can thrive.
           </p>
+          {!APPLICATIONS_OPEN && (
+            <p className="mt-8 inline-flex items-center gap-3 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground">
+              <span className="chip">Closed</span>
+              Applications are closed for this round. Join the community and we
+              will tell you the moment the next one opens.
+            </p>
+          )}
         </div>
       </section>
 
@@ -70,15 +83,20 @@ export default function ScholarshipsPage() {
                     <h3 className="text-xl font-bold text-foreground mb-2">{s.name}</h3>
                     <p className="text-primary font-semibold mb-1">{s.amount}</p>
                     <p className="text-muted text-sm">{s.eligibility}</p>
-                    <p className="text-muted text-xs mt-2">Deadline: <span className="font-semibold text-foreground">{s.deadline}</span></p>
                   </div>
                 </div>
-                <Link
-                  href="/impact/scholarships/apply"
-                  className="btn btn-primary group shrink-0"
-                >
-                  Apply Now <ArrowRight className="w-4 h-4" />
-                </Link>
+                {APPLICATIONS_OPEN ? (
+                  <Link
+                    href="/impact/scholarships/apply"
+                    className="btn btn-primary group shrink-0"
+                  >
+                    Apply Now <ArrowRight className="w-4 h-4" />
+                  </Link>
+                ) : (
+                  <span className="shrink-0 text-sm font-semibold text-muted">
+                    Applications closed
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -98,9 +116,21 @@ export default function ScholarshipsPage() {
             ))}
           </div>
           <div className="mt-16 text-center">
-            <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group">
-              START YOUR APPLICATION <ArrowRight className="w-5 h-5" />
-            </Link>
+            {APPLICATIONS_OPEN ? (
+              <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group">
+                START YOUR APPLICATION <ArrowRight className="w-5 h-5" />
+              </Link>
+            ) : (
+              <>
+                <p className="mx-auto mb-8 max-w-xl leading-relaxed text-muted">
+                  The next round is not open yet. Students in the community hear
+                  about every award before it is announced anywhere else.
+                </p>
+                <Link href="/community/join" className="btn btn-primary btn-lg group">
+                  JOIN FREE AS A STUDENT <ArrowRight className="w-5 h-5" />
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>

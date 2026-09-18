@@ -3,6 +3,9 @@ import { ArrowRight, Quote } from "lucide-react";
 
 import { getTestimonials, imageUrl } from "@/lib/cms";
 import { FALLBACK_TESTIMONIALS } from "@/lib/fallback-content";
+import { parseVideoUrl } from "@/lib/video";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 /**
  * Member quotes on the homepage.
@@ -12,6 +15,15 @@ import { FALLBACK_TESTIMONIALS } from "@/lib/fallback-content";
  * supplied attributed member stories — which is why a card without a photo
  * shows initials rather than a stock portrait of someone who does not exist.
  * Real testimonials entered in the dashboard can carry a real photo.
+ *
+ * A testimonial with a video link becomes a video card: the client asked for
+ * people talking on camera about what Black in Rehab has meant to them, and
+ * that is the shape it takes once the footage is uploaded and the link is
+ * pasted into the dashboard. The written quote stays underneath, so a card
+ * still reads as a testimonial with the video blocked or still loading.
+ *
+ * The iframes are lazy so three embeds below the fold do not cost three
+ * third-party page loads on arrival.
  */
 
 const initials = (name: string) =>
@@ -31,23 +43,54 @@ export default async function Testimonials() {
         author: t.author,
         role: t.role,
         photo: t.photo ? imageUrl(t.photo, "") : "",
+        videoUrl: t.videoUrl,
       }))
-    : FALLBACK_TESTIMONIALS.map((t, i) => ({ ...t, id: `fallback-${i}`, photo: "" }));
+    : FALLBACK_TESTIMONIALS.map((t, i) => ({
+        ...t,
+        id: `fallback-${i}`,
+        photo: "",
+        videoUrl: null as string | null,
+      }));
 
   return (
-    <section className="section bg-glow overflow-hidden border-y border-border bg-surface">
+    <section className="section bg-glow overflow-hidden bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mx-auto mb-14 max-w-3xl text-center">
+        <Reveal className="mx-auto mb-14 max-w-3xl text-center">
           <p className="eyebrow mb-5">In Their Words</p>
           <h2 className="display-2 text-foreground">Real Stories. Real Impact.</h2>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <figure
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {testimonials.map((testimonial) => {
+            const video = parseVideoUrl(testimonial.videoUrl);
+
+            return (
+            <StaggerItem
+              as="figure"
               key={testimonial.id}
-              className="card card-hover card-sunken reveal flex flex-col p-8"
+              className="card card-hover flex flex-col overflow-hidden"
             >
+              {video?.kind === "iframe" ? (
+                <iframe
+                  src={video.src}
+                  title={`${testimonial.author} on Black in Rehab`}
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="aspect-video w-full border-b border-border bg-black"
+                />
+              ) : video?.kind === "file" ? (
+                <video
+                  src={video.src}
+                  poster={testimonial.photo || undefined}
+                  controls
+                  preload="none"
+                  playsInline
+                  className="aspect-video w-full border-b border-border bg-black"
+                />
+              ) : null}
+
+              <div className="flex flex-1 flex-col p-8">
               <Quote
                 className="mb-5 h-8 w-8 text-primary/30"
                 aria-hidden="true"
@@ -86,9 +129,11 @@ export default async function Testimonials() {
                   </span>
                 </span>
               </figcaption>
-            </figure>
-          ))}
-        </div>
+              </div>
+            </StaggerItem>
+            );
+          })}
+        </Stagger>
 
         <div className="mt-14 text-center">
           <p className="mb-6 text-muted">

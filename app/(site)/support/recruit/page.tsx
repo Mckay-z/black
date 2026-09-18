@@ -13,6 +13,15 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
+
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Recruit With Us | Black In Rehab Foundation",
+});
+
 
 const PACKAGES = [
   {
@@ -88,7 +97,7 @@ export default function RecruitWithUsPage() {
         page="/support/recruit"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Support", href: "/support" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Recruit With Us" },
         ]}
         title="Recruit"

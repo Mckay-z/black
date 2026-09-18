@@ -1,16 +1,19 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 
 import { getPosts, imageUrl } from "@/lib/cms";
 import { FALLBACK_POSTS, BLOG_CATEGORIES } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
   title: "Insights & Stories | Black in Rehab Foundation",
   description:
     "Articles, perspectives, and thought leadership from rehabilitation professionals, community leaders, and advocates.",
-};
+});
 
 /**
  * Blog index.
@@ -65,7 +68,7 @@ export default async function BlogPage() {
       </section>
 
       {/* Categories */}
-      <section className="py-8 bg-surface border-b border-border">
+      <section className="py-8 bg-background border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex gap-2 flex-wrap">
             {BLOG_CATEGORIES.map((cat) => (
@@ -85,8 +88,13 @@ export default async function BlogPage() {
       </section>
 
       {/* Featured post */}
-      {featured.map((post) => (
-        <section key={post.slug} className="py-16 bg-background">
+      {/* Alternating bands rather than one long beige run — with a variable
+          number of featured posts, the colour has to come from the index. */}
+      {featured.map((post, index) => (
+        <section
+          key={post.slug}
+          className={`py-16 ${index % 2 === 0 ? "bg-surface" : "bg-background"}`}
+        >
           <div className="container mx-auto px-4 md:px-6">
             <Link
               href={`/resources/blog/${post.slug}`}

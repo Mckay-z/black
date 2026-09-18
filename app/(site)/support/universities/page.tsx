@@ -41,7 +41,7 @@ export default function UniversitiesPage() {
         page="/support/universities"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Support", href: "/support" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Mentorship Placement" },
         ]}
         title="Mentorship"

@@ -1,6 +1,6 @@
 import SpeakerProfile, { type SpeakerProfileData } from "@/components/ui/SpeakerProfile";
 import { NANCY_BIO, NANCY_BOOK } from "@/lib/fallback-content";
-import { PHOTOS } from "@/lib/images";
+import { PHOTOS, VIDEOS } from "@/lib/images";
 
 /**
  * Nancy's speaker profile.
@@ -21,6 +21,16 @@ const SPEAKER: SpeakerProfileData = {
   heroImage: PHOTOS.conferenceNetworking,
   bio: NANCY_BIO,
   book: NANCY_BOOK,
+  /*
+    Supplied by the client as "Nancy on stage" — the Ghana session at the West
+    African Genetic Medicine Centre. It replaces nothing: this band had no
+    video before, only stock-feeling stills of other people's rooms.
+  */
+  video: {
+    src: VIDEOS.speakingNancyWagmc,
+    poster: PHOTOS.speakingNancyWagmcPoster,
+    caption: "Speaking at the West African Genetic Medicine Centre, Accra.",
+  },
   topicAreas: [
     {
       title: "Clinician Wellness, Identity & Whole Health",
@@ -99,11 +109,34 @@ const SPEAKER: SpeakerProfileData = {
     { value: "Whole Health", label: "Doctoral student" },
     { value: "LovelyyOT", label: "Educator & content creator" },
   ],
+  /*
+    Only photographs of this speaker actually on a stage.
+
+    The band used to be padded out to four tiles with a lecture hall, a
+    mentorship conversation and a conference session — none of them Nancy, and
+    none of them on stage. All of these are from the client's own "on stage"
+    set: two from the West African Genetic Medicine Centre in Accra, three from
+    the Africa Business Investment Summit.
+  */
   gallery: [
-    { src: PHOTOS.studentsLectureHall, alt: "Student session" },
-    { src: PHOTOS.conferenceTableTalk, alt: "Community meetup" },
-    { src: PHOTOS.impactVolunteerChildren, alt: "Mentorship conversation" },
-    { src: PHOTOS.conferenceSession, alt: "Speaking to a full room" },
+    {
+      src: PHOTOS.speakingNancyWagmc,
+      alt: "Nancy Yamoah speaking at the West African Genetic Medicine Centre in Accra",
+    },
+    {
+      src: PHOTOS.speakingTeamWagmc,
+      alt: "The Black in Rehab team on stage at the West African Genetic Medicine Centre in Accra",
+    },
+    {
+      src: PHOTOS.speakingSummitPodium,
+      alt: "Nancy Yamoah at the podium at the Africa Business Investment Summit",
+    },
+    {
+      // Two people on stage and the client did not say who, so the caption
+      // names the event rather than guessing at the second chair.
+      src: PHOTOS.speakingSummitFireside,
+      alt: "In conversation on stage at the Africa Business Investment Summit",
+    },
   ],
 };
 

@@ -136,7 +136,7 @@ export async function submitForm(
     return {
       ok: false,
       message:
-        "Something went wrong on our end. Please email info@blackinrehab.org and we'll pick it up from there.",
+        "Something went wrong on our end. Please email info@blackinrehab.com and we'll pick it up from there.",
     };
   }
 }

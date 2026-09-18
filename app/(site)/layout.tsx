@@ -7,6 +7,7 @@ import ThemeProvider from "@/components/theme/ThemeProvider";
 import InlineScript from "@/components/theme/InlineScript";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
 import BackToTop from "@/components/ui/BackToTop";
+import MotionProvider from "@/components/motion/MotionProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,6 +32,18 @@ export const metadata: Metadata = {
 const themeScript = `(function(){try{var t=localStorage.getItem(${JSON.stringify(
   THEME_STORAGE_KEY
 )});if(t==="dark"){document.documentElement.classList.add("dark")}}catch(e){}})();`;
+
+/**
+ * Framer Motion writes its `initial` state into the server-rendered markup, so
+ * anything that animates in ships as `style="opacity:0"` and is revealed by
+ * JavaScript once it scrolls into view. Where that JavaScript never runs, the
+ * content would stay invisible — a blank page rather than an unanimated one.
+ *
+ * Every animated wrapper carries `data-motion`, and this un-hides all of them
+ * when scripting is off. It has to be `!important`: it is competing with an
+ * inline style attribute.
+ */
+const noScriptMotionCss = `[data-motion]{opacity:1!important;transform:none!important}`;
 
 /**
  * Root layout for the public website.
@@ -64,18 +77,23 @@ export default function RootLayout({
     >
       <head>
         <InlineScript html={themeScript} />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: noScriptMotionCss }} />
+        </noscript>
       </head>
       <body
         className="min-h-full flex flex-col bg-background text-foreground"
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <BackToTop />
+          <MotionProvider>
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <BackToTop />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

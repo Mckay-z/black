@@ -6,7 +6,6 @@ import {
   GraduationCap,
   Handshake,
   Landmark,
-  Stethoscope,
 } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -14,13 +13,13 @@ import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
 
+/*
+  Healthcare Systems used to lead this list. It is gone at the client's
+  request — the same revision that took Healthcare Systems, the Career Lounge
+  and Recruit With Us out of the Support menu — and the card was the last
+  live link into a page nobody is meant to land on.
+*/
 const PARTNER_TYPES = [
-  {
-    icon: <Stethoscope className="w-6 h-6 text-primary" />,
-    title: "Healthcare Systems",
-    desc: "Recruitment pipelines, retention programs, and clinician development for rehabilitation departments.",
-    href: "/support/healthcare-systems",
-  },
   {
     icon: <GraduationCap className="w-6 h-6 text-primary" />,
     title: "Universities & Programs",
@@ -37,7 +36,7 @@ const PARTNER_TYPES = [
     icon: <Landmark className="w-6 h-6 text-primary" />,
     title: "Nonprofits & Associations",
     desc: "Joint advocacy, shared research, and co-hosted programming with aligned organizations.",
-    href: "/partnerships",
+    href: "/support/sponsors",
   },
 ];
 
@@ -63,7 +62,7 @@ export default function PartnerWithUsPage() {
         page="/community/partner"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Community", href: "/community" },
+          { label: "Get Involved", href: "/get-involved" },
           { label: "Partner With Us" },
         ]}
         title="Partner"
@@ -191,7 +190,7 @@ export default function PartnerWithUsPage() {
         title="Let Us Build Something Real"
         description="Send us a short note about your organization and what you are trying to change. We will get back to you within three business days."
         cta={{ label: "CONTACT OUR PARTNERSHIPS TEAM", href: "/contact" }}
-        secondaryCta={{ label: "See Current Partners", href: "/partnerships" }}
+        secondaryCta={{ label: "See Current Partners", href: "/support/sponsors" }}
       />
     </div>
   );

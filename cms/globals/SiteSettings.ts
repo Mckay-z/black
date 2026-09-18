@@ -29,7 +29,7 @@ export const SiteSettings: GlobalConfig = {
               name: "email",
               type: "email",
               required: true,
-              defaultValue: "info@blackinrehab.org",
+              defaultValue: "info@blackinrehab.com",
             },
             { name: "phone", type: "text", admin: { placeholder: "+1 (555) 123-4567" } },
             {

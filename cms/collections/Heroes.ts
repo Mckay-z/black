@@ -45,7 +45,7 @@ export const Heroes: CollectionConfig = {
       index: true,
       admin: {
         position: "sidebar",
-        description: 'The page address this banner belongs to, e.g. "/experiences/ghana".',
+        description: 'The page address this banner belongs to, e.g. "/trips/ghana".',
       },
     },
     statusField,
@@ -85,7 +85,7 @@ export const Heroes: CollectionConfig = {
           type: "row",
           fields: [
             { name: "ctaLabel", type: "text", admin: { width: "50%", placeholder: "REGISTER NOW" } },
-            { name: "ctaHref", type: "text", admin: { width: "50%", placeholder: "/experiences/ghana/register" } },
+            { name: "ctaHref", type: "text", admin: { width: "50%", placeholder: "/trips/ghana/register" } },
           ],
         },
         {

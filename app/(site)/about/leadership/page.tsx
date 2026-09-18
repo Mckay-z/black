@@ -5,6 +5,7 @@ import { Mail, ArrowRight } from "lucide-react";
 import { getPeople, imageUrl } from "@/lib/cms";
 import { FALLBACK_LEADERSHIP } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
+import Reveal from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
   title: "Leadership Team | Black in Rehab Foundation",
@@ -91,9 +92,10 @@ export default async function LeadershipPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col gap-16 md:gap-20">
             {team.map((member, index) => (
-              <article
+              <Reveal
+                as="article"
                 key={member.id}
-                className="reveal group grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-12"
+                className="group grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-12"
               >
                 <div
                   className={`md:col-span-5 ${
@@ -157,7 +159,7 @@ export default async function LeadershipPage() {
                     </div>
                   )}
                 </div>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>

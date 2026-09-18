@@ -82,7 +82,7 @@ export default function MissionProjectsPage() {
         description="Long-term rehabilitation projects run with partner organizations at home and abroad. These are multi-year commitments, not one-off trips."
         image={PHOTOS.impactVolunteersKids}
         cta={{ label: "FUND A PROJECT", href: "/impact/donate" }}
-        secondaryCta={{ label: "Volunteer", href: "/impact/volunteer" }}
+        secondaryCta={{ label: "Volunteer", href: "/impact/service" }}
       />
 
       {/* Principles */}
@@ -179,21 +179,6 @@ export default function MissionProjectsPage() {
                 title="Where Project Dollars Go"
                 description="Mission project funding is tracked separately from general operating support and reported in our annual report."
               />
-              <div className="space-y-4 mt-8">
-                {[
-                  { label: "Direct program delivery", value: "78%" },
-                  { label: "Local partner capacity", value: "14%" },
-                  { label: "Monitoring and reporting", value: "8%" },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex items-center justify-between card rounded-xl px-6 py-4"
-                  >
-                    <span className="text-foreground text-sm">{item.label}</span>
-                    <span className="text-primary font-bold">{item.value}</span>
-                  </div>
-                ))}
-              </div>
               <Link
                 href="/about/annual-report"
                 className="link-arrow mt-8"

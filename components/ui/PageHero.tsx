@@ -17,7 +17,7 @@ type Cta = { label: string; href: string };
  * over any crop, a gold bloom behind the headline, and a fade into the page
  * below so the section ends without a hard edge.
  *
- * Pass `page` (the route, e.g. "/experiences/ghana") to make the banner
+ * Pass `page` (the route, e.g. "/trips/ghana") to make the banner
  * editable in the dashboard. A published Page Banner for that route overrides
  * whichever props are filled in there; every other prop below still applies,
  * so changing only the photo leaves the copy alone. With no record — or with

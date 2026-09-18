@@ -4,6 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { getPeople, imageUrl } from "@/lib/cms";
 import { FALLBACK_LEADERSHIP } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerLink } from "@/components/motion/Stagger";
 
 /** How many of the team to show before sending people to the full page. */
 const SHOWN = 4;
@@ -41,9 +43,9 @@ export default async function Leadership() {
   ).slice(0, SHOWN);
 
   return (
-    <section className="section bg-glow bg-background">
+    <section className="section bg-glow bg-surface border-y border-border">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="reveal mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <p className="eyebrow mb-5">Our Leadership</p>
             <h2 className="display-2 text-foreground">Meet the Team</h2>
@@ -58,14 +60,14 @@ export default async function Leadership() {
             MEET THE FULL TEAM
             <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {team.map((leader) => (
-            <Link
+            <StaggerLink
               key={leader.id}
               href="/about/leadership"
-              className="card card-hover reveal group flex flex-col overflow-hidden sm:flex-row"
+              className="card card-hover group flex flex-col overflow-hidden sm:flex-row"
             >
               {/* Square on mobile rather than a fixed h-64. A fixed height
                   showed a smaller share of a tall portrait the wider the
@@ -98,9 +100,9 @@ export default async function Leadership() {
                   <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
                 </span>
               </div>
-            </Link>
+            </StaggerLink>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

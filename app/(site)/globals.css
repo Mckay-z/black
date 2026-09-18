@@ -60,13 +60,25 @@
 }
 
 /* ---------------------------------------------------------------
-   Light theme (default) — warm beige
+   Light theme (default) — warm beige and white
+
+   The page ground is beige and `--surface` is white, and sections
+   alternate between the two. They used to be #f3ecdf and #fbf6ec —
+   two beiges five percent apart, which is why a long page read as one
+   flat colour no matter how many times it changed band.
+
+   A card is always the opposite of the band it sits on: white on
+   beige, warm tint on white. See `--card-bg` further down; no page
+   has to work that out for itself.
    --------------------------------------------------------------- */
 :root {
   color-scheme: light;
 
   --background: #f3ecdf;
-  --surface: #fbf6ec;
+  --surface: #ffffff;
+  /* Cards sitting on a white band. Lighter than the page beige, so it
+     reads as a gently tinted panel rather than as a hole in the page. */
+  --surface-sunken: #f7f2e8;
   --surface-light: #ffffff;
   --foreground: #1b1611;
   --muted: #6b5d4c;
@@ -97,6 +109,7 @@
 
   --background: #0a0a0a;
   --surface: #171717;
+  --surface-sunken: #0a0a0a;
   --surface-light: #262626;
   --foreground: #ffffff;
   --muted: #a3a3a3;
@@ -126,6 +139,7 @@
 
   --background: #0a0a0a;
   --surface: #171717;
+  --surface-sunken: #0a0a0a;
   --surface-light: #262626;
   --foreground: #ffffff;
   --muted: #cbc3b6;
@@ -657,9 +671,32 @@ img[src$="founder-nancy.jpg"] {
      `.card` is the flat container; add `.card-hover` where the whole
      card is a link or otherwise interactive.
      --------------------------------------------------------------- */
+  /* ---- Band-aware card backgrounds --------------------------------
+     A card must never be the same colour as the band it sits on.
+
+     Sections alternate `bg-background` (beige) and `bg-surface` (white),
+     so a fixed card colour is right on one and invisible on the other.
+     Rather than asking all ~160 sections to remember `.card-sunken`, the
+     band itself declares what a card inside it should be, and `.card`
+     reads that.
+
+     Custom properties inherit, so the NEAREST band wins — a beige panel
+     nested inside a white section gets white cards, which a descendant
+     selector like `.bg-surface .card` could not express. An explicit
+     `bg-*` utility on the card still overrides everything here, because
+     Tailwind's utilities layer comes after this one.
+     ----------------------------------------------------------------- */
+  .bg-background {
+    --card-bg: var(--surface);
+  }
+
+  .bg-surface {
+    --card-bg: var(--surface-sunken);
+  }
+
   .card {
     position: relative;
-    background: var(--surface);
+    background: var(--card-bg, var(--surface));
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-soft);
@@ -675,10 +712,14 @@ img[src$="founder-nancy.jpg"] {
     box-shadow: var(--shadow-float);
   }
 
-  /* Sits on --background rather than --surface, for cards inside a
-     section that is itself surface-coloured. */
+  /* The tinted card, stated explicitly.
+
+     Mostly redundant now that a white band sets `--card-bg` for the
+     cards inside it, but kept for the case the band rules cannot see:
+     a card on a photograph, a gradient, or any ground that is not one
+     of the two named utilities. */
   .card-sunken {
-    background: var(--background);
+    background: var(--surface-sunken);
   }
 
   /* Glass panel for anything floating over a photograph. */
@@ -820,9 +861,26 @@ img[src$="founder-nancy.jpg"] {
   }
 
   /* ---- Motion ----------------------------------------------------
-     Scroll reveal is driven by a CSS view timeline, not JavaScript:
-     no observer, no client component, no hydration cost, and the
-     content is fully visible where the browser does not support it.
+     `.enter` is the entrance animation for above-the-fold content,
+     which a scroll timeline cannot drive because it is already in
+     view. It is still the right tool for that job — see the hero.
+
+     `.reveal` below is the older scroll-reveal, driven by a CSS view
+     timeline. Nothing uses it any more, and new work should not: it
+     is gated behind `@supports (animation-timeline: view())`, so in
+     any browser without scroll-driven animations it does nothing at
+     all — which is most of why the site read as static. It is also
+     *scrubbed* rather than played, so scrolling back up rewinds each
+     section, and it cannot stagger a grid's children.
+
+     Scroll reveals now live in `components/motion/` — `Reveal` for a
+     block, `Stagger` + `StaggerItem`/`StaggerLink` for a grid. Those
+     run everywhere, play once, and honour reduced motion through the
+     `MotionConfig` in the site layout.
+
+     The rule is kept because it is harmless and self-disabling, and
+     removing it would silently change any markup still carrying the
+     class. Do not reach for it in new code.
      --------------------------------------------------------------- */
 
   @media (prefers-reduced-motion: no-preference) {

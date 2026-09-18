@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Reveal from "@/components/motion/Reveal";
 
 /**
  * Closing call-to-action band. Always dark, in both themes.
@@ -21,9 +22,12 @@ export default function CTABand({
   secondaryCta?: { label: string; href: string };
 }) {
   return (
-    <section className="section bg-background">
+    // White, not beige. The band is nearly always the last thing before the
+    // footer, and the section above it is usually beige — two beige bands in
+    // a row is the seam this page rhythm exists to avoid.
+    <section className="section bg-surface">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="section-dark reveal relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-white/10 bg-secondary px-6 py-16 text-center shadow-float md:px-16 md:py-20">
+        <Reveal className="section-dark relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-white/10 bg-secondary px-6 py-16 text-center shadow-float md:px-16 md:py-20">
           {/* Gold hairline along the top edge of the panel. */}
           <div
             aria-hidden="true"
@@ -56,7 +60,7 @@ export default function CTABand({
               </Link>
             )}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

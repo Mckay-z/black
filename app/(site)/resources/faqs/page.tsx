@@ -4,6 +4,15 @@ import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
+
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "FAQs | Black In Rehab Foundation",
+});
+
 
 type FaqGroup = {
   id: string;
@@ -36,7 +45,7 @@ const FAQ_GROUPS: FaqGroup[] = [
   },
   {
     id: "experiences",
-    category: "Experiences & Travel",
+    category: "Trips & Travel",
     items: [
       {
         q: "Do I need to be licensed to join a global experience?",
@@ -185,7 +194,7 @@ export default function FaqsPage() {
       <CTABand
         title="Ready When You Are"
         description="Membership takes about three minutes and opens every program on this site."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/join-the-movement" }}
+        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
         secondaryCta={{ label: "Browse Resources", href: "/resources" }}
       />
     </div>

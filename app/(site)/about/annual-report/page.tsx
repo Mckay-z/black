@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { FileText, ArrowRight } from "lucide-react";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Annual Report | Black In Rehab Foundation",
+});
 export default function AnnualReportPage() {
   return (
     <div className="bg-background min-h-screen">

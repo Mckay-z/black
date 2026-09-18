@@ -13,7 +13,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
+// Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
+// in the menus. `noindex` keeps it out of search results too, so nobody
+// lands on it cold.
+export const metadata = unlistedMetadata({
+  title: "Research | Black In Rehab Foundation",
+});
 const PUBLICATIONS = [
   {
     type: "Workforce Report",
@@ -214,7 +221,7 @@ export default function ResearchPage() {
       <CTABand
         title="Help Us Build the Evidence Base"
         description="Members are invited to our research panel and hear about every survey before it closes."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/join-the-movement" }}
+        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
         secondaryCta={{ label: "See Our Advocacy Work", href: "/impact/advocacy" }}
       />
     </div>

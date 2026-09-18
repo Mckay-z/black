@@ -35,12 +35,14 @@ const SPEAKERS = [
     title: "Founder, CEO & President, Black in Rehab",
     specialty: "Clinician Wellness · Leadership · Global Impact",
     image: PHOTOS.teamNancy,
+    href: "/speakers/nancy-yamoah",
   },
   {
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Executive Director, Black in Rehab",
     specialty: "Leadership · Global Health · Representation",
     image: PHOTOS.founderChauntel,
+    href: "/speakers/dr-chauntel-altidor",
   },
 ];
 
@@ -89,7 +91,7 @@ export default async function SpeakersPage() {
       </section>
 
       {/* Speaking Topics */}
-      <section className="section pt-12 md:pt-16 bg-background">
+      <section className="section pt-12 md:pt-16 bg-surface">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
@@ -113,19 +115,35 @@ export default async function SpeakersPage() {
               {SPEAKERS.map((speaker, idx) => {
                 const links = speakerLinks(speaker.name, people);
                 return (
-                <div key={idx} className="group card p-6 flex gap-5 items-center card-hover">
+                <div key={idx} className="group card relative p-6 flex gap-5 items-center card-hover">
                   <div className="w-20 h-20 rounded-full overflow-hidden shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={speaker.image} alt={speaker.name} className="photo photo-hover-lift w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-bold text-foreground mb-1">{speaker.name}</h4>
+                    <h4 className="font-bold text-foreground mb-1 transition-colors group-hover:text-primary">
+                      {speaker.name}
+                    </h4>
                     <p className="text-muted text-sm mb-2">{speaker.title}</p>
                     <p className="text-primary text-xs font-semibold uppercase tracking-wider">{speaker.specialty}</p>
                   </div>
+                  {/*
+                    The card is the link, laid over it rather than wrapped
+                    around it: the LinkedIn and email buttons below are
+                    interactive too, and an anchor inside an anchor is invalid
+                    HTML. This sits under them in the stacking order, so a
+                    click on a social button is that button's, and a click
+                    anywhere else on the card opens the profile.
+                  */}
+                  <Link
+                    href={speaker.href}
+                    aria-label={`${speaker.name} — speaker profile`}
+                    className="absolute inset-0 rounded-[inherit]"
+                  />
+
                   {/* Rendered only once the People record carries a real
                       destination; a dead icon is worse than no icon. */}
-                  <div className="flex gap-2">
+                  <div className="relative z-10 flex gap-2">
                     {links.linkedin && (
                       <a
                         href={links.linkedin!}
