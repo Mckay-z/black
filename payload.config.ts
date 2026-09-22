@@ -7,6 +7,7 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
 
+import { zendEmailFromEnv } from "./cms/email";
 import { Users } from "./cms/collections/Users";
 import { Media } from "./cms/collections/Media";
 import { Posts } from "./cms/collections/Posts";
@@ -179,6 +180,14 @@ export default buildConfig({
   db: isPostgres
     ? postgresAdapter({ pool: { connectionString: databaseURI } })
     : sqliteAdapter({ client: { url: databaseURI || "file:./cms-data.db" } }),
+
+  /**
+   * Outbound email (staff notifications, password resets) goes through Zend —
+   * see cms/email.ts. With ZEND_API_KEY / ZEND_FROM_EMAIL unset, Payload logs
+   * every email to the server console instead of sending it, which is what
+   * local development wants; half-set throws at boot.
+   */
+  email: zendEmailFromEnv(),
 
   /**
    * Uploads go to Vercel Blob in production and stay on disk locally.

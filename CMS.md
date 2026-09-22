@@ -67,7 +67,7 @@ Scholarship attachments go to **Attachments**, stored outside the public folder 
 
 ### Email notifications
 
-An alert is meant to go to the address in **Site Settings → Notifications** on each submission. **No email provider is configured yet**, so right now that alert is written to the server log instead of being sent. Submissions are still saved — nothing is lost — but *nobody is notified by email until a provider is added*. See below.
+An alert goes to the address in **Site Settings → Notifications** on each submission, sent through **Zend** (tryzend.com) — see `cms/email.ts`. Until the Zend environment variables are set (see below), the alert is written to the server log instead of being sent. Submissions are still saved either way — nothing is lost — but *nobody is notified by email until Zend is configured*.
 
 ---
 
@@ -77,28 +77,33 @@ These are configuration, not code. Each is a real gap today.
 
 ### 1. Email delivery — required before launch
 
-Install an adapter and add it to `payload.config.ts`:
+The code side is already done: `cms/email.ts` sends through the
+[Zend](https://tryzend.com) API (SES-backed), and `payload.config.ts` wires it
+in whenever the environment variables exist. What remains is account setup:
+
+1. **Verify the sending domain** in the Zend dashboard under **Email →
+   Domains** — add the DKIM/SPF DNS records it gives you and wait for the
+   check to pass. You can only send `from` an address on a verified domain.
+2. **Create an API key** with the `email:send` scope.
+3. **Set the environment variables** (locally in `.env`, and in the Vercel
+   project settings for production):
 
 ```bash
-npm install @payloadcms/email-nodemailer
+ZEND_API_KEY=…                        # scope: email:send
+ZEND_FROM_EMAIL=info@blackinrehab.com # must be on the verified domain
+ZEND_FROM_NAME="Black in Rehab"       # optional; this is the default
 ```
 
-```ts
-import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
+With all of them unset, every email is logged to the server console instead —
+correct for local development. Setting one without the other fails at boot
+rather than silently never sending; a log full of "sent" alerts that never
+arrive is the failure mode this avoids.
 
-export default buildConfig({
-  // …
-  email: nodemailerAdapter({
-    defaultFromAddress: "info@blackinrehab.org",
-    defaultFromName: "Black in Rehab Foundation",
-    transportOptions: {
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    },
-  }),
-});
-```
+Two Zend-specific notes, both handled in `cms/email.ts`: its API takes bare
+addresses (any `"Name" <addr>` from Payload's auth emails is reduced to the
+address), and it requires an HTML body (plain-text sends are wrapped
+automatically). Delivery status for a sent message can be checked in the Zend
+dashboard by the `_id` each send returns.
 
 Without this, password-reset emails do not send either.
 
