@@ -57,15 +57,18 @@ export const TRIPS: Trip[] = [
       "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
   },
   {
+    // The client's calendar called this the "ASHA Convention Dinner"; their
+    // brief for the sales page names it The Connection Table, the first city
+    // in a series they intend to take to other conferences. Same evening.
     slug: "asha-dinner",
-    title: "ASHA Convention Dinner",
+    title: "The Connection Table™: Indianapolis",
     dates: "November 20, 2026",
     location: "Indianapolis, Indiana",
-    image: PHOTOS.retreatDinner,
-    href: "/trips/upcoming-events",
+    image: PHOTOS.connectionTableFriends,
+    href: "/connection-table/indianapolis",
     status: "Open",
     blurb:
-      "Our annual dinner for Black speech-language pathologists attending the ASHA Convention.",
+      "An elevated dinner experience for Black SLPs and SLP students attending ASHA 2026.",
   },
   {
     slug: "ghana",

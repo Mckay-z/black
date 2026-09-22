@@ -170,6 +170,20 @@ export const PHOTOS = {
   speakingSummitFireside: "/photos/speaking-summit-fireside.jpg", // portrait — small source
   speakingSummitPodium: "/photos/speaking-summit-podium.jpg", // portrait — small source
 
+  // ── The Connection Table ──────────────────────────────────────────────
+  // Supplied by the client for the ASHA 2026 dinner page, and the only
+  // photography the Connection Table series has of its own. They are why that
+  // page can meet the brief's "real BIR/community imagery" note without
+  // borrowing conference shots.
+  //
+  // Three of the four are people at a table or in a room together, which is
+  // the whole subject of the page — use those for the emotional bands and
+  // leave the conference library to the conference pages.
+  connectionTableFriends: "/photos/connection-table-friends.jpg", // portrait — four friends at a restaurant table, warm evening light
+  connectionTableEmbrace: "/photos/connection-table-embrace.jpg", // portrait — two guests mid-embrace over dinner
+  connectionTableGroup: "/photos/connection-table-group.jpg", // portrait — the room, dressed and together
+  connectionTableChampagne: "/photos/connection-table-champagne.jpg", // landscape — a pour at the welcome table
+
   // ── Merchandise ───────────────────────────────────────────────────────
   // Lifestyle shots of real branded apparel. There is no product photography
   // for the accessories (hat, mug, tote, journal) — those cards reuse the

@@ -336,6 +336,15 @@ export const UNLISTED: { href: string; reason: string }[] = [
     reason: "Not in the client's calendar — wellness retreat unconfirmed.",
   },
   {
+    // Found by the search-index audit in `app/sitemap.ts`: the retreat itself
+    // was delisted but its registration form was not, so the form stayed in
+    // the sitemap and was the one page site search could not account for. A
+    // sign-up for a trip nobody has confirmed is the last thing that should be
+    // reachable from a search box.
+    href: "/trips/retreats/register",
+    reason: "Parent trip is unlisted — nothing to register for yet.",
+  },
+  {
     href: "/trips/leadership-retreats",
     reason: "Not in the client's calendar — leadership retreat unconfirmed.",
   },

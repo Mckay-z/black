@@ -42,15 +42,16 @@ const EVENTS: EventItem[] = [
       "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
   },
   {
-    title: "ASHA Convention Dinner",
+    title: "The Connection Table™: Indianapolis",
     category: "Community",
     date: "November 20, 2026",
-    time: "Evening",
-    location: "Indianapolis, Indiana",
+    time: "7:30 PM",
+    location: "Kountry Kitchen, Indianapolis",
     format: "In Person",
-    image: PHOTOS.retreatDinner,
+    image: PHOTOS.connectionTableFriends,
+    href: "/connection-table/indianapolis",
     description:
-      "Our annual dinner for Black speech-language pathologists attending the ASHA Convention.",
+      "An elevated dinner experience for Black SLPs and SLP students attending ASHA 2026.",
   },
   {
     title: "Ghana: Sankofa Return",

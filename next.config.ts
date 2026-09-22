@@ -58,6 +58,26 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ---- The Connection Table ----------------------------------------
+      // The series page lives at /connection-table/<city> so a second city is
+      // a second route rather than a rename. Until there is more than one,
+      // the bare path is the one people will type off a flyer or a bio link,
+      // and /asha-dinner is the name the sister AOTA page established.
+      //
+      // Temporary (307), not permanent: /connection-table becomes the series
+      // index the moment a second city is announced, and a 308 would already
+      // be cached in every browser that had followed it.
+      {
+        source: "/connection-table",
+        destination: "/connection-table/indianapolis",
+        permanent: false,
+      },
+      {
+        source: "/asha-dinner",
+        destination: "/connection-table/indianapolis",
+        permanent: false,
+      },
+
       // ---- Trip aliases, previously one-line redirect pages ------------
       {
         source: "/trips/annual-conference",

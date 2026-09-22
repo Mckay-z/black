@@ -4,6 +4,7 @@ import path from "path";
 
 import { getPosts } from "@/lib/cms";
 import { isUnlisted } from "@/lib/navigation";
+import { SEARCH_INDEX } from "@/lib/search";
 
 /**
  * Sitemap.
@@ -51,11 +52,46 @@ async function collectRoutes(dir: string, prefix = ""): Promise<string[]> {
   return routes;
 }
 
+/**
+ * Warn about pages the site search cannot reach.
+ *
+ * `lib/search.ts` composes its index from `NAV_SECTIONS`, `TRIPS` and a short
+ * list of its own, which is a hand-kept list by any other name — and the note
+ * at the top of this file is about exactly how those go stale. This is the
+ * cheap guard: the route walk above already knows every page that exists, so
+ * comparing the two costs nothing and catches the omission at the moment
+ * someone adds a page rather than months later.
+ *
+ * Development only. In production this is noise in a log nobody reads, and
+ * the answer would be the same as it was at build time anyway.
+ */
+function auditSearchIndex(routes: string[]) {
+  if (process.env.NODE_ENV !== "development") return;
+
+  const indexed = new Set(SEARCH_INDEX.map((entry) => entry.href.split("#")[0]));
+  const missing = routes.filter(
+    (route) => !indexed.has(route) && !isUnlisted(route),
+  );
+
+  if (!missing.length) return;
+
+  console.warn(
+    `[search] ${missing.length} page(s) exist but cannot be found in site search:`,
+  );
+  for (const route of missing) console.warn(`  ${route}`);
+  console.warn(
+    "  -> add each to NAV_SECTIONS (lib/navigation.ts), TRIPS (lib/trips.ts) " +
+      "or EXTRA_PAGES (lib/search.ts) - or to UNLISTED if it is hidden on purpose.",
+  );
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [routes, posts] = await Promise.all([
     collectRoutes(path.join(process.cwd(), "app")).catch(() => ["/"]),
     getPosts(),
   ]);
+
+  auditSearchIndex(routes);
 
   // Pages kept out of the navigation are also kept out of the sitemap. They
   // carry `noindex` (see lib/seo.ts), so listing them here would be asking

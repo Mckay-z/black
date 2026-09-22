@@ -1,12 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import Logo from "@/components/navigation/Logo";
 import { NAV_SECTIONS } from "@/lib/navigation";
+import {
+  SearchDialog,
+  SearchTrigger,
+  useSearchHotkey,
+} from "@/components/navigation/SiteSearch";
 
 type NavItem = { name: string; href: string };
 type NavLink = NavItem & { dropdownItems?: NavItem[] };
@@ -60,10 +65,20 @@ export default function Header() {
   // A CSS dropdown cannot be dismissed: after clicking an item the link keeps
   // focus, so :focus-within held the menu open over the new page.
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  /*
+    Search lives in `components/navigation/SiteSearch.tsx`; only the
+    open/closed boolean is here, because the two triggers sit in different
+    corners of this bar and there must be exactly one dialog between them.
+  */
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isCondensed, setIsCondensed] = useState(false);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
+
+  const openSearch = useCallback(() => setIsSearchOpen(true), []);
+  const closeSearch = useCallback(() => setIsSearchOpen(false), []);
+  useSearchHotkey(openSearch);
 
   // Scroll-direction show/hide, condense-on-scroll, and hover-to-reveal.
   useEffect(() => {
@@ -128,6 +143,7 @@ export default function Header() {
   };
 
   return (
+    <>
     <header
       className={`fixed top-0 left-0 w-full h-18 flex items-center z-50 transition-[transform,background-color,box-shadow,border-color] duration-300 ease-out ${
         isHeaderVisible ? "translate-y-0" : "-translate-y-full"
@@ -251,6 +267,7 @@ export default function Header() {
 
         {/* CTA */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <SearchTrigger variant="bar" onClick={openSearch} />
           <ThemeToggle />
           <Link
             href="/impact/donate"
@@ -262,6 +279,7 @@ export default function Header() {
 
         {/* Mobile Controls */}
         <div className="flex items-center gap-1.5 lg:hidden">
+          <SearchTrigger variant="icon" onClick={openSearch} />
           <ThemeToggle />
           <button
             type="button"
@@ -363,5 +381,11 @@ export default function Header() {
         </div>
       )}
     </header>
+
+    {/* Outside <header> on purpose. The bar translates itself off-screen when
+        you scroll down, and a panel nested inside would be dragged along with
+        it — or clipped by it — the moment that happens. */}
+    <SearchDialog open={isSearchOpen} onClose={closeSearch} />
+    </>
   );
 }

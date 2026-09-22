@@ -153,6 +153,43 @@
   --primary-rgb: 212 175 55;
 }
 
+/*
+  `.section-dark` in espresso rather than black.
+
+  Same contract as `.section-dark` — a dark palette scoped to one band, in
+  both themes — but grounded in warm brown instead of neutral black. The
+  Connection Table pages are the client's "elevated dinner party" and asked
+  for the brown/cream side of the brand; #0a0a0a reads as a product launch,
+  #1a1310 reads as a room with candles in it.
+
+  Only the grounds and the border change. Gold, cream and the muted text keep
+  the values `.section-dark` uses, so a card, an eyebrow or a button dropped
+  into one of these bands needs no per-band variant.
+*/
+.section-espresso {
+  color-scheme: dark;
+
+  --background: #1a1310;
+  --surface: #241b16;
+  --surface-sunken: #150f0c;
+  --surface-light: #32261e;
+  --foreground: #fdf8ef;
+  --muted: #cdbda9;
+  --border: rgba(253, 248, 239, 0.16);
+
+  --primary: #d4af37;
+  --primary-hover: #b8972e;
+  --on-primary: #1a1310;
+
+  --secondary: #1a1310;
+  --secondary-hover: #241b16;
+
+  --accent: #e8c86a;
+
+  --scrim: 26 19 16;
+  --primary-rgb: 212 175 55;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -860,6 +897,72 @@ img[src$="founder-nancy.jpg"] {
     color: transparent;
   }
 
+
+  /* ---- Site search dialog ----------------------------------------
+     `showModal()` centres a dialog in the viewport. A search field
+     belongs near the top, where the header it replaces was, so the
+     block margins override that: fixed at the top, auto at the bottom.
+
+     Everything else the dialog needs — the focus trap, the inert
+     background, Escape — the element gives us for nothing, which is
+     most of why it is a <dialog> and not a div.
+     --------------------------------------------------------------- */
+  .search-dialog {
+    margin-inline: auto;
+    margin-block: clamp(3.5rem, 9vh, 7rem) auto;
+    max-height: calc(100dvh - 6rem);
+  }
+
+  .search-dialog[open] {
+    animation: search-in 200ms var(--ease-out-expo);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .search-dialog[open] {
+      animation: none;
+    }
+  }
+
+  /* ---- Embedded donation form ------------------------------------
+     Zeffy's embed cannot size itself, so this height is ours to pick.
+     Verified against the live form: it posts no message to the parent
+     at any point, and `?modal=true` is ignored like every other
+     parameter, so there is no popup mode either. Their own snippet
+     just hardcodes ~1100px.
+
+     One number has to serve a wizard whose steps are wildly different
+     heights — the amount step measures ~530px at this page's width,
+     the payment step ~1180px. Zeffy's 1100px suits the payment step
+     and leaves ~650px of empty cream under the Continue button on the
+     step every visitor sees first, which is what this replaces.
+
+     Nothing dynamic, deliberately. Which step the form is on is not
+     observable from out here: the frame is cross-origin, so there are
+     no clicks, no route changes and no height to read. Growing the
+     frame on first interaction was tried and dropped — the only
+     signal available (the parent window blurring to the iframe) fires
+     when someone taps a preset amount, which is still the SHORT step,
+     so it reintroduced the dead space and added a page jump on top.
+
+     So: as tall as the screen comfortably allows, floored at the
+     amount step's height and capped before it gets silly.
+
+       phone   (~740px tall)  ->  560px, the floor — the amount step
+                                  fits it exactly, nothing wasted
+       laptop  (~900px tall)  ->  ~650px, ~120px of breathing room
+       desktop (>1150px tall) ->  780px, the cap
+
+     The form scrolls inside itself, so the payment step is never
+     truncated by this — the Donate button stays reachable at every
+     size. Retune the three numbers here.
+     --------------------------------------------------------------- */
+  .donate-frame {
+    /* Floor for browsers without clamp()/svh — both are years old, but
+       this costs one line and the fallback is a usable form. */
+    height: 620px;
+    height: clamp(560px, calc(100svh - 16rem), 780px);
+  }
+
   /* ---- Motion ----------------------------------------------------
      `.enter` is the entrance animation for above-the-fold content,
      which a scroll timeline cannot drive because it is already in
@@ -903,6 +1006,24 @@ img[src$="founder-nancy.jpg"] {
     .enter-3 { animation-delay: 240ms; }
     .enter-4 { animation-delay: 320ms; }
   }
+}
+
+@keyframes search-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* A modal <dialog> sits in the top layer but does NOT stop the document
+   behind it scrolling. Scoped to this dialog rather than `dialog[open]`
+   so it cannot surprise some future dialog that wants a scrollable page. */
+html:has(.search-dialog[open]) {
+  overflow: hidden;
 }
 
 @keyframes fade-up {

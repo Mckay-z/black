@@ -22,7 +22,9 @@ const IMPACT_TIERS = [
  * Donation page.
  *
  * A server component so the processor URL and tax details come from Site
- * Settings; the interactive amount picker is the client island inside it.
+ * Settings. `DonateWidget` embeds the processor's own form where it can, so
+ * there is no amount picker of ours to keep in step with theirs — see the note
+ * in that file for what went wrong when there was.
  */
 export default async function DonatePage() {
   const settings = await getSiteSettings();
