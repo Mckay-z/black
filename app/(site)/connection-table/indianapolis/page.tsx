@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import {
   ArrowRight,
   CalendarDays,
@@ -277,16 +279,37 @@ function SeatsNote({ className = "" }: { className?: string }) {
 
 export default async function ConnectionTableIndianapolisPage() {
   const settings = await getSiteSettings();
+  
+  const dinnersDir = path.join(process.cwd(), "public", "photos", "dinners");
+  let dinnerMedia: string[] = [];
+  try {
+    dinnerMedia = fs.readdirSync(dinnersDir).filter((f) => !f.startsWith("."));
+  } catch {}
+
+  const vids = dinnerMedia.filter((f) => f.toLowerCase().endsWith(".mp4") || f.toLowerCase().endsWith(".mov"));
+  const imgs = dinnerMedia.filter((f) => f.toLowerCase().match(/\.(jpg|jpeg|png|webp)$/));
+
+  const heroVideo = vids.find(v => v.toLowerCase().includes('mp4'));
+  const embraceVideo = vids.find(v => v.toLowerCase().includes('mov'));
 
   return (
     <div className="bg-background">
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section className="section-espresso relative isolate overflow-hidden bg-background pt-32 pb-20 md:pt-44 md:pb-28">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-20 scale-105 bg-cover bg-center opacity-45"
-          style={{ backgroundImage: `url('${PHOTOS.connectionTableFriends}')` }}
-        />
+        <div className="absolute inset-0 -z-20 overflow-hidden">
+           {heroVideo ? (
+             <video 
+               src={`/photos/dinners/${encodeURIComponent(heroVideo)}`}
+               autoPlay muted loop playsInline
+               className="w-full h-full object-cover scale-105 opacity-45"
+             />
+           ) : (
+             <div
+               className="w-full h-full scale-105 bg-cover bg-center opacity-45"
+               style={{ backgroundImage: `url('${PHOTOS.connectionTableFriends}')` }}
+             />
+           )}
+        </div>
         {/* Two scrims: one grounding the whole frame, one weighting the
             bottom edge so the fact line stays legible over the photograph. */}
         <div
@@ -299,7 +322,7 @@ export default async function ConnectionTableIndianapolisPage() {
         />
         <div
           aria-hidden="true"
-          className="absolute -z-10 left-1/2 top-1/4 h-[34rem] w-[34rem] max-w-full -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+          className="absolute -z-10 left-1/2 top-1/4 h-136 w-136 max-w-full -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
         />
 
         <div className="container relative mx-auto px-4 md:px-6">
@@ -450,12 +473,19 @@ export default async function ConnectionTableIndianapolisPage() {
               </div>
             </Reveal>
 
-            <Reveal direction="left" delay={0.1}>
-              <FillerImage
-                src={PHOTOS.connectionTableGroup}
-                alt="Guests at a Black in Rehab evening, gathered together before dinner"
-                wrapperClassName="aspect-[4/5] rounded-[var(--radius-panel)] shadow-float"
-              />
+            <Reveal direction="left" delay={0.1} className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4 mt-8">
+                {imgs[0] ? (
+                  <img src={`/photos/dinners/${encodeURIComponent(imgs[0])}`} alt="Dinner guest" className="rounded-(--radius-panel) shadow-float object-cover aspect-4/5" />
+                ) : (
+                  <FillerImage src={PHOTOS.connectionTableGroup} alt="Guests" wrapperClassName="aspect-4/5 rounded-(--radius-panel) shadow-float" />
+                )}
+                {imgs[1] && <img src={`/photos/dinners/${encodeURIComponent(imgs[1])}`} alt="Dinner setup" className="rounded-(--radius-panel) shadow-float object-cover aspect-square" />}
+              </div>
+              <div className="flex flex-col gap-4">
+                {imgs[2] && <img src={`/photos/dinners/${encodeURIComponent(imgs[2])}`} alt="Dinner conversation" className="rounded-(--radius-panel) shadow-float object-cover aspect-square" />}
+                {imgs[3] && <img src={`/photos/dinners/${encodeURIComponent(imgs[3])}`} alt="Dinner guests" className="rounded-(--radius-panel) shadow-float object-cover aspect-4/5" />}
+              </div>
             </Reveal>
           </div>
         </div>
@@ -491,6 +521,15 @@ export default async function ConnectionTableIndianapolisPage() {
               </StaggerItem>
             ))}
           </Stagger>
+          <Reveal className="mt-16 mx-auto max-w-5xl">
+            {imgs[8] && (
+              <img
+                src={`/photos/dinners/${encodeURIComponent(imgs[8])}`}
+                alt="Community dinner"
+                className="w-full h-87.5 sm:h-112.5 lg:h-125 object-cover object-[center_25%] rounded-(--radius-panel) shadow-lift"
+              />
+            )}
+          </Reveal>
         </div>
       </section>
 
@@ -498,7 +537,7 @@ export default async function ConnectionTableIndianapolisPage() {
       <section className="section-espresso section-lg relative isolate overflow-hidden bg-background">
         <div
           aria-hidden="true"
-          className="absolute -z-10 -right-32 top-0 h-[30rem] w-[30rem] rounded-full bg-primary/10 blur-3xl"
+          className="absolute -z-10 -right-32 top-0 h-120 w-120 rounded-full bg-primary/10 blur-3xl"
         />
 
         <div className="container mx-auto px-4 md:px-6">
@@ -526,7 +565,20 @@ export default async function ConnectionTableIndianapolisPage() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.15} className="mx-auto mt-14 max-w-2xl text-center">
+          <Reveal delay={0.1} className="mx-auto mt-12 mb-10 flex max-w-5xl flex-wrap items-center justify-center gap-4 px-4 sm:gap-6">
+            {imgs.slice(5, 8).map((img, i) => (
+              img && (
+                <img
+                  key={img}
+                  src={`/photos/dinners/${encodeURIComponent(img)}`}
+                  alt="Connection table guests"
+                  className={`object-cover rounded-(--radius-panel) shadow-float ${i === 1 ? 'w-full sm:w-5/12 aspect-4/3' : 'w-[45%] sm:w-1/4 aspect-square opacity-80'}`}
+                />
+              )
+            ))}
+          </Reveal>
+
+          <Reveal delay={0.15} className="mx-auto mt-6 max-w-2xl text-center">
             <p className="text-lg leading-relaxed text-white/75">
               You don&rsquo;t need a certain title or number of years behind
               your name. If you&rsquo;re a Black SLP or SLP student attending
@@ -629,6 +681,15 @@ export default async function ConnectionTableIndianapolisPage() {
           </Reveal>
 
           <div className="mx-auto max-w-4xl">
+            {imgs[4] && (
+              <Reveal className="mb-12">
+                <img
+                  src={`/photos/dinners/${encodeURIComponent(imgs[4])}`}
+                  alt="Dinner plates"
+                  className="w-full h-100 object-cover rounded-(--radius-panel) shadow-lift"
+                />
+              </Reveal>
+            )}
             {MENU.length > 0 ? (
               <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {MENU.map((item) => (
@@ -670,12 +731,22 @@ export default async function ConnectionTableIndianapolisPage() {
       </section>
 
       {/* ── Come alone. Leave connected. ──────────────────────────────── */}
-      <section className="section-espresso relative isolate flex min-h-[38rem] items-center overflow-hidden bg-background py-24 md:min-h-[44rem]">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-20 scale-105 bg-cover bg-[position:50%_30%] opacity-55"
-          style={{ backgroundImage: `url('${PHOTOS.connectionTableEmbrace}')` }}
-        />
+      <section className="section-espresso relative isolate flex min-h-152 items-center overflow-hidden bg-background py-24 md:min-h-176">
+        <div className="absolute inset-0 -z-20 overflow-hidden">
+          {embraceVideo ? (
+            <video 
+              src={`/photos/dinners/${encodeURIComponent(embraceVideo)}`}
+              autoPlay muted loop playsInline
+              className="w-full h-full object-cover scale-105 opacity-55"
+              style={{ objectPosition: '50% 30%' }}
+            />
+          ) : (
+            <div
+              className="w-full h-full scale-105 bg-cover opacity-55"
+              style={{ backgroundImage: `url('${PHOTOS.connectionTableEmbrace}')`, backgroundPosition: '50% 30%' }}
+            />
+          )}
+        </div>
         {/* Copy sits right of the photograph's subject on desktop and over the
             foot of it on mobile, so the gradient runs both ways. */}
         <div
@@ -713,14 +784,14 @@ export default async function ConnectionTableIndianapolisPage() {
       {/* ── You belong in this room ───────────────────────────────────── */}
       <section className="section-lg bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="section-espresso relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-white/10 bg-background px-6 py-16 text-center shadow-float md:px-16 md:py-24">
+          <Reveal className="section-espresso relative isolate overflow-hidden rounded-(--radius-panel) border border-white/10 bg-background px-6 py-16 text-center shadow-float md:px-16 md:py-24">
             <div
               aria-hidden="true"
               className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/70 to-transparent"
             />
             <div
               aria-hidden="true"
-              className="absolute -z-10 left-1/2 top-0 h-96 w-[42rem] max-w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-primary/15 blur-3xl"
+              className="absolute -z-10 left-1/2 top-0 h-96 w-2xl max-w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-primary/15 blur-3xl"
             />
 
             <h2 className="display-2 mx-auto max-w-3xl text-white">
@@ -750,6 +821,18 @@ export default async function ConnectionTableIndianapolisPage() {
               />
               <SeatsNote />
             </div>
+
+            <div className="mt-16 flex flex-wrap justify-center gap-4">
+              {imgs.slice(11, 15).map((img, i) => (
+                <Reveal key={img} delay={i * 0.1}>
+                  <img
+                    src={`/photos/dinners/${encodeURIComponent(img)}`}
+                    alt="Community member"
+                    className="h-20 w-20 sm:h-24 sm:w-24 object-cover object-[center_25%] rounded-full border-2 border-white/20 shadow-float"
+                  />
+                </Reveal>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
@@ -758,12 +841,19 @@ export default async function ConnectionTableIndianapolisPage() {
       <section className="section bg-surface">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-            <Reveal>
-              <FillerImage
-                src={PHOTOS.connectionTableChampagne}
-                alt="A welcome pour at a Black in Rehab evening"
-                wrapperClassName="aspect-[4/3] rounded-[var(--radius-card)] shadow-lift"
-              />
+            <Reveal className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col justify-center">
+                {imgs[9] ? (
+                  <img src={`/photos/dinners/${encodeURIComponent(imgs[9])}`} alt="Black in Rehab" className="aspect-square w-full rounded-(--radius-card) object-cover shadow-lift" />
+                ) : (
+                  <FillerImage src={PHOTOS.connectionTableChampagne} alt="A welcome pour at a Black in Rehab evening" wrapperClassName="aspect-square rounded-(--radius-card) shadow-lift" />
+                )}
+              </div>
+              <div className="flex flex-col gap-4 mt-8">
+                {imgs[10] && (
+                  <img src={`/photos/dinners/${encodeURIComponent(imgs[10])}`} alt="Community" className="aspect-3/4 w-full rounded-(--radius-card) object-cover shadow-lift" />
+                )}
+              </div>
             </Reveal>
 
             <Reveal delay={0.1}>

@@ -194,10 +194,11 @@ async function storeAttachments(
 /**
  * Alert staff that something arrived.
  *
- * No email adapter is configured yet, so Payload writes the message to the
- * server console. That is intentional for now — the submission is already
- * safely in the database, and wiring a real provider is a config change rather
- * than a code change. A failure here must never fail the visitor's submission.
+ * Delivery goes through the Zend adapter in `cms/email.ts`; with the ZEND_*
+ * variables unset Payload writes the message to the server console instead,
+ * which is what local development wants. Either way the submission is already
+ * safely in the database, so a failure here must never fail the visitor's
+ * submission — it is caught and logged, not rethrown.
  */
 async function notifyStaff(
   payload: Awaited<ReturnType<typeof getPayload>>,

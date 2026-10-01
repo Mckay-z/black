@@ -46,7 +46,10 @@ export default function Layout({ children }: Args) {
       config={config}
       importMap={importMap}
       serverFunction={serverFunction}
-      htmlProps={{ className: `${inter.variable} ${playfair.variable}` }}
+      htmlProps={{ 
+        className: `${inter.variable} ${playfair.variable}`,
+        suppressHydrationWarning: true 
+      }}
     >
       {children}
     </RootLayout>
