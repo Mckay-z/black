@@ -72,7 +72,7 @@ export default function JamaicaPage() {
         page="/trips/jamaica"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Trips", href: "/trips" },
+          { label: "Upcoming Events & Trips", href: "/trips" },
           { label: "Jamaica Global Experience" },
         ]}
         title="Jamaica"

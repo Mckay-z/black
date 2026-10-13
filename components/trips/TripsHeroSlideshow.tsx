@@ -6,6 +6,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 
 import type { Trip } from "@/lib/trips";
+import { photoPosition } from "@/lib/images";
+import { externalProps } from "@/lib/donate";
 
 /**
  * The banner at the top of `/trips`: the calendar as a slide deck.
@@ -128,6 +130,7 @@ export default function TripsHeroSlideshow({ trips }: { trips: Trip[] }) {
             <div aria-live="polite" aria-atomic="true">
               <Link
                 href={trip.href}
+                {...externalProps(trip.href)}
                 className="group mt-6 block focus-visible:outline-none"
               >
                 {/*
@@ -146,6 +149,7 @@ export default function TripsHeroSlideshow({ trips }: { trips: Trip[] }) {
 
             <Link
               href={trip.href}
+              {...externalProps(trip.href)}
               className="mt-7 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-white transition-colors hover:text-primary"
             >
               View details
@@ -201,6 +205,7 @@ export default function TripsHeroSlideshow({ trips }: { trips: Trip[] }) {
           */}
           <Link
             href={trip.href}
+            {...externalProps(trip.href)}
             aria-label={`${trip.title} — ${trip.dates}, ${trip.location}`}
             onMouseEnter={() => setHoveringPicture(true)}
             onMouseLeave={() => setHoveringPicture(false)}
@@ -225,7 +230,7 @@ export default function TripsHeroSlideshow({ trips }: { trips: Trip[] }) {
                   initial={{ scale: 1.08 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: ADVANCE_MS / 1000 + 2, ease: "linear" }}
-                  className="photo h-full w-full object-cover"
+                  className={`photo h-full w-full object-cover ${photoPosition(trip.image)}`}
                 />
               </motion.div>
             </AnimatePresence>

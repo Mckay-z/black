@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { migrations } from "./migrations";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
@@ -178,7 +179,16 @@ export default buildConfig({
    * production" in CMS.md.
    */
   db: isPostgres
-    ? postgresAdapter({ pool: { connectionString: databaseURI } })
+    ? postgresAdapter({
+        pool: { connectionString: databaseURI },
+        // A production build never auto-creates tables (`push` is dev-only),
+        // so the schema ships as migrations in ./migrations and runs on the
+        // first cold start against an empty database. After changing a
+        // collection or global: `DATABASE_URI=postgres://… npm run payload
+        // migrate:create <name>` and commit the new file.
+        migrationDir: path.resolve(dirname, "migrations"),
+        prodMigrations: migrations,
+      })
     : sqliteAdapter({ client: { url: databaseURI || "file:./cms-data.db" } }),
 
   /**

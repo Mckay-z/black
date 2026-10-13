@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FileText, ArrowRight } from "lucide-react";
 import { unlistedMetadata } from "@/lib/seo";
+import { DONATE_URL } from "@/lib/donate";
 
 // Unlisted: see UNLISTED in lib/navigation.ts for why this page is not
 // in the menus. `noindex` keeps it out of search results too, so nobody
@@ -64,7 +65,9 @@ export default function AnnualReportPage() {
               Your generosity powers every program, scholarship, and global experience we create.
             </p>
             <Link
-              href="/impact/donate"
+              href={DONATE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-primary btn-lg group"
             >
               DONATE TODAY <ArrowRight className="w-5 h-5" />

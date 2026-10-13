@@ -50,6 +50,19 @@ const nextConfig: NextConfig = {
       // Students lived under both Community and Resources.
       { source: "/resources/students", destination: "/community/students", permanent: true },
       { source: "/resources/student", destination: "/community/students", permanent: true },
+      // The old site's shared URL for the free student sessions and the paid
+      // Accountability Lab. The two now have separate pages; this path names
+      // the free programme, so it goes to Black in Rehab University.
+      {
+        source: "/black-in-rehab-university",
+        destination: "/community/students",
+        permanent: true,
+      },
+      {
+        source: "/accountability-lab",
+        destination: "/get-involved/accountability-lab",
+        permanent: true,
+      },
       // The service programmes and the volunteer roles are one page now.
       { source: "/impact/volunteer", destination: "/impact/service", permanent: true },
       {

@@ -1,207 +1,335 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Globe2, MapPin, Sprout, Target } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Ear,
+  Gift,
+  HeartHandshake,
+  MapPin,
+  Repeat,
+  Stethoscope,
+} from "lucide-react";
+
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { DONATE_URL } from "@/lib/donate";
 import { PHOTOS } from "@/lib/images";
 
-const PROJECTS = [
+export const metadata: Metadata = {
+  title: "Global Partnerships & Service | Black in Rehab Foundation",
+  description:
+    "Black in Rehab connects rehabilitation professionals with opportunities to learn, share their expertise, and serve alongside local partners in Ghana.",
+};
+
+/**
+ * Global Partnerships & Service (formerly Mission Projects).
+ *
+ * Every line of copy here is the client's, from the website-updates
+ * document. That document replaced the old page outright: its four projects
+ * (Accra, Saint Ann, Chicago, Nairobi), their outcome figures, the
+ * "multi-year commitment" framing and the annual-report funding claim were
+ * placeholders that never described real work, and they were removed rather
+ * than reworded. Do not add figures, partner names or dates here that the
+ * client has not supplied.
+ *
+ * The URL stays `/impact/mission-projects` so existing links keep working.
+ */
+
+const WISHLIST_URL = "https://www.amazon.com/hz/wishlist/ls/92BW299GGA5Z/ref=hz_ls_biz_ex";
+const GHANA_URL = "/trips/ghana#sankofa-return";
+
+const APPROACH = [
   {
-    name: "Accra Mobility Initiative",
-    location: "Accra, Ghana",
-    status: "Active",
-    since: "Since 2023",
-    image: PHOTOS.ghanaAirport,
-    summary:
-      "Supplying and fitting assistive mobility devices through two partner clinics, with local technicians trained to maintain them.",
-    outcomes: ["310 devices fitted", "6 technicians trained", "2 partner clinics"],
+    icon: Ear,
+    title: "Start With Our Partners",
+    image: PHOTOS.pressWagmcStage,
+    desc: "We listen to local organizations to understand their goals, existing strengths, and areas where our support can be useful.",
   },
   {
-    name: "Island Rehab Access",
-    location: "Saint Ann, Jamaica",
-    status: "Active",
-    since: "Since 2024",
-    image: PHOTOS.retreatBeachYogaGroup,
-    summary:
-      "Mobile rehabilitation clinics reaching rural parishes where the nearest therapist is more than an hour away.",
-    outcomes: ["840 patient visits", "3 parishes served", "12 volunteer clinicians"],
+    icon: Repeat,
+    title: "Learn While We Serve",
+    image: PHOTOS.impactPediatric,
+    desc: "Clinical exchange goes both ways. Our therapists bring experience while learning from Ghanaian practitioners, staff, and communities.",
   },
   {
-    name: "Southside Pediatric Screening",
-    location: "Chicago, Illinois",
-    status: "Active",
-    since: "Since 2022",
-    image: PHOTOS.impactTherapy,
-    summary:
-      "Developmental screening at community schools, with referral pathways into local therapy services.",
-    outcomes: ["1,100 children screened", "9 partner schools", "220 referrals made"],
+    icon: Stethoscope,
+    title: "Build Beyond the Visit",
+    image: PHOTOS.ghanaCertificates,
+    desc: "We support practical training, tools, and systems that local teams can continue using after a session or visit ends.",
+  },
+];
+
+type Initiative = {
+  title: string;
+  where: string;
+  status: string;
+  body: string[];
+  image: string;
+  logo?: { src: string; alt: string };
+  action: { label: string; href: string; external?: boolean };
+};
+
+const INITIATIVES: Initiative[] = [
+  {
+    title: "Nature Sprouts Academy Partnership",
+    where: "Accra, Ghana",
+    image: PHOTOS.impactChildren,
+    status: "Current Partnership",
+    body: [
+      "Through our partnership with Nature Sprouts Academy, we support staff training and the development of practical clinical systems—from individualized planning and functional goals to documentation and progress review. The focus is helping staff strengthen their skills and support children’s participation in everyday life.",
+    ],
+    logo: { src: "/logos/nature-sprouts-academy.png", alt: "Nature Sprouts Academy" },
+    action: { label: "Support Our Ghana Initiatives", href: DONATE_URL, external: true },
   },
   {
-    name: "East Africa Exchange",
-    location: "Nairobi, Kenya",
+    title: "Sensory Room Development",
+    where: "Nature Sprouts Academy",
+    image: PHOTOS.impactNeurodiversity,
     status: "In Development",
-    since: "Launching 2026",
-    image: PHOTOS.ghanaLawn,
-    summary:
-      "A two-way continuing-education exchange between Kenyan and US rehabilitation programs.",
-    outcomes: ["Partnership scoping", "Curriculum design", "Funding in progress"],
+    body: [
+      "We are supporting the planning and development of NSA’s sensory room, including recommendations for resources, organization, safety, and meaningful use. Sponsors and resource partners can help support this initiative as needs are identified and confirmed.",
+    ],
+    action: { label: "Support NSA’s Sensory Room", href: WISHLIST_URL, external: true },
+  },
+  {
+    title: "SANKOFA Clinical & Cultural Experience",
+    where: "Ghana",
+    image: PHOTOS.ghanaAirport,
+    status: "March 10–22, 2027",
+    body: [
+      "Our upcoming experience brings Black OT, PT, and SLP professionals to Ghana for cultural exploration, clinical exchange, and service. Participants will share their expertise and learn alongside staff at Nature Sprouts Academy, connecting professional purpose with a deeper experience of Ghana.",
+      "Application and approval required.",
+    ],
+    action: { label: "Explore SANKOFA", href: GHANA_URL },
   },
 ];
 
-const PRINCIPLES = [
+const WAYS_TO_HELP = [
   {
-    icon: <Sprout className="w-6 h-6 text-primary" />,
-    title: "Local First",
-    desc: "Every project is led by a local partner organization. We support their plan; we do not import ours.",
+    icon: HeartHandshake,
+    title: "Become a Sponsor",
+    image: PHOTOS.conferenceGroupBranded,
+    desc: "Help support the resources and coordination needed to bring these initiatives to life.",
+    action: { label: "Become a Sponsor", href: "/support/sponsors" },
   },
   {
-    icon: <Target className="w-6 h-6 text-primary" />,
-    title: "Built to Continue",
-    desc: "If a project collapses when we leave, it was not a project. Training and handover are designed in from day one.",
+    icon: Stethoscope,
+    title: "Share Your Expertise",
+    image: PHOTOS.impactVolunteerChildren,
+    desc: "Express interest in contributing your rehabilitation skills to future training and service opportunities.",
+    action: { label: "Express Interest in Serving", href: "/contact" },
   },
   {
-    icon: <Globe2 className="w-6 h-6 text-primary" />,
-    title: "Measured Honestly",
-    desc: "We publish what worked and what did not. Numbers on this page come from partner reporting, not estimates.",
+    icon: Gift,
+    title: "Give What’s Needed",
+    image: PHOTOS.impactBackpacks,
+    desc: "Connect with us before donating supplies or equipment so your contribution aligns with confirmed partner needs.",
+    action: { label: "Discuss a Resource Donation", href: "/contact" },
   },
 ];
 
-export default function MissionProjectsPage() {
+function ActionLink({
+  action,
+  className,
+}: {
+  action: { label: string; href: string; external?: boolean };
+  className: string;
+}) {
+  const Icon = action.external ? ArrowUpRight : ArrowRight;
+  return (
+    <Link
+      href={action.href}
+      className={className}
+      {...(action.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {action.label} <Icon className="h-4 w-4" aria-hidden="true" />
+    </Link>
+  );
+}
+
+export default function GlobalPartnershipsPage() {
   return (
     <div className="bg-background min-h-screen">
       <PageHero
         page="/impact/mission-projects"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Impact", href: "/impact" },
-          { label: "Mission Projects" },
+          { label: "BIR CARES", href: "/impact" },
+          { label: "Global Partnerships & Service" },
         ]}
-        title="Mission"
-        highlight="Projects"
-        description="Long-term rehabilitation projects run with partner organizations at home and abroad. These are multi-year commitments, not one-off trips."
-        image={PHOTOS.impactVolunteersKids}
-        cta={{ label: "FUND A PROJECT", href: "/impact/donate" }}
-        secondaryCta={{ label: "Volunteer", href: "/impact/service" }}
+        title="Global Partnerships"
+        highlight="& Service"
+        description="Black in Rehab connects rehabilitation professionals with opportunities to learn, share their expertise, and serve alongside local partners."
+        image={PHOTOS.speakingTeamWagmc}
+        cta={{ label: "SUPPORT OUR GHANA INITIATIVES", href: DONATE_URL }}
+        secondaryCta={{ label: "Explore the Ghana Experience", href: GHANA_URL }}
       />
 
-      {/* Principles */}
+      {/* Clinical & Cultural Exchanges */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="How We Work"
-            title="Three Principles We Do Not Bend"
-            description="Global health work has a long history of doing harm with good intentions. These rules are how we try not to."
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {PRINCIPLES.map((principle) => (
-              <div
-                key={principle.title}
-                className="card p-8 card-hover"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {principle.icon}
-                </div>
-                <h3 className="font-bold text-foreground mb-3">{principle.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{principle.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section className="section bg-surface border-y border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Current Projects"
-            title="Where the Work Is Happening"
-            className="mb-16"
-          />
-          <div className="space-y-8">
-            {PROJECTS.map((project) => (
-              <div
-                key={project.name}
-                className="group grid grid-cols-1 lg:grid-cols-5 card card-sunken rounded-3xl overflow-hidden card-hover"
-              >
-                <FillerImage
-                  src={project.image}
-                  alt={project.name}
-                  wrapperClassName="lg:col-span-2 h-56 lg:h-full min-h-56"
-                  zoomOnHover
-                />
-                <div className="lg:col-span-3 p-8 md:p-10">
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <span className="inline-flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-widest">
-                      <MapPin className="w-3.5 h-3.5" /> {project.location}
-                    </span>
-                    <span
-                      className={`text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
-                        project.status === "Active"
-                          ? "bg-primary/10 text-primary"
-                          : "bg-muted/10 text-muted"
-                      }`}
-                    >
-                      {project.status}
-                    </span>
-                    <span className="text-muted text-xs">{project.since}</span>
-                  </div>
-                  <h3 className="text-2xl font-serif font-bold text-foreground mb-4">
-                    {project.name}
-                  </h3>
-                  <p className="text-muted leading-relaxed mb-8">{project.summary}</p>
-                  <div className="flex flex-wrap gap-3">
-                    {project.outcomes.map((outcome) => (
-                      <span
-                        key={outcome}
-                        className="inline-flex items-center gap-2 text-sm text-foreground bg-surface border border-border rounded-full px-4 py-2"
-                      >
-                        <CheckCircle className="w-4 h-4 text-primary" /> {outcome}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Funding */}
-      <section className="section bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
             <div>
               <SectionHeading
-                eyebrow="Funding"
-                title="Where Project Dollars Go"
-                description="Mission project funding is tracked separately from general operating support and reported in our annual report."
+                eyebrow="Global Partnerships & Service"
+                title="Clinical & Cultural Exchanges"
               />
-              <Link
-                href="/about/annual-report"
-                className="link-arrow mt-8"
-              >
-                Read the annual report <ArrowRight className="w-4 h-4" />
-              </Link>
+              <p className="mt-6 text-lg leading-relaxed text-muted">
+                Black in Rehab connects rehabilitation professionals with
+                opportunities to learn, share their expertise, and serve alongside
+                local partners.
+              </p>
+              <p className="mt-4 text-lg leading-relaxed text-muted">
+                Our current work in Ghana focuses on staff training, rehabilitation
+                program development, and supporting resources that reflect our
+                partners’ priorities.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href={DONATE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary group"
+                >
+                  SUPPORT OUR GHANA INITIATIVES
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link href={GHANA_URL} className="btn btn-outline group">
+                  EXPLORE THE GHANA EXPERIENCE
+                  <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+                </Link>
+              </div>
             </div>
-            <FillerImage
-              src={PHOTOS.impactVolunteerChildren}
-              alt="Local clinicians at work"
-              wrapperClassName="aspect-4/3 rounded-3xl group"
-              zoomOnHover
-            />
+            <Reveal direction="left">
+              <FillerImage
+                src={PHOTOS.impactTherapy}
+                alt="A therapy session"
+                wrapperClassName="aspect-4/5 sm:aspect-4/3 lg:aspect-4/5 rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 group"
+                zoomOnHover
+              />
+            </Reveal>
           </div>
         </div>
       </section>
 
-      <CTABand
-        title="Fund the Work That Stays"
-        description="A recurring gift is what lets us commit to a partner for three years instead of three weeks."
-        cta={{ label: "MAKE A GIFT", href: "/impact/donate" }}
-        secondaryCta={{ label: "Sponsor a Project", href: "/support/sponsors" }}
-      />
+      {/* How We Approach the Work */}
+      <section className="section bg-surface border-y border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <Reveal>
+            <SectionHeading eyebrow="Our Approach" title="How We Approach the Work" className="mb-12" />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {APPROACH.map(({ icon, title, desc, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title}>
+                  {desc}
+                </PhotoCard>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Our Current Ghana Initiatives */}
+      <section className="section bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <Reveal>
+            <SectionHeading eyebrow="In Ghana" title="Our Current Ghana Initiatives" className="mb-12" />
+          </Reveal>
+          <div className="space-y-6">
+            {INITIATIVES.map((initiative) => (
+              <article
+                key={initiative.title}
+                className="card grid grid-cols-1 overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
+              >
+                <div className="img-filler relative min-h-56">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={initiative.image}
+                    alt=""
+                    loading="lazy"
+                    className="photo absolute inset-0 h-full w-full object-cover"
+                  />
+                  {initiative.logo && (
+                    <div className="absolute bottom-4 left-4 rounded-xl bg-white p-3 shadow-soft">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={initiative.logo.src}
+                        alt={initiative.logo.alt}
+                        loading="lazy"
+                        className="h-7 w-auto"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="p-8 md:p-10">
+                  <div className="mb-4 flex flex-wrap items-center gap-3">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+                      <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> {initiative.where}
+                    </span>
+                    <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+                      {initiative.status}
+                    </span>
+                  </div>
+                  <h3 className="mb-4 font-serif text-2xl font-bold text-foreground">
+                    {initiative.title}
+                  </h3>
+                  {initiative.body.map((paragraph) => (
+                    <p key={paragraph} className="mb-4 leading-relaxed text-muted">
+                      {paragraph}
+                    </p>
+                  ))}
+                  <ActionLink action={initiative.action} className="link-arrow mt-2" />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Help Move the Work Forward */}
+      <section className="section bg-surface border-y border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <Reveal>
+            <SectionHeading
+              eyebrow="BIR CARES"
+              title="Help Move the Work Forward"
+              description="Through BIR CARES, sponsors, volunteers, and community partners can support therapist participation, training initiatives, sensory room resources, and professional service."
+              className="mb-12"
+            />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {WAYS_TO_HELP.map(({ icon, title, desc, action, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title} href={action.href} cta={action.label}>
+                  {desc}
+                </PhotoCard>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Partner With Black in Rehab */}
+      <PhotoSplitBand image={PHOTOS.ghanaKente} imageSide="right" imagePosition="center 30%">
+        <p className="eyebrow eyebrow-on-dark mb-5">For Ghanaian Organizations</p>
+        <h2 className="display-2 text-white">Partner With Black in Rehab</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Are you a Ghanaian organization seeking rehabilitation training or
+          program development support? We welcome conversations about your needs,
+          goals, and opportunities for collaboration.
+        </p>
+        <Link href="/contact" className="btn btn-primary btn-lg group mt-9">
+          CONNECT WITH OUR TEAM
+          <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

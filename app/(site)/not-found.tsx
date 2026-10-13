@@ -44,7 +44,7 @@ export default function NotFound() {
           <p className="text-muted text-sm mb-4">Popular sections</p>
           <div className="flex flex-wrap gap-x-6 gap-y-3 justify-center text-sm">
             {[
-              { label: "Trips", href: "/trips" },
+              { label: "Upcoming Events & Trips", href: "/trips" },
               { label: "Impact", href: "/impact" },
               { label: "Get Involved", href: "/get-involved" },
               { label: "Resources", href: "/resources" },

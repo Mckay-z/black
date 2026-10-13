@@ -1079,6 +1079,41 @@ export interface SiteSetting {
    */
   donationUrl?: string | null;
   donationProvider?: ('none' | 'external') | null;
+  birUniversity?: {
+    /**
+     * The Google Form (or other link) for the next session. Used by every "Register" button on the page.
+     */
+    registrationUrl?: string | null;
+    /**
+     * Optional. Leave blank to hide the session details box.
+     */
+    sessionTitle?: string | null;
+    sessionDate?: string | null;
+    sessionTime?: string | null;
+    sessionDescription?: string | null;
+  };
+  accountabilityLab?: {
+    enrollmentStatus?: string | null;
+    /**
+     * Optional. Shown only when filled in, e.g. "January 12 – April 6, 2027".
+     */
+    nextCohortDates?: string | null;
+    /**
+     * Optional. Shown only when filled in, e.g. "Tuesdays, 7pm ET".
+     */
+    schedule?: string | null;
+    monthlyPrice?: string | null;
+    fullPrice?: string | null;
+    advisoryPrice?: string | null;
+    /**
+     * Every "Join the Next Cohort Waitlist" button on the site points here.
+     */
+    waitlistUrl?: string | null;
+    /**
+     * Keep this a waitlist label while enrollment is closed — do not use "Enroll Now" until a cohort is actually open.
+     */
+    waitlistLabel?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1105,6 +1140,27 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   notifyOnSubmission?: T;
   donationUrl?: T;
   donationProvider?: T;
+  birUniversity?:
+    | T
+    | {
+        registrationUrl?: T;
+        sessionTitle?: T;
+        sessionDate?: T;
+        sessionTime?: T;
+        sessionDescription?: T;
+      };
+  accountabilityLab?:
+    | T
+    | {
+        enrollmentStatus?: T;
+        nextCohortDates?: T;
+        schedule?: T;
+        monthlyPrice?: T;
+        fullPrice?: T;
+        advisoryPrice?: T;
+        waitlistUrl?: T;
+        waitlistLabel?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

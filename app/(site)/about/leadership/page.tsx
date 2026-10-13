@@ -6,6 +6,8 @@ import { getPeople, imageUrl } from "@/lib/cms";
 import { FALLBACK_LEADERSHIP } from "@/lib/fallback-content";
 import { PHOTOS } from "@/lib/images";
 import Reveal from "@/components/motion/Reveal";
+import PageHero from "@/components/ui/PageHero";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 
 export const metadata: Metadata = {
   title: "Leadership Team | Black in Rehab Foundation",
@@ -62,34 +64,28 @@ export default async function LeadershipPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero. Top padding matches the other About pages; the bottom is
-          tightened because the first thing below it is a full-height portrait
-          row rather than the compact card grid this page used to have, and
-          the stock pairing left a visible hole between the two. */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-              <Link href="/" className="hover:text-primary-hover">Home</Link>
-              <span>/</span>
-              <Link href="/about" className="hover:text-primary-hover">About</Link>
-              <span>/</span>
-              <span className="text-foreground">Leadership</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-              Our <span className="text-primary">Leadership</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted">
-              The people guiding our mission, our programs, and our global community.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        page="/about/leadership"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Leadership" },
+        ]}
+        title="Our"
+        highlight="Leadership"
+        description="The people guiding our mission, our programs, and our global community."
+        image={PHOTOS.retreatGroupOutdoors}
+        imagePosition="60% center"
+      />
 
       {/* Profiles. `.section` sits in @layer components, so these paddings
           win — the shorthand's top value would otherwise reopen the gap. */}
-      <section className="section pt-12 md:pt-16">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
+          <Reveal className="mb-14 max-w-2xl">
+            <p className="eyebrow mb-5">Meet the Team</p>
+            <h2 className="display-2 text-foreground">The People Behind the Work</h2>
+          </Reveal>
           <div className="flex flex-col gap-16 md:gap-20">
             {team.map((member, index) => (
               <Reveal
@@ -105,7 +101,7 @@ export default async function LeadershipPage() {
                     index % 2 === 1 ? "md:order-2" : ""
                   }`}
                 >
-                  <div className="img-filler relative aspect-4/5 overflow-hidden rounded-[var(--radius-card)] border border-border shadow-soft">
+                  <div className="img-filler relative aspect-4/5 overflow-hidden rounded-[var(--radius-panel)] shadow-float ring-1 ring-primary/25">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={member.image}
@@ -165,23 +161,16 @@ export default async function LeadershipPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="display-2 text-foreground mb-4">
-            Become a City Ambassador
-          </h2>
-          <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
-            Lead the movement in your city. Our Ambassador program empowers local leaders to represent Black in Rehab in communities across the globe.
-          </p>
-          <Link
-            href="/about/ambassadors"
-            className="btn btn-primary btn-lg group"
-          >
-            AMBASSADOR PROGRAM <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.ghanaJerseysGroup} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Ambassadors</p>
+        <h2 className="display-2 text-white">Become a City Ambassador</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Lead the movement in your city. Our Ambassador program empowers local leaders to represent Black in Rehab in communities across the globe.
+        </p>
+        <Link href="/about/ambassadors" className="btn btn-primary btn-lg group mt-9">
+          AMBASSADOR PROGRAM <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

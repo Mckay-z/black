@@ -1,91 +1,154 @@
-import Link from "next/link";
-import { ArrowRight, Newspaper, FileText, Camera, Mic } from "lucide-react";
+import type { Metadata } from "next";
+
+import ImpactGallery, {
+  type GalleryCategory,
+  type GalleryItem,
+} from "@/components/impact/ImpactGallery";
+import { PHOTOS, type PhotoKey } from "@/lib/images";
+import PageHero from "@/components/ui/PageHero";
+
+export const metadata: Metadata = {
+  title: "Media & Press | Black in Rehab Foundation",
+  description:
+    "Photographs from Black in Rehab's conferences, global trips, retreats, speaking engagements and community service.",
+};
+
+/**
+ * Media & Press, as a photo gallery.
+ *
+ * The client's revision cut the Press Kit, Speaker Request and In the News
+ * blocks and asked for this page to become a gallery. Adding a photo means
+ * putting it in `public/photos/`, naming it in `lib/images.ts`, and adding a
+ * line below — the filter tabs only show categories that have photos.
+ *
+ * Team portraits, ambassador cards and merchandise are left out on purpose:
+ * each has its own page, and they are not event photography.
+ */
+const CATEGORIES: GalleryCategory[] = [
+  { value: "all", label: "All" },
+  { value: "press", label: "In the Media" },
+  { value: "conference", label: "Conference" },
+  { value: "global", label: "Ghana & Global" },
+  { value: "retreats", label: "Retreats" },
+  { value: "speaking", label: "Speaking" },
+  { value: "community", label: "Community" },
+];
+
+const PHOTOS_BY_CATEGORY: Record<string, [PhotoKey, string][]> = {
+  press: [
+    ["pressGhoneTv", "On GHOne TV, discussing the neurodiversity and autism engagement workshop"],
+    ["pressStarrFm", "In studio at Starr 103.5 FM"],
+    ["pressWagmcStage", "The founders at the West African Genetic Medicine Centre"],
+    ["pressEveWomensForum", "At the EVE Women's Forum USA"],
+  ],
+  conference: [
+    ["conferenceCelebration", "Conference group celebration"],
+    ["conferenceGroupBranded", "Attendees at the Black in Rehab conference"],
+    ["conferenceAudience", "Conference audience"],
+    ["conferenceSession", "A conference session"],
+    ["conferencePodium", "Speaker at the podium"],
+    ["conferencePanel", "Conference panel"],
+    ["conferenceSpeakerMic", "Speaker addressing the room"],
+    ["conferenceNetworking", "Networking between sessions"],
+    ["conferenceTableTalk", "Conversation at the table"],
+    ["conferencePresentation", "Presentation"],
+    ["conferenceGala", "Gala speaker"],
+    ["conferenceHug", "Celebrating together"],
+    ["conferenceSpeakerBw", "Conference speaker"],
+    ["conferenceRoomWide", "The conference room"],
+  ],
+  global: [
+    ["ghanaAirport", "Welcome at the airport in Accra"],
+    ["ghanaCastleGroup", "The group at the castle"],
+    ["ghanaDoorOfReturn", "The Door of Return"],
+    ["ghanaBathOfReturn", "Bath of Return ceremony"],
+    ["ghanaRiverCeremony", "River ceremony"],
+    ["ghanaKente", "The group in kente"],
+    ["ghanaJerseysGroup", "The group in Ghana jerseys"],
+    ["ghanaFreedomArch", "Freedom Arch"],
+    ["ghanaLawn", "Group photo in Ghana"],
+    ["ghanaCertificates", "Certificate presentation"],
+    ["ghanaDrumming", "Drumming"],
+    ["ghanaCanopy", "Canopy walkway"],
+    ["ghanaMarket", "At the market"],
+    ["ghanaCooking", "Cooking class"],
+    ["ghanaFood", "Ghanaian food"],
+    ["ghanaBeach", "Evening on the beach"],
+    ["ghanaQuoteWall", "Quote wall"],
+    ["ghanaNkrumahQuote", "Kwame Nkrumah quote"],
+  ],
+  retreats: [
+    ["retreatGroupBlazers", "Retreat group"],
+    ["retreatGroupColorful", "Retreat group"],
+    ["retreatGroupFormal", "Retreat dinner, dressed up"],
+    ["retreatGroupOutdoors", "Retreat group outdoors"],
+    ["retreatBeachYogaGroup", "Yoga on the beach"],
+    ["retreatYogaClass", "Yoga class"],
+    ["retreatMeditation", "Meditation circle"],
+    ["retreatSoundBowls", "Sound bowls"],
+    ["retreatSingingBowl", "Singing bowl"],
+    ["retreatDinner", "Retreat dinner"],
+    ["retreatBanner", "Welcome banner"],
+  ],
+  speaking: [
+    ["speakingAfricaSummit", "The founders at the Africa Business Investment Summit"],
+    ["speakingNancyWagmc", "Nancy Yamoah at the West African Genetic Medicine Centre"],
+    ["speakingTeamWagmc", "The team on stage in Ghana"],
+    ["speakingSummitFireside", "Fireside conversation"],
+    ["speakingSummitPodium", "At the summit podium"],
+    ["studentsLectureHall", "Speaking to students"],
+  ],
+  community: [
+    ["impactBackpacks", "Backpack giveaway"],
+    ["impactVolunteerChildren", "Volunteering with children"],
+    ["impactVolunteersKids", "Volunteers and kids"],
+    ["impactChildren", "Community event"],
+    ["impactHandsUp", "Hands up"],
+    ["impactNeurodiversity", "Neurodiversity day"],
+    ["impactPediatric", "Pediatric care"],
+    ["impactAdvocacySpeaker", "Advocacy"],
+    ["studentsAwards", "Student awards"],
+    ["connectionTableFriends", "The Connection Table"],
+    ["connectionTableGroup", "The Connection Table"],
+    ["connectionTableEmbrace", "The Connection Table"],
+  ],
+};
+
+const ITEMS: GalleryItem[] = Object.entries(PHOTOS_BY_CATEGORY).flatMap(
+  ([category, photos]) =>
+    photos.map(([key, title]) => ({
+      id: key,
+      title,
+      category,
+      image: PHOTOS[key],
+    })),
+);
 
 export default function MediaPressPage() {
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-              <Link href="/" className="hover:text-primary-hover">Home</Link>
-              <span>/</span>
-              <Link href="/about" className="hover:text-primary-hover">About</Link>
-              <span>/</span>
-              <span className="text-foreground">Media & Press</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-              Media & <span className="text-primary">Press</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted leading-relaxed">
-              Resources for media, journalists, and content creators covering Black in Rehab&apos;s mission, work, and impact.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        page="/about/media-press"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Media & Press" },
+        ]}
+        title="Media &"
+        highlight="Press"
+        description="Moments from our conferences, global trips, retreats, speaking engagements and community work."
+        image={PHOTOS.pressWagmcStage}
+        imagePosition="60% center"
+      />
 
-      {/* Press Kit + Contact */}
+      {/* Gallery */}
       <section className="pt-12 md:pt-16 pb-24">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div className="card p-8 card-hover flex flex-col">
-              <FileText className="w-10 h-10 text-primary mb-6" />
-              <h3 className="text-xl font-bold text-foreground mb-3">Press Kit</h3>
-              <p className="text-muted text-sm leading-relaxed flex-1 mb-8">
-                Download our official press kit with logos, brand assets, organizational facts, and leadership bios.
-              </p>
-              <Link href="/contact" className="link-arrow">
-                Request Press Kit <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="card p-8 card-hover flex flex-col">
-              <Camera className="w-10 h-10 text-primary mb-6" />
-              <h3 className="text-xl font-bold text-foreground mb-3">Photo Gallery</h3>
-              <p className="text-muted text-sm leading-relaxed flex-1 mb-8">
-                Browse and download high-resolution photos from our events, global experiences, and community programs.
-              </p>
-              <Link href="/contact" className="link-arrow">
-                Request Photos <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="card p-8 card-hover flex flex-col">
-              <Mic className="w-10 h-10 text-primary mb-6" />
-              <h3 className="text-xl font-bold text-foreground mb-3">Speaker Requests</h3>
-              <p className="text-muted text-sm leading-relaxed flex-1 mb-8">
-                Interested in having our founders or team members speak at your event, podcast, or conference?
-              </p>
-              <Link
-                href="/contact"
-                className="link-arrow"
-              >
-                Submit a Request <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* No press coverage to list yet.
-
-              This was three cards reading "[Publication Name] — CLIENT TO
-              PROVIDE" / "[Article Headline — CLIENT TO PROVIDE]", each behind
-              a "Read Article" link pointing at "#". An empty state is the
-              honest version until there is real coverage to link to. */}
-          <div>
-            <h2 className="text-2xl font-serif font-bold text-foreground mb-8">In the News</h2>
-            <div className="card card-sunken p-10 text-center">
-              <Newspaper className="w-10 h-10 text-primary mx-auto mb-5" aria-hidden="true" />
-              <p className="text-foreground font-bold mb-2">Coverage coming soon</p>
-              <p className="text-muted text-sm leading-relaxed max-w-md mx-auto">
-                Press mentions and interviews will be collected here. Writing about
-                our work? We would love to hear from you.
-              </p>
-              <Link href="/contact" className="link-arrow mt-8 justify-center">
-                Get in touch <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
+          <ImpactGallery
+            items={ITEMS}
+            categories={CATEGORIES}
+            filterLabel="Filter photos"
+          />
         </div>
       </section>
     </div>

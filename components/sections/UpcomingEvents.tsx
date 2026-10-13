@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight } from "lucide-react";
-import { PHOTOS } from "@/lib/images";
+import { PHOTOS, photoPosition } from "@/lib/images";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerLink } from "@/components/motion/Stagger";
+import { BREAST_CANCER_WALK_URL } from "@/lib/trips";
 
 /**
  * The next four dates, from the client's revision document. Kept in step with
@@ -14,16 +15,8 @@ const EVENTS = [
     title: "Breast Cancer Walk",
     date: "Oct 17, 2026",
     location: "Atlanta, GA",
-    image: PHOTOS.impactHandsUp,
-    link: "/impact/service",
-  },
-  {
-    id: "asha-dinner",
-    title: "ASHA Convention Dinner",
-    date: "Nov 20, 2026",
-    location: "Indianapolis, IN",
-    image: PHOTOS.retreatDinner,
-    link: "/trips/upcoming-events",
+    image: PHOTOS.breastCancerWalkFlyer,
+    link: BREAST_CANCER_WALK_URL,
   },
   {
     id: "ghana-sankofa-return",
@@ -31,15 +24,23 @@ const EVENTS = [
     date: "Mar 10-22, 2027",
     location: "Accra, Ghana",
     image: PHOTOS.ghanaAirport,
-    link: "/trips/ghana",
+    link: "/trips/ghana#sankofa-return",
   },
   {
     id: "sixth-annual-retreat",
-    title: "6th Annual Retreat",
+    title: "6th Annual Conference & Retreat",
     date: "Jun 17-20, 2027",
     location: "New Orleans, LA",
     image: PHOTOS.conferenceAudience,
     link: "/trips/conference",
+  },
+  {
+    id: "ghana-retreat-2",
+    title: "Ghana Retreat 2.0",
+    date: "Details Coming Soon",
+    location: "Ghana",
+    image: PHOTOS.ghanaBeach,
+    link: "/trips/ghana#ghana-retreat-2",
   },
 ];
 
@@ -87,7 +88,7 @@ export default function UpcomingEvents() {
                 src={event.image}
                 alt=""
                 loading="lazy"
-                className="photo photo-hover-lift absolute inset-0 -z-10 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.07]"
+                className={`photo photo-hover-lift absolute inset-0 -z-10 h-full w-full object-cover ${photoPosition(event.image)} transition-transform duration-700 group-hover:scale-[1.07]`}
               />
               {/*
                 A black scrim, not a `--background` one. Anchored at the bottom

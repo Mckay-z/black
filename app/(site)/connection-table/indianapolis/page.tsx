@@ -92,14 +92,16 @@ import { PHOTOS } from "@/lib/images";
  */
 
 // ── Event ─────────────────────────────────────────────────────────────────
-// November 20, 2026 is a Friday, which agrees with the brief. The year is not
-// in the brief; it follows from ASHA 2026 and matches the "ASHA Convention
-// Dinner" entry already in `lib/trips.ts`.
+// The November 2026 dinner was cancelled (a death in the host's family). The
+// client is bringing it back in 2027; the date and time are not confirmed, so
+// they read "to be announced" until they are. The same goes for the venue. Update both here — every
+// placement on the page reads from this object.
 const EVENT = {
-  venue: "Kountry Kitchen",
-  city: "Indianapolis, IN",
-  date: "Friday, November 20, 2026",
-  time: "7:30 PM",
+  // The location is announced with the date — the client asked that neither
+  // the city nor the venue be published until then.
+  location: "Location to be announced",
+  date: "2027 — Date to be announced",
+  time: "Time to be announced",
   price: "$125",
 } as const;
 
@@ -112,6 +114,14 @@ const EVENT = {
  */
 const RESERVE_URL: string | null =
   process.env.NEXT_PUBLIC_CONNECTION_TABLE_URL || null;
+
+/**
+ * Registration stays closed until the 2027 date is confirmed. While this is
+ * true every Reserve button reads "Coming Soon" and does nothing — even if
+ * `RESERVE_URL` is set on the host. To open sales: set the date and time in
+ * `EVENT` above, set this to false, and set the checkout link.
+ */
+const POSTPONED = true;
 
 /** Shown in the ticket panel while `RESERVE_URL` is unset. */
 const SALES_OPEN = "Thursday, September 25";
@@ -157,7 +167,7 @@ const INCLUDES = [
     icon: HeartHandshake,
     title: "The BIR Community",
     description:
-      "A way to stay connected after Indianapolis — professional development, travel, service, and community.",
+      "A way to stay connected after the dinner — professional development, travel, service, and community.",
   },
 ] as const;
 
@@ -184,12 +194,12 @@ const THE_ROOM = [
  */
 const BREADCRUMBS: { label: string; href?: string }[] = [
   { label: "Home", href: "/" },
-  { label: "Trips", href: "/trips" },
+  { label: "Upcoming Events & Trips", href: "/trips" },
   { label: "The Connection Table" },
 ];
 
 const DETAILS = [
-  { icon: MapPin, label: "Where", value: `${EVENT.venue} — ${EVENT.city}` },
+  { icon: MapPin, label: "Where", value: EVENT.location },
   { icon: CalendarDays, label: "When", value: EVENT.date },
   { icon: Clock, label: "Time", value: EVENT.time },
   { icon: Ticket, label: "Seat", value: EVENT.price },
@@ -200,15 +210,15 @@ const SITE_URL = (
 ).replace(/\/$/, "");
 
 export const metadata: Metadata = {
-  title: "The Connection Table™: Indianapolis | Black In Rehab Foundation",
+  title: "The Connection Table™ | Black In Rehab Foundation",
   description:
-    "An elevated dinner experience for Black SLPs and SLP students attending ASHA 2026. Friday, November 20 at Kountry Kitchen, Indianapolis. Limited seats.",
+    "An elevated dinner experience for Black SLPs and SLP students attending the ASHA Convention. Returning in 2027 — date and location to be announced.",
   // Most of this page's traffic arrives from an Instagram link, where the
   // share card is the first impression rather than the page itself.
   openGraph: {
-    title: "The Connection Table™: Indianapolis",
+    title: "The Connection Table™",
     description:
-      "Dinner. Conversation. Community. Connection. An elevated dinner experience for Black SLPs & SLP students at ASHA 2026.",
+      "Dinner. Conversation. Community. Connection. An elevated dinner experience for Black SLPs & SLP students at the ASHA Convention.",
     url: `${SITE_URL}/connection-table/indianapolis`,
     type: "website",
     images: [{ url: `${SITE_URL}${PHOTOS.connectionTableFriends}` }],
@@ -234,6 +244,14 @@ function ReserveButton({
   className?: string;
 }) {
   const classes = `btn btn-${variant} btn-lg group ${className}`;
+
+  if (POSTPONED) {
+    return (
+      <span aria-disabled="true" className={`${classes} pointer-events-none opacity-60`}>
+        REGISTRATION COMING SOON
+      </span>
+    );
+  }
 
   if (!RESERVE_URL) {
     return (
@@ -375,7 +393,7 @@ export default async function ConnectionTableIndianapolisPage() {
                 className="h-px w-10 bg-linear-to-r from-transparent to-primary/70 sm:w-16"
               />
               <span className="font-serif text-xl italic text-primary sm:text-2xl">
-                Indianapolis
+                2027
               </span>
               <span
                 aria-hidden="true"
@@ -385,7 +403,7 @@ export default async function ConnectionTableIndianapolisPage() {
 
             <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-white/85 sm:text-xl">
               An elevated dinner experience for Black SLPs &amp; SLP students
-              attending ASHA 2026.
+              attending the ASHA Convention.
             </p>
 
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70">
@@ -434,7 +452,7 @@ export default async function ConnectionTableIndianapolisPage() {
             </span>
             <span className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
-              {EVENT.venue}, {EVENT.city}
+              {EVENT.location}
             </span>
             <span className="flex items-center gap-2">
               <Ticket className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -603,7 +621,7 @@ export default async function ConnectionTableIndianapolisPage() {
                   <span className="align-super text-[0.5em] tracking-normal">™</span>
                   <span className="block font-serif italic text-primary sm:inline sm:not-italic sm:text-foreground">
                     <span className="hidden sm:inline">: </span>
-                    Indianapolis
+                    2027
                   </span>
                 </h2>
               </div>
@@ -648,7 +666,12 @@ export default async function ConnectionTableIndianapolisPage() {
                   than a button that goes nowhere — and this whole block
                   disappears the moment `RESERVE_URL` is set.
                 */}
-                {!RESERVE_URL && (
+                {POSTPONED ? (
+                  <p className="mt-7 border-t border-border pt-6 text-sm text-muted">
+                    The Connection Table returns in 2027. Registration opens
+                    once the date is confirmed — check back here for details.
+                  </p>
+                ) : !RESERVE_URL && (
                   <p className="mt-7 border-t border-border pt-6 text-sm text-muted">
                     Reservations open{" "}
                     <strong className="text-foreground">{SALES_OPEN}</strong>.
@@ -675,8 +698,8 @@ export default async function ConnectionTableIndianapolisPage() {
             <p className="eyebrow mb-5">The Menu</p>
             <h2 className="display-2 text-foreground">What&rsquo;s for dinner?</h2>
             <p className="mt-5 text-lg leading-relaxed text-muted">
-              Dinner is served at {EVENT.venue}, an Indianapolis institution.
-              Here is what will be waiting at your place setting.
+              The venue will be announced with the date. Here is what will be
+              waiting at your place setting.
             </p>
           </Reveal>
 
@@ -709,8 +732,7 @@ export default async function ConnectionTableIndianapolisPage() {
                   <UtensilsCrossed className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-muted">
-                  The entrée selections are being finalised with {EVENT.venue}
-                  &rsquo;s kitchen and will be listed here before reservations
+                  The entrée selections will be listed here before reservations
                   open.
                 </p>
               </Reveal>
@@ -806,7 +828,7 @@ export default async function ConnectionTableIndianapolisPage() {
               <p>
                 Because there should be spaces in this profession where being
                 seen, heard, and connected isn&rsquo;t something you have to
-                earn. And we&rsquo;re creating one in Indianapolis.
+                earn. And we&rsquo;re creating one at The Connection Table.
               </p>
             </div>
 

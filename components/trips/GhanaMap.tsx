@@ -130,7 +130,7 @@ const STOPS: {
   anchor: "start" | "end";
 }[] = [
   { name: "Accra", at: [-0.197, 5.556], lead: [80, 107], anchor: "start" },
-  { name: "Cape Coast", at: [-1.246, 5.106], lead: [-51, 80], anchor: "end" },
+  { name: "Elmina", at: [-1.35, 5.085], lead: [-51, 80], anchor: "end" },
 ];
 
 export default function GhanaMap({
@@ -150,7 +150,7 @@ export default function GhanaMap({
     <svg
       viewBox={`${-GUTTER} 0 ${WIDTH + GUTTER * 2} ${HEIGHT + BOTTOM}`}
       role="img"
-      aria-label="Map of Ghana with a photograph of Independence Square in Accra, marking Accra and Cape Coast — the two stops on the Sankofa Return trip."
+      aria-label="Map of Ghana with a photograph of Independence Square in Accra, marking Accra and Elmina — the two stops on the Sankofa Return trip."
       className={`h-auto w-full ${className}`}
     >
       <defs>

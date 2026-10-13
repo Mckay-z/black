@@ -184,6 +184,18 @@ export const PHOTOS = {
   connectionTableGroup: "/photos/connection-table-group.jpg", // portrait — the room, dressed and together
   connectionTableChampagne: "/photos/connection-table-champagne.jpg", // landscape — a pour at the welcome table
 
+  // ── Event flyers ──────────────────────────────────────────────────
+  // Supplied in the "Website Updates" document ("use picture"). A finished
+  // flyer with its own type, so crop it from the top, not the centre.
+  breastCancerWalkFlyer: "/photos/breast-cancer-walk-flyer.jpg", // portrait
+
+  // ── Press & media ─────────────────────────────────────────────────────
+  // Supplied in the "Website Updates" document for Media & Press.
+  pressGhoneTv: "/photos/press-ghone-tv.jpg", // portrait — GHOne TV segment on the neurodiversity workshop
+  pressStarrFm: "/photos/press-starr-fm.jpg", // portrait — the team in studio at Starr 103.5 FM
+  pressWagmcStage: "/photos/press-wagmc-stage.jpg", // landscape — the founders at the WAGMC podium
+  pressEveWomensForum: "/photos/press-eve-womens-forum.jpg", // portrait — at the EVE Women's Forum USA
+
   // ── Merchandise ───────────────────────────────────────────────────────
   // Lifestyle shots of real branded apparel. There is no product photography
   // for the accessories (hat, mug, tote, journal) — those cards reuse the
@@ -196,3 +208,14 @@ export const PHOTOS = {
 } as const;
 
 export type PhotoKey = keyof typeof PHOTOS;
+
+/**
+ * Photos whose subject sits at the top of the frame — flyers with their title
+ * up top — so a cover crop keeps the top instead of the default centre.
+ */
+const TOP_ANCHORED = new Set<string>([PHOTOS.breastCancerWalkFlyer]);
+
+/** Tailwind object-position class for a cropped photo. */
+export function photoPosition(src: string) {
+  return TOP_ANCHORED.has(src) ? "object-top" : "object-center";
+}

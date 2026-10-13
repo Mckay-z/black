@@ -16,8 +16,11 @@ const SPEAKER: SpeakerProfileData = {
   credentials: "OTD, OTR/L",
   role: "Co-Founder & Vice President, Black in Rehab",
   tagline: CHAUNTEL_CREDENTIALS,
+  // The hero is the wide-frame photo of Dr. Altidor (she stands ~70% across
+  // it), so the banner shows the speaker it names.
   portrait: PHOTOS.teamChauntel,
-  heroImage: PHOTOS.conferenceSession,
+  heroImage: PHOTOS.founderChauntel,
+  heroImagePosition: "70% 25%",
   bio: CHAUNTEL_BIO,
   offerings: CHAUNTEL_OFFERINGS,
   offeringsIntro:

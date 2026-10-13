@@ -1,5 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, GraduationCap, CheckCircle } from "lucide-react";
+import { ArrowRight, Award, CheckCircle, GraduationCap, HeartHandshake } from "lucide-react";
+
+import PageHero from "@/components/ui/PageHero";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { PHOTOS } from "@/lib/images";
+
+export const metadata: Metadata = {
+  title: "Scholarships | Black in Rehab Foundation",
+  description:
+    "Scholarships for Black students in accredited PT, OT, and SLP programs — what each award covers and what it takes to qualify.",
+};
 
 /**
  * Applications are closed, at the client's instruction in their revision
@@ -18,16 +33,22 @@ const SCHOLARSHIPS = [
     name: "Black in Rehab General Scholarship",
     amount: "$1,000 – $2,500",
     eligibility: "Black students enrolled in an accredited PT, OT, or SLP graduate program.",
+    icon: GraduationCap,
+    image: PHOTOS.studentsLectureHall,
   },
   {
     name: "Leadership Excellence Award",
     amount: "$2,500",
     eligibility: "Demonstrated leadership, community service, and academic excellence.",
+    icon: Award,
+    image: PHOTOS.studentsAwards,
   },
   {
     name: "Community Impact Scholar",
     amount: "$1,500",
     eligibility: "Students who have shown outstanding commitment to underserved communities.",
+    icon: HeartHandshake,
+    image: PHOTOS.impactVolunteersKids,
   },
 ];
 
@@ -43,97 +64,126 @@ const REQUIREMENTS = [
 export default function ScholarshipsPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
+      <PageHero
+        page="/impact/scholarships"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "BIR CARES", href: "/impact" },
+          { label: "Scholarships" },
+        ]}
+        title="Scholarships &"
+        highlight="Financial Aid"
+        description="We believe every qualified student deserves access to education. Our scholarship program breaks down financial barriers so the next generation of Black rehabilitation professionals can thrive."
+        image={PHOTOS.ghanaCertificates}
+        imagePosition="center 35%"
+        meta={
+          !APPLICATIONS_OPEN && (
+            <span className="chip chip-dark">Applications closed for this round</span>
+          )
+        }
+      />
+
+      {/* Available scholarships */}
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-            <Link href="/" className="hover:text-primary-hover">Home</Link>
-            <span>/</span>
-            <Link href="/impact" className="hover:text-primary-hover">Impact</Link>
-            <span>/</span>
-            <span className="text-foreground">Scholarships</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-            Scholarships & <span className="text-primary">Financial Aid</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted max-w-2xl">
-            We believe every qualified student deserves access to education. Our scholarship program breaks down financial barriers so the next generation of Black rehabilitation professionals can thrive.
-          </p>
-          {!APPLICATIONS_OPEN && (
-            <p className="mt-8 inline-flex items-center gap-3 rounded-full border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground">
-              <span className="chip">Closed</span>
-              Applications are closed for this round. Join the community and we
-              will tell you the moment the next one opens.
-            </p>
+          <Reveal>
+            <SectionHeading
+              eyebrow="The Awards"
+              title="Available Scholarships"
+              description={
+                APPLICATIONS_OPEN
+                  ? undefined
+                  : "Applications are closed for this round. Join the community and we will tell you the moment the next one opens."
+              }
+              className="mb-12"
+            />
+          </Reveal>
+
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {SCHOLARSHIPS.map((s) => (
+              <StaggerItem key={s.name} className="flex">
+                <PhotoCard
+                  image={s.image}
+                  icon={s.icon}
+                  eyebrow={s.amount}
+                  title={s.name}
+                  href={APPLICATIONS_OPEN ? "/impact/scholarships/apply" : undefined}
+                  cta="Apply now"
+                >
+                  <p>{s.eligibility}</p>
+                  {!APPLICATIONS_OPEN && (
+                    <p className="mt-5 text-xs font-bold uppercase tracking-[0.14em] text-muted">
+                      Applications closed
+                    </p>
+                  )}
+                </PhotoCard>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Requirements, beside a large photo */}
+      <section className="section bg-surface border-y border-border">
+        <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+          <Reveal direction="left">
+            <div className="img-filler aspect-4/5 overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 sm:aspect-4/3 lg:aspect-4/5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.ghanaBathOfReturn}
+                alt="Black in Rehab members together in Ghana"
+                loading="lazy"
+                className="photo h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <SectionHeading
+              eyebrow="Eligibility"
+              title="General Requirements"
+              description="What every applicant needs, whichever award they are applying for."
+            />
+            <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {REQUIREMENTS.map((r) => (
+                <li key={r} className="card card-sunken flex items-start gap-3 rounded-xl p-4">
+                  <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                  <p className="text-sm text-foreground">{r}</p>
+                </li>
+              ))}
+            </ul>
+            {APPLICATIONS_OPEN && (
+              <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group mt-10">
+                START YOUR APPLICATION <ArrowRight className="btn-arrow h-5 w-5" />
+              </Link>
+            )}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Closing band */}
+      <PhotoSplitBand image={PHOTOS.ghanaCastleGroup} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">For Students</p>
+        <h2 className="display-2 text-white">
+          {APPLICATIONS_OPEN ? "Ready to Apply?" : "Be First to Hear"}
+        </h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          {APPLICATIONS_OPEN
+            ? "One application covers every award you qualify for."
+            : "The next round is not open yet. Students in the community hear about every award before it is announced anywhere else."}
+        </p>
+        <div className="mt-9">
+          {APPLICATIONS_OPEN ? (
+            <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group">
+              START YOUR APPLICATION <ArrowRight className="btn-arrow h-5 w-5" />
+            </Link>
+          ) : (
+            <Link href="/community/students" className="btn btn-primary btn-lg group">
+              JOIN BLACK IN REHAB UNIVERSITY <ArrowRight className="btn-arrow h-5 w-5" />
+            </Link>
           )}
         </div>
-      </section>
-
-      {/* Available Scholarships */}
-      <section className="section pt-12 md:pt-16 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-serif font-bold text-foreground mb-12">Available Scholarships</h2>
-          <div className="space-y-6">
-            {SCHOLARSHIPS.map((s, idx) => (
-              <div key={idx} className="card p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 card-hover">
-                <div className="flex gap-6 items-start">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <GraduationCap className="w-7 h-7 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">{s.name}</h3>
-                    <p className="text-primary font-semibold mb-1">{s.amount}</p>
-                    <p className="text-muted text-sm">{s.eligibility}</p>
-                  </div>
-                </div>
-                {APPLICATIONS_OPEN ? (
-                  <Link
-                    href="/impact/scholarships/apply"
-                    className="btn btn-primary group shrink-0"
-                  >
-                    Apply Now <ArrowRight className="w-4 h-4" />
-                  </Link>
-                ) : (
-                  <span className="shrink-0 text-sm font-semibold text-muted">
-                    Applications closed
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Requirements */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-          <h2 className="text-3xl font-serif font-bold text-foreground mb-12 text-center">General Requirements</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {REQUIREMENTS.map((r, idx) => (
-              <div key={idx} className="flex items-start gap-3 card card-sunken rounded-xl p-4">
-                <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-foreground text-sm">{r}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-16 text-center">
-            {APPLICATIONS_OPEN ? (
-              <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group">
-                START YOUR APPLICATION <ArrowRight className="w-5 h-5" />
-              </Link>
-            ) : (
-              <>
-                <p className="mx-auto mb-8 max-w-xl leading-relaxed text-muted">
-                  The next round is not open yet. Students in the community hear
-                  about every award before it is announced anywhere else.
-                </p>
-                <Link href="/community/join" className="btn btn-primary btn-lg group">
-                  JOIN FREE AS A STUDENT <ArrowRight className="w-5 h-5" />
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
+      </PhotoSplitBand>
     </div>
   );
 }

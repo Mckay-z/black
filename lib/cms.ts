@@ -210,6 +210,58 @@ export async function getSiteSettings() {
 }
 
 /**
+ * Black in Rehab University's monthly session, from Site Settings → BIR
+ * University. The registration URL changes every month, so every button on
+ * the student page reads it from here; the session fields are optional.
+ */
+export const BIR_UNIVERSITY_DEFAULTS = {
+  registrationUrl: "https://forms.gle/KQydD2QaPNkJxc3o8",
+};
+
+export async function getBirUniversity() {
+  const settings = await getSiteSettings();
+  const u = settings?.birUniversity;
+  return {
+    registrationUrl: u?.registrationUrl || BIR_UNIVERSITY_DEFAULTS.registrationUrl,
+    sessionTitle: u?.sessionTitle || null,
+    sessionDate: u?.sessionDate || null,
+    sessionTime: u?.sessionTime || null,
+    sessionDescription: u?.sessionDescription || null,
+  };
+}
+
+/**
+ * Accountability Lab cohort details, from Site Settings → Accountability Lab.
+ * The defaults are the launch copy from the client's revision document.
+ */
+export const ACCOUNTABILITY_LAB_DEFAULTS = {
+  enrollmentStatus:
+    "Our current cohort has already started. We are accepting inquiries for the next cohort; the start date has not yet been announced.",
+  monthlyPrice: "$97 per month, month to month, plus processing fees.",
+  fullPrice: "$279 paid in full for the 12-week experience, plus processing fees.",
+  advisoryPrice: "$130",
+  waitlistUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSf0cn7pHpKCy2QhPM98s6PR8CvURMbwJ3Ro-covmxBPOtnhJA/viewform?usp=header",
+  waitlistLabel: "Join the Next Cohort Waitlist",
+};
+
+export async function getAccountabilityLab() {
+  const settings = await getSiteSettings();
+  const lab = settings?.accountabilityLab;
+  const d = ACCOUNTABILITY_LAB_DEFAULTS;
+  return {
+    enrollmentStatus: lab?.enrollmentStatus || d.enrollmentStatus,
+    nextCohortDates: lab?.nextCohortDates || null,
+    schedule: lab?.schedule || null,
+    monthlyPrice: lab?.monthlyPrice || d.monthlyPrice,
+    fullPrice: lab?.fullPrice || d.fullPrice,
+    advisoryPrice: lab?.advisoryPrice || d.advisoryPrice,
+    waitlistUrl: lab?.waitlistUrl || d.waitlistUrl,
+    waitlistLabel: lab?.waitlistLabel || d.waitlistLabel,
+  };
+}
+
+/**
  * Resolve an uploaded image to a URL, falling back to the hardcoded photo the
  * page already used. Payload returns either an id or the populated document
  * depending on query depth, so both shapes are handled.

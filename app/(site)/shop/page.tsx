@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ShoppingBag, Star } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+import { DONATE_URL } from "@/lib/donate";
 
 const PRODUCTS = [
   {
@@ -118,7 +119,7 @@ export default function ShopPage() {
               <h3 className="font-bold text-foreground text-lg mb-2">100% of proceeds support the mission</h3>
               <p className="text-muted">Every item you purchase from our shop goes directly toward scholarships, global experiences, and community programs. Thank you for wearing your purpose.</p>
             </div>
-            <Link href="/impact/donate" className="btn btn-primary group shrink-0">
+            <Link href={DONATE_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary group shrink-0">
               ALSO DONATE <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

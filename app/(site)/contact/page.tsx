@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { ArrowRight, Phone, Mail, MapPin, Clock, Handshake } from "lucide-react";
 
 import SiteForm from "@/components/forms/SiteForm";
 import { getSiteSettings } from "@/lib/cms";
+import { PHOTOS } from "@/lib/images";
+import PageHero from "@/components/ui/PageHero";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 
 export const metadata: Metadata = {
   title: "Contact Us | Black in Rehab Foundation",
@@ -27,32 +31,26 @@ export default async function ContactPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-            <Link href="/" className="hover:text-primary-hover">Home</Link>
-            <span>/</span>
-            <span className="text-foreground">Contact</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-            Let&apos;s <span className="text-primary">Connect</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted max-w-2xl">
-            Whether you have a question, a partnership idea, a speaking request, or just want to say hello — we&apos;d love to hear from you.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        page="/contact"
+        crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        title="Let's"
+        highlight="Connect"
+        description="Whether you have a question, a partnership idea, a speaking request, or just want to say hello — we'd love to hear from you."
+        image={PHOTOS.ghanaAirport}
+        imagePosition="65% 35%"
+      />
 
       {/* Contact grid */}
-      <section className="pt-12 md:pt-16 pb-24">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
             {/* Form */}
             <div className="lg:col-span-3">
-              <h2 className="text-2xl font-serif font-bold text-foreground mb-8">
-                Send Us a Message
-              </h2>
+              <div className="mb-10">
+                <p className="eyebrow mb-5">Write to Us</p>
+                <h2 className="display-2 text-foreground">Send Us a Message</h2>
+              </div>
 
               <SiteForm
                 formType="contact"
@@ -107,7 +105,20 @@ export default async function ContactPage() {
 
             {/* Contact details */}
             <div className="lg:col-span-2 space-y-8">
-              <h2 className="text-2xl font-serif font-bold text-foreground mb-8">Get in Touch</h2>
+              {/* A photograph above the details, so the column carries some
+                  of the community and not only contact cards. Hidden on
+                  phones, where it would push the details below the fold. */}
+              <div className="img-filler hidden aspect-4/3 overflow-hidden rounded-[var(--radius-panel)] shadow-float lg:block">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={PHOTOS.ghanaLawn}
+                  alt="The Black in Rehab group together in Ghana"
+                  loading="lazy"
+                  className="photo h-full w-full object-cover"
+                />
+              </div>
+
+              <h2 className="text-2xl font-serif font-bold text-foreground">Get in Touch</h2>
 
               <div className="flex items-start gap-4 card p-6">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -159,19 +170,31 @@ export default async function ContactPage() {
                 </div>
               )}
 
-              <div className="section-dark bg-secondary border border-border rounded-2xl p-8 mt-8">
-                <h3 className="font-bold text-white mb-3">Partnerships &amp; Sponsorships</h3>
-                <p className="text-white/70 text-sm mb-6 leading-relaxed">
-                  Interested in partnering with Black in Rehab? We offer a range of sponsorship opportunities that align your brand with our mission.
-                </p>
-                <Link href="/support/sponsors" className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:text-primary-hover transition-colors">
-                  VIEW PARTNERSHIP DECKS <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              <PhotoCard
+                image={PHOTOS.retreatGroupFormal}
+                icon={Handshake}
+                title="Partnerships & Sponsorships"
+                href="/support/sponsors"
+                cta="View partnership decks"
+                imageClassName="h-40"
+              >
+                Interested in partnering with Black in Rehab? We offer a range of sponsorship opportunities that align your brand with our mission.
+              </PhotoCard>
             </div>
           </div>
         </div>
       </section>
+
+      <PhotoSplitBand image={PHOTOS.ghanaCastleGroup} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Get Involved</p>
+        <h2 className="display-2 text-white">Ready to Take Part?</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Students, professionals, partners, and sponsors — see every way into the community.
+        </p>
+        <Link href="/get-involved" className="btn btn-primary btn-lg group mt-9">
+          GET INVOLVED <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

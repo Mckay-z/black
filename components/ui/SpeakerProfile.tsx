@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Award, Mail, Mic } from "lucide-react";
+import { ArrowRight, Award, Mail, Mic } from "lucide-react";
+import { PHOTOS } from "@/lib/images";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import BookCallout from "@/components/ui/BookCallout";
 import FillerImage from "@/components/ui/FillerImage";
 import OfferingsList, { type Offering } from "@/components/ui/OfferingsList";
@@ -14,6 +15,13 @@ export type SpeakerProfileData = {
   tagline: string;
   portrait: string;
   heroImage: string;
+  /** CSS object-position for the hero photo, e.g. "70% 25%". */
+  heroImagePosition?: string;
+  /**
+   * Photo for the closing "Bring … to Your Event" band. Defaults to a group
+   * shot; set it to keep the band from repeating a gallery picture.
+   */
+  ctaImage?: string;
   bio: string[];
   /**
    * Flat topic list — the original shape, still used where a speaker has no
@@ -70,6 +78,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         highlight={speaker.credentials}
         description={speaker.tagline}
         image={speaker.heroImage}
+        imagePosition={speaker.heroImagePosition}
         cta={{ label: "BOOK THIS SPEAKER", href: "/speakers/book" }}
         // Was "Speaking Topics" → /speakers/topics, which the client has since
         // asked us to hide. The topics are listed in full further down this
@@ -218,7 +227,6 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
             <SectionHeading
               eyebrow="Signature Talks"
               title="Ready to Book"
-              align="center"
               className="mb-12"
             />
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -248,7 +256,6 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
               eyebrow="Work With Me"
               title="Programs & Resources"
               description={speaker.offeringsIntro}
-              align="center"
               className="mb-12"
             />
             <OfferingsList offerings={speaker.offerings} />
@@ -259,7 +266,7 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
       {/* Gallery */}
       <section className="section bg-surface border-t border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading title="On Stage" align="center" className="mb-12" />
+          <SectionHeading eyebrow="Gallery" title="On Stage" className="mb-12" />
 
           {/*
             Track count follows the number of tiles, the clip included. Fixed
@@ -312,12 +319,21 @@ export default function SpeakerProfile({ speaker }: { speaker: SpeakerProfileDat
         </div>
       </section>
 
-      <CTABand
-        title={`Bring ${speaker.name} to Your Event`}
-        description="Submit your event details and we will come back within 48 hours with availability and a proposed session."
-        cta={{ label: "SUBMIT A SPEAKER REQUEST", href: "/speakers/book" }}
-        secondaryCta={{ label: "Meet All Speakers", href: "/speakers" }}
-      />
+      <PhotoSplitBand image={speaker.ctaImage ?? PHOTOS.conferenceGroupBranded} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Book This Speaker</p>
+        <h2 className="display-2 text-white">Bring {speaker.name} to Your Event</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Submit your event details and we will come back within 48 hours with availability and a proposed session.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/speakers/book" className="btn btn-primary btn-lg group">
+            SUBMIT A SPEAKER REQUEST <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/speakers" className="btn btn-on-dark btn-lg">
+            Meet All Speakers
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

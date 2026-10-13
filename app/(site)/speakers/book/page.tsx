@@ -3,6 +3,10 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle, Clock, Mail, Mic } from "lucide-react";
 
 import SiteForm from "@/components/forms/SiteForm";
+import PageHero from "@/components/ui/PageHero";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import { PHOTOS } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "Book a Speaker | Black in Rehab Foundation",
@@ -19,38 +23,29 @@ const WHAT_TO_EXPECT = [
 export default function BookSpeakerPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="section bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex flex-wrap items-center gap-2 text-sm font-medium text-primary mb-6"
-          >
-            <Link href="/" className="hover:text-primary-hover transition-colors">
-              Home
-            </Link>
-            <span className="text-muted">/</span>
-            <Link href="/speakers" className="hover:text-primary-hover transition-colors">
-              Speakers
-            </Link>
-            <span className="text-muted">/</span>
-            <span className="text-foreground">Book a Speaker</span>
-          </nav>
-          <h1 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">
-            Book a <span className="text-primary">Speaker</span>
-          </h1>
-          <p className="text-muted text-lg max-w-2xl">
-            Tell us about your event and we will match you with the right speaker and session.
-            Keynotes, panels, workshops, campus lectures, and podcast appearances — in person
-            or virtual.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        page="/speakers/book"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Speakers", href: "/speakers" },
+          { label: "Book a Speaker" },
+        ]}
+        title="Book a"
+        highlight="Speaker"
+        description="Tell us about your event and we will match you with the right speaker and session. Keynotes, panels, workshops, campus lectures, and podcast appearances — in person or virtual."
+        image={PHOTOS.conferenceRoomWide}
+        imagePosition="center 40%"
+      />
 
-      <section className="py-16 md:py-24">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
             {/* Form */}
             <div className="lg:col-span-2">
+              <div className="mb-10">
+                <p className="eyebrow mb-5">Speaker Request</p>
+                <h2 className="display-2 text-foreground">Tell Us About Your Event</h2>
+              </div>
               <SiteForm
                 formType="speaker-booking"
                 submitLabel="SUBMIT SPEAKER REQUEST"
@@ -264,21 +259,17 @@ export default function BookSpeakerPage() {
                 </div>
               </div>
 
-              <div className="card p-8">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-5">
-                  <Mic className="w-6 h-6 text-primary" />
-                </div>
-                <h2 className="text-lg font-bold text-foreground mb-3">Our Speakers</h2>
-                <p className="text-muted text-sm leading-relaxed mb-5">
-                  Meet the clinicians and leaders available for your event.
-                </p>
-                <Link
-                  href="/speakers"
-                  className="link-arrow"
-                >
-                  Speakers Bureau <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              <PhotoCard
+                image={PHOTOS.speakingAfricaSummit}
+                imageAlt="The Black in Rehab founders on stage at the Africa Business Investment Summit"
+                imagePosition="center 30%"
+                icon={Mic}
+                title="Our Speakers"
+                href="/speakers"
+                cta="Speakers Bureau"
+              >
+                Meet the clinicians and leaders available for your event.
+              </PhotoCard>
 
               <div className="card p-8">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-5">
@@ -299,6 +290,17 @@ export default function BookSpeakerPage() {
           </div>
         </div>
       </section>
+
+      <PhotoSplitBand image={PHOTOS.conferenceGroupBranded} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Before You Book</p>
+        <h2 className="display-2 text-white">Meet the Speakers</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Each speaker&apos;s page lists their topics, formats, and the stages they have spoken on.
+        </p>
+        <Link href="/speakers" className="btn btn-primary btn-lg group mt-9">
+          VISIT THE SPEAKERS BUREAU <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

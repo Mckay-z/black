@@ -50,6 +50,33 @@ One record exists per page, already named ("Ghana Experience", "FAQs", …). Ope
 
 ---
 
+## Updating the monthly BIR University session
+
+The registration link for Black in Rehab University changes every month. Every "Register" button on **/community/students** reads one field, so it is a single edit:
+
+1. Sign in at **/admin** (any staff account — no administrator role needed).
+2. Open **Settings → Site Settings → BIR University** tab.
+3. Paste the new form link into **Session registration URL**.
+4. Optional: fill in **Next session — title / date / time / description**. A "Next session" box appears on the page once the title is filled in; clear the title to hide it again.
+5. Click **Save**. The page updates on the next visit — no deploy.
+
+Clearing the URL falls back to the original October form, so do not leave it blank on purpose.
+
+## Accountability Lab settings
+
+Everything that changes between cohorts lives in **Settings → Site Settings → Accountability Lab** and shows on **/get-involved/accountability-lab**:
+
+| Field | What it controls |
+|---|---|
+| Cohort / enrollment status | The status line ("Our current cohort has already started…") |
+| Next cohort dates, Session schedule | Shown only when filled in |
+| Monthly / Paid-in-full price line, Private advisory price | The Investment section |
+| Waitlist / inquiry button URL, Button label | Every waitlist button on the page |
+
+Keep the button a waitlist while enrollment is closed — the page deliberately has no Enroll / Apply / checkout button. Facilitator names and bios are not on the page yet; send BIR-approved ones and they can be added. Same access as above: any signed-in staff account.
+
+---
+
 ## Form Submissions
 
 Every form on the site writes here:

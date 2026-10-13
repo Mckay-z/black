@@ -71,7 +71,7 @@ export default function LeadershipRetreatsPage() {
         page="/trips/leadership-retreats"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Trips", href: "/trips" },
+          { label: "Upcoming Events & Trips", href: "/trips" },
           { label: "Leadership Retreats" },
         ]}
         title="Leadership"

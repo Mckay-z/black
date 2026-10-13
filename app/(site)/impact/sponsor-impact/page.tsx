@@ -9,8 +9,11 @@ import {
 } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
 
 const ALLOCATION = [
@@ -22,17 +25,20 @@ const ALLOCATION = [
 
 const REPORTING = [
   {
-    icon: <FileText className="w-6 h-6 text-primary" />,
+    icon: FileText,
+    image: PHOTOS.conferenceSession,
     title: "Quarterly Statements",
     desc: "A short written update showing exactly which programs your contribution funded that quarter.",
   },
   {
-    icon: <LineChart className="w-6 h-6 text-primary" />,
+    icon: LineChart,
+    image: PHOTOS.conferenceRoomWide,
     title: "Annual Impact Report",
     desc: "Full-year financials, program outcomes, and an honest account of what fell short.",
   },
   {
-    icon: <BadgeCheck className="w-6 h-6 text-primary" />,
+    icon: BadgeCheck,
+    image: PHOTOS.conferenceGala,
     title: "Named Recognition",
     desc: "Recognition at the level of your sponsorship tier, across the conference, site, and report.",
   },
@@ -44,7 +50,7 @@ const STORIES = [
       "Placeholder testimonial — the client will supply a scholarship recipient story here.",
     name: "Scholarship Recipient",
     detail: "DPT Candidate — client to confirm",
-    image: PHOTOS.foundersPortrait,
+    image: PHOTOS.studentsAwards,
   },
   {
     quote:
@@ -62,7 +68,7 @@ export default function SponsorImpactPage() {
         page="/impact/sponsor-impact"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Impact", href: "/impact" },
+          { label: "BIR CARES", href: "/impact" },
           { label: "Sponsor Impact" },
         ]}
         title="Sponsor"
@@ -98,19 +104,15 @@ export default function SponsorImpactPage() {
                   </div>
                 ))}
               </div>
-              <Link
-                href="/about/annual-report"
-                className="link-arrow mt-10"
-              >
-                Read the full annual report <ArrowRight className="w-4 h-4" />
-              </Link>
             </div>
-            <FillerImage
-              src={PHOTOS.conferenceHug}
-              alt="Scholarship recipients at the annual conference"
-              wrapperClassName="aspect-4/3 rounded-3xl group"
-              zoomOnHover
-            />
+            <Reveal direction="left">
+              <FillerImage
+                src={PHOTOS.conferenceHug}
+                alt="Two members embracing at the annual conference"
+                wrapperClassName="aspect-4/5 sm:aspect-4/3 lg:aspect-4/5 rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 group"
+                zoomOnHover
+              />
+            </Reveal>
           </div>
         </div>
       </section>
@@ -118,26 +120,18 @@ export default function SponsorImpactPage() {
       {/* Reporting */}
       <section className="section bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Accountability"
-            title="What You Receive as a Sponsor"
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Reveal>
+            <SectionHeading eyebrow="Accountability" title="What You Receive as a Sponsor" className="mb-12" />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {REPORTING.map((item) => (
-              <div
-                key={item.title}
-                className="card card-sunken p-8 card-hover"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {item.icon}
-                </div>
-                <h3 className="font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{item.desc}</p>
-              </div>
+              <StaggerItem key={item.title} className="flex">
+                <PhotoCard image={item.image} icon={item.icon} title={item.title}>
+                  {item.desc}
+                </PhotoCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -147,8 +141,7 @@ export default function SponsorImpactPage() {
           <SectionHeading
             eyebrow="In Their Words"
             title="The People Behind the Numbers"
-            align="center"
-            className="mb-16"
+            className="mb-12"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {STORIES.map((story) => (
@@ -177,38 +170,49 @@ export default function SponsorImpactPage() {
 
       {/* Commitments */}
       <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 max-w-3xl">
-          <SectionHeading
-            eyebrow="Our Commitments"
-            title="What We Promise Sponsors"
-            align="center"
-            className="mb-12"
-          />
-          <div className="space-y-3">
-            {[
-              "We will never claim an outcome we cannot document",
-              "Program spending is reported before administrative spending",
-              "Sponsor recognition never implies editorial control over our advocacy",
-              "You can end a sponsorship at any renewal point, no penalty",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-start gap-3 card card-sunken rounded-xl p-5"
-              >
-                <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-foreground text-sm">{item}</p>
-              </div>
-            ))}
-          </div>
+        <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <SectionHeading eyebrow="Our Commitments" title="What We Promise Sponsors" className="mb-10" />
+            <ul className="space-y-3">
+              {[
+                "We will never claim an outcome we cannot document",
+                "Program spending is reported before administrative spending",
+                "Sponsor recognition never implies editorial control over our advocacy",
+                "You can end a sponsorship at any renewal point, no penalty",
+              ].map((item) => (
+                <li key={item} className="card card-sunken flex items-start gap-3 rounded-xl p-5">
+                  <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                  <p className="text-sm text-foreground">{item}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal direction="left">
+            <FillerImage
+              src={PHOTOS.conferenceAudience}
+              alt="The audience at the annual conference"
+              wrapperClassName="aspect-4/3 rounded-[var(--radius-panel)] shadow-float group"
+              zoomOnHover
+            />
+          </Reveal>
         </div>
       </section>
 
-      <CTABand
-        title="Sponsor Something You Can Point To"
-        description="Pick a tier, or tell us the outcome you want to fund and we will build the package around it."
-        cta={{ label: "VIEW SPONSORSHIP TIERS", href: "/support/sponsors" }}
-        secondaryCta={{ label: "Talk to Our Team", href: "/contact" }}
-      />
+      <PhotoSplitBand image={PHOTOS.retreatGroupBlazers} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Sponsorship</p>
+        <h2 className="display-2 text-white">Sponsor Something You Can Point To</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Pick a tier, or tell us the outcome you want to fund and we will build the package around it.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/support/sponsors" className="btn btn-primary btn-lg group">
+            VIEW SPONSORSHIP TIERS <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/contact" className="btn btn-on-dark btn-lg">
+            Talk to Our Team
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

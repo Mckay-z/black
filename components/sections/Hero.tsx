@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Globe2 } from "lucide-react";
 
 import { getHero, imageUrl } from "@/lib/cms";
+import { DONATE_URL, externalProps } from "@/lib/donate";
 import { PHOTOS } from "@/lib/images";
 
 /**
@@ -22,7 +23,7 @@ const DEFAULTS = {
   image: PHOTOS.retreatGroupBlazers,
   description:
     "Black in Rehab equips rehabilitation professionals to lead with excellence, serve with purpose, and create lasting impact worldwide.",
-  cta: { label: "DONATE", href: "/impact/donate" },
+  cta: { label: "DONATE", href: DONATE_URL },
   secondaryCta: { label: "EXPLORE OUR IMPACT", href: "/impact" },
 };
 
@@ -65,10 +66,6 @@ export default async function Hero() {
       />
 
       <div className="container relative mx-auto px-4 md:px-6 pt-28 pb-24 text-center">
-        <p className="eyebrow eyebrow-on-dark enter mx-auto mb-7">
-          Sankofa Return · Clinical &amp; Cultural Exchange
-        </p>
-
         <h1 className="display-1 enter enter-1 mx-auto max-w-4xl text-white">
           {hero?.heading ? (
             <>
@@ -94,6 +91,7 @@ export default async function Hero() {
         <div className="enter enter-3 mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href={ctaHref}
+            {...externalProps(ctaHref)}
             className="btn btn-primary btn-lg group w-full sm:w-auto"
           >
             {ctaLabel}

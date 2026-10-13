@@ -86,15 +86,17 @@ const EXTRA_PAGES: SearchEntry[] = [
     title: "Register for the Retreat",
     href: "/trips/conference/register",
     description: "Registration for the 6th Annual Retreat in New Orleans.",
-    section: "Trips",
+    section: "Upcoming Events & Trips",
     keywords: ["register", "sign up", "conference", "new orleans", "annual"],
   },
   {
-    title: "Register for Ghana",
-    href: "/trips/ghana/register",
-    description: "Registration for the Sankofa Return journey to Ghana.",
-    section: "Trips",
-    keywords: ["register", "sign up", "sankofa", "accra", "cape coast", "africa"],
+    // `/trips/ghana/register` now redirects to the Cognito application, so
+    // search points at the page's own "How to Join" steps instead.
+    title: "Apply for Ghana: Sankofa Return",
+    href: "/trips/ghana#how-to-join",
+    description: "Apply, then book your place once approved.",
+    section: "Upcoming Events & Trips",
+    keywords: ["register", "apply", "book", "sign up", "sankofa", "accra", "elmina", "africa"],
   },
 
   // Legal and policy. Nobody browses to these; they search for them by name.
@@ -162,7 +164,7 @@ export const SEARCH_INDEX: SearchEntry[] = (() => {
       title: trip.title,
       href: trip.href,
       description: trip.blurb,
-      section: "Trips",
+      section: "Upcoming Events & Trips",
       // The date and the place are what people actually remember about a trip.
       keywords: [trip.location, trip.dates, trip.slug.replace(/-/g, " ")],
     });
@@ -177,7 +179,7 @@ export const SEARCH_INDEX: SearchEntry[] = (() => {
 export const SUGGESTED: SearchEntry[] = [
   "/trips/upcoming-events",
   "/impact/donate",
-  "/community/join",
+  "/get-involved",
   "/impact/scholarships",
   "/contact",
 ]

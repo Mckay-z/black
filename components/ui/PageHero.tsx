@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { getHero, imageUrl } from "@/lib/cms";
+import { externalProps } from "@/lib/donate";
 
 export type Crumb = { label: string; href?: string };
 
@@ -34,6 +35,7 @@ export default async function PageHero({
   cta,
   secondaryCta,
   size = "default",
+  imagePosition = "70% center",
 }: {
   /** Route path used to look up an editable banner in the CMS. */
   page?: string;
@@ -46,6 +48,11 @@ export default async function PageHero({
   cta?: Cta;
   secondaryCta?: Cta;
   size?: "default" | "tall";
+  /**
+   * CSS object-position for the photo. The copy sits on the left, so the
+   * default keeps the subject toward the right where the photo is clearest.
+   */
+  imagePosition?: string;
 }) {
   const override = page ? await getHero(page) : null;
 
@@ -74,30 +81,37 @@ export default async function PageHero({
     >
       {resolved.image && (
         <>
-          <div
-            className="absolute inset-0 -z-20 bg-cover bg-center scale-105 opacity-40"
-            style={{ backgroundImage: `url('${resolved.image}')` }}
+          {/* The photo at full strength, as on the BIR CARES and Get
+              Involved mockups — not a 40% wash. Contrast for the copy comes
+              from the scrims below, which are dark on the left where the
+              text sits and clear on the right where the subject is. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={resolved.image}
+            alt=""
             aria-hidden="true"
+            className="absolute inset-0 -z-20 h-full w-full object-cover"
+            style={{ objectPosition: imagePosition }}
           />
-          {/* Two crossed scrims: one darkening toward the copy on the left,
-              one grounding the bottom edge. Together they hold contrast on
-              any photograph without needing a per-page opacity tweak. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-linear-to-r from-black/90 via-black/70 to-black/40"
+            className="absolute inset-0 -z-10 bg-linear-to-r from-black via-black/75 to-black/10 md:from-black/90 md:via-black/50 md:to-transparent"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-linear-to-t from-black/80 via-transparent to-black/50"
+            className="absolute inset-x-0 top-0 -z-10 h-32 bg-linear-to-b from-black/60 to-transparent"
           />
         </>
       )}
 
-      {/* Gold bloom behind the headline. */}
-      <div
-        aria-hidden="true"
-        className="absolute -z-10 -top-40 -left-32 h-[32rem] w-[32rem] rounded-full bg-primary/12 blur-3xl"
-      />
+      {/* Gold bloom behind the headline — only without a photo, where it
+          is the page's whole texture. Over a photograph it muddies it. */}
+      {!resolved.image && (
+        <div
+          aria-hidden="true"
+          className="absolute -z-10 -top-40 -left-32 h-[32rem] w-[32rem] rounded-full bg-primary/12 blur-3xl"
+        />
+      )}
 
       {/* Soft landing into whatever section follows. */}
       <div
@@ -129,7 +143,7 @@ export default async function PageHero({
           ))}
         </nav>
 
-        <h1 className="display-1 text-white max-w-4xl">
+        <h1 className="display-1 text-white max-w-3xl">
           {resolved.title}
           {resolved.highlight && (
             <>
@@ -154,7 +168,7 @@ export default async function PageHero({
         {(resolved.cta || resolved.secondaryCta) && (
           <div className="mt-10 flex flex-col sm:flex-row gap-3">
             {resolved.cta && (
-              <Link href={resolved.cta.href} className="btn btn-primary btn-lg group">
+              <Link href={resolved.cta.href} {...externalProps(resolved.cta.href)} className="btn btn-primary btn-lg group">
                 {resolved.cta.label}
                 <ArrowRight className="btn-arrow w-5 h-5" />
               </Link>
@@ -162,6 +176,7 @@ export default async function PageHero({
             {resolved.secondaryCta && (
               <Link
                 href={resolved.secondaryCta.href}
+                {...externalProps(resolved.secondaryCta.href)}
                 className="btn btn-on-dark btn-lg"
               >
                 {resolved.secondaryCta.label}

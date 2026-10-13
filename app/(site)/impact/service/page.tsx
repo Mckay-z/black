@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
+  ArrowRight,
   CheckCircle,
-  Clock,
   Globe2,
   HandHeart,
   Megaphone,
@@ -12,8 +13,9 @@ import {
 
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
@@ -42,18 +44,21 @@ const PROGRAMS = [
   {
     icon: Stethoscope,
     title: "Local Community Clinics",
+    image: PHOTOS.impactPediatric,
     description:
       "Free rehabilitation screenings, wellness education, and follow-up care in underserved neighbourhoods.",
   },
   {
     icon: Globe2,
     title: "Global Service Trips",
+    image: PHOTOS.ghanaAirport,
     description:
       "Service journeys in Ghana, Jamaica, and beyond — providing care while building lasting partnerships.",
   },
   {
     icon: HandHeart,
     title: "Health Education Workshops",
+    image: PHOTOS.pressWagmcStage,
     description:
       "Community workshops on injury prevention, chronic disease management, and rehabilitation access.",
   },
@@ -63,6 +68,7 @@ const ROLES = [
   {
     icon: HandHeart,
     title: "Community Service",
+    image: PHOTOS.impactBackpacks,
     commitment: "One day at a time",
     description:
       "Health screenings, mobility clinics, and school-based events in underserved neighbourhoods.",
@@ -70,6 +76,7 @@ const ROLES = [
   {
     icon: Users,
     title: "Mentorship",
+    image: PHOTOS.conferenceTableTalk,
     commitment: "One hour a month",
     description:
       "Be matched with a student or early-career clinician who needs someone who has walked the path.",
@@ -77,6 +84,7 @@ const ROLES = [
   {
     icon: Mic,
     title: "Event Support",
+    image: PHOTOS.conferenceAudience,
     commitment: "Per event",
     description:
       "Help run registration, sessions, and logistics at the annual conference and regional gatherings.",
@@ -84,6 +92,7 @@ const ROLES = [
   {
     icon: Megaphone,
     title: "Advocacy & Outreach",
+    image: PHOTOS.impactAdvocacySpeaker,
     commitment: "Ongoing",
     description:
       "Represent the organisation at career fairs, campus visits, and professional association meetings.",
@@ -125,7 +134,7 @@ export default function ServiceAndVolunteeringPage() {
         page="/impact/service"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Impact", href: "/impact" },
+          { label: "BIR CARES", href: "/impact" },
           { label: "Service & Volunteering" },
         ]}
         title="Service &"
@@ -139,7 +148,7 @@ export default function ServiceAndVolunteeringPage() {
       {/* The work */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid items-start gap-16 lg:grid-cols-2">
+          <div className="grid items-center gap-16 lg:grid-cols-2">
             <Reveal>
               <SectionHeading
                 eyebrow="Our Approach"
@@ -152,17 +161,27 @@ export default function ServiceAndVolunteeringPage() {
               </p>
             </Reveal>
 
-            <Stagger className="space-y-4">
-              {REACH.map((item) => (
-                <StaggerItem key={item} className="card flex items-start gap-3 rounded-xl p-4">
-                  <CheckCircle
-                    className="mt-0.5 h-5 w-5 shrink-0 text-primary"
-                    aria-hidden="true"
-                  />
-                  <p className="text-sm font-medium text-foreground">{item}</p>
-                </StaggerItem>
-              ))}
-            </Stagger>
+            <div>
+              <Reveal direction="left">
+                <FillerImage
+                  src={PHOTOS.impactTherapy}
+                  alt="A Black in Rehab therapist working with children"
+                  wrapperClassName="aspect-4/3 rounded-[var(--radius-panel)] shadow-float group"
+                  zoomOnHover
+                />
+              </Reveal>
+              <Stagger className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {REACH.map((item) => (
+                  <StaggerItem key={item} className="card flex items-start gap-3 rounded-xl p-4">
+                    <CheckCircle
+                      className="mt-0.5 h-5 w-5 shrink-0 text-primary"
+                      aria-hidden="true"
+                    />
+                    <p className="text-sm font-medium text-foreground">{item}</p>
+                  </StaggerItem>
+                ))}
+              </Stagger>
+            </div>
           </div>
         </div>
       </section>
@@ -174,19 +193,16 @@ export default function ServiceAndVolunteeringPage() {
             <SectionHeading
               eyebrow="What We Run"
               title="Our Service Programmes"
-              align="center"
-              className="mb-16"
+              className="mb-12"
             />
           </Reveal>
 
-          <Stagger className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {PROGRAMS.map(({ icon: Icon, title, description }) => (
-              <StaggerItem key={title} className="card card-sunken card-hover p-8">
-                <span className="icon-tile mb-6">
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h3 className="mb-3 text-xl font-bold text-foreground">{title}</h3>
-                <p className="text-sm leading-relaxed text-muted">{description}</p>
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {PROGRAMS.map(({ icon, title, description, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title}>
+                  {description}
+                </PhotoCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -201,25 +217,16 @@ export default function ServiceAndVolunteeringPage() {
               eyebrow="Volunteer Roles"
               title="Four Ways to Give Your Time"
               description="Pick the one that matches the season you are in. People move between roles all the time."
-              align="center"
-              className="mb-16"
+              className="mb-12"
             />
           </Reveal>
 
-          <Stagger className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            {ROLES.map(({ icon: Icon, title, commitment, description }) => (
-              <StaggerItem key={title} className="card card-hover p-8">
-                <div className="mb-6 flex items-start justify-between gap-4">
-                  <span className="icon-tile shrink-0">
-                    <Icon className="h-6 w-6" aria-hidden="true" />
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-                    <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                    {commitment}
-                  </span>
-                </div>
-                <h3 className="mb-3 text-xl font-bold text-foreground">{title}</h3>
-                <p className="text-sm leading-relaxed text-muted">{description}</p>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {ROLES.map(({ icon, title, commitment, description, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} eyebrow={commitment} title={title} imageClassName="h-40">
+                  {description}
+                </PhotoCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -275,12 +282,21 @@ export default function ServiceAndVolunteeringPage() {
         </div>
       </section>
 
-      <CTABand
-        title="Give an Hour. Change a Trajectory."
-        description="Tell us what you have time for and we will find the role where it counts most."
-        cta={{ label: "SIGN UP TO VOLUNTEER", href: "/contact" }}
-        secondaryCta={{ label: "Other Ways to Help", href: "/get-involved" }}
-      />
+      <PhotoSplitBand image={PHOTOS.impactVolunteersKids} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Volunteer</p>
+        <h2 className="display-2 text-white">Give an Hour. Change a Trajectory.</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Tell us what you have time for and we will find the role where it counts most.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/contact" className="btn btn-primary btn-lg group">
+            SIGN UP TO VOLUNTEER <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/get-involved" className="btn btn-on-dark btn-lg">
+            Other Ways to Help
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

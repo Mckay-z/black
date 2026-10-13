@@ -419,6 +419,10 @@ export const FALLBACK_IMPACT_STORIES = [
   { title: "Neurodiversity day", category: "community", image: PHOTOS.impactNeurodiversity },
   { title: "Speaking up", category: "community", image: PHOTOS.impactAdvocacySpeaker },
   { title: "Together", category: "community", image: PHOTOS.impactHandsUp },
+  // Supplied in the client's "Website Updates" document.
+  { title: "Workshop in Ghana", category: "community", image: "/photos/press-wagmc-stage.jpg" },
+  { title: "On the radio, advocating for children with developmental disabilities", category: "community", image: "/photos/press-starr-fm.jpg" },
+  { title: "On television, advocating for children with developmental disabilities", category: "community", image: "/photos/press-ghone-tv.jpg" },
 ] as const;
 
 /** Invented member quotes. Replace with attributed stories before launch. */

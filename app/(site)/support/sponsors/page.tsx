@@ -4,7 +4,8 @@ import { ArrowRight, Building2, CheckCircle, GraduationCap, Handshake, Radio } f
 
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
@@ -95,28 +96,42 @@ const TIERS = [
 const PARTNER_TYPES = [
   {
     icon: Building2,
+    image: PHOTOS.conferenceGroupBranded,
     title: "Corporate Partners",
     description:
       "Healthcare systems, rehabilitation companies, and healthcare technology brands who want to reach and support Black rehab professionals.",
   },
   {
     icon: GraduationCap,
+    image: PHOTOS.studentsLectureHall,
     title: "Academic Institutions",
     description:
       "Universities and PT/OT/SLP programmes looking to recruit, support, and champion Black students in their programmes.",
   },
   {
     icon: Handshake,
+    image: PHOTOS.impactVolunteerChildren,
     title: "Nonprofit Partners",
     description:
       "Organisations that share our mission around health equity, community service, and professional development.",
   },
   {
     icon: Radio,
+    image: PHOTOS.pressStarrFm,
     title: "Media & Brand Partners",
     description:
       "Publishers, media outlets, and lifestyle brands that want to authentically reach our engaged community.",
   },
+];
+
+/** Supplied as logos in the client's "Website Updates" document. */
+const SPONSORS = [
+  { name: "Alo", logo: "/logos/sponsor-alo.png" },
+  { name: "OT Designz", logo: "/logos/sponsor-ot-designz.png" },
+  { name: "Jaanuu", logo: "/logos/sponsor-jaanuu.png" },
+  { name: "Clove", logo: "/logos/sponsor-clove.png" },
+  { name: "Garde Malade", logo: "/logos/sponsor-garde-malade.png" },
+  { name: "Vakae Luxe", logo: "/logos/sponsor-vakae-luxe.png" },
 ];
 
 export default function SponsorsPage() {
@@ -137,15 +152,60 @@ export default function SponsorsPage() {
         secondaryCta={{ label: "See Where It Goes", href: "/impact/sponsor-impact" }}
       />
 
-      {/* Tiers */}
+      {/* Our sponsors, beside a large photograph. */}
       <section className="section bg-background">
+        <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+          <Reveal direction="left" className="mx-auto w-full max-w-md lg:max-w-none">
+            <div className="img-filler relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/25">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.conferenceCelebration}
+                alt="Black in Rehab members celebrating together at the conference"
+                loading="lazy"
+                className="photo h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
+          <Reveal>
+            <SectionHeading eyebrow="Thank You" title="Our Sponsors" className="mb-8" />
+            {/* The source logos are small, so they sit at a modest size on
+                white tiles rather than being stretched. */}
+            <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              {SPONSORS.map((sponsor) => (
+                <li
+                  key={sponsor.name}
+                  className="flex h-28 items-center justify-center rounded-2xl border border-border bg-white p-4"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    loading="lazy"
+                    className="max-h-20 max-w-full w-auto object-contain"
+                  />
+                </li>
+              ))}
+            </ul>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link href="/contact" className="btn btn-primary btn-lg group">
+                BECOME A SPONSOR <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
+              </Link>
+              <Link href="#tiers" className="btn btn-outline btn-lg">
+                See the Tiers
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Tiers */}
+      <section id="tiers" className="section scroll-mt-24 bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal>
             <SectionHeading
               eyebrow="Sponsorship Tiers"
               title="Four Levels, Everything Listed"
               description="Sponsor a single school event, or back the work year-round — each of the three larger tiers includes everything in the one below it. If none of these is the right shape for you, say so — most of our long-term partnerships started as a conversation rather than a tier."
-              align="center"
               className="mb-16"
             />
           </Reveal>
@@ -199,37 +259,43 @@ export default function SponsorsPage() {
       </section>
 
       {/* Who we work with */}
-      <section className="section border-y border-border bg-surface">
+      <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal>
             <SectionHeading
               eyebrow="Who We Work With"
               title="Four Kinds of Sponsor"
-              align="center"
-              className="mb-16"
+              className="mb-12"
             />
           </Reveal>
 
-          <Stagger className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {PARTNER_TYPES.map(({ icon: Icon, title, description }) => (
-              <StaggerItem key={title} className="card card-sunken p-8">
-                <span className="icon-tile mb-6">
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h3 className="mb-3 font-bold text-foreground">{title}</h3>
-                <p className="text-sm leading-relaxed text-muted">{description}</p>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PARTNER_TYPES.map(({ icon, image, title, description }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title} imageClassName="h-44">
+                  {description}
+                </PhotoCard>
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      <CTABand
-        title="Let Us Build Something Real"
-        description="Tell us what you are trying to achieve and we will come back with a proposal, not a brochure."
-        cta={{ label: "START A CONVERSATION", href: "/contact" }}
-        secondaryCta={{ label: "Corporate Partnerships", href: "/support/corporate" }}
-      />
+      <PhotoSplitBand image={PHOTOS.retreatGroupBlazers} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Sponsorship</p>
+        <h2 className="display-2 text-white">Let Us Build Something Real</h2>
+        <p className="mt-5 mb-9 max-w-lg text-lg leading-relaxed text-white/80">
+          Tell us what you are trying to achieve and we will come back with a proposal, not a brochure.
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link href="/contact" className="btn btn-primary btn-lg group">
+            START A CONVERSATION <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
+          </Link>
+          <Link href="/support/corporate" className="btn btn-on-dark btn-lg">
+            Corporate Partnerships
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

@@ -64,23 +64,6 @@ export default function Community() {
               <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
             </div>
 
-            <div className="card absolute -bottom-8 -left-6 hidden max-w-sm p-6 shadow-float md:bottom-8 md:-left-10 md:block">
-              <div className="mb-4 flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary font-serif font-bold text-white">
-                  BIR
-                </span>
-                <div>
-                  <h3 className="font-bold text-foreground">Wear The Movement</h3>
-                  <p className="text-sm text-muted">
-                    Represent purpose. Support the mission.
-                  </p>
-                </div>
-              </div>
-              <Link href="/shop" className="link-arrow group">
-                SHOP NEW ARRIVALS
-                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
           </Reveal>
         </div>
       </div>

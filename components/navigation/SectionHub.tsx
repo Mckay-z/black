@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 import SectionHeading from "@/components/ui/SectionHeading";
-import { Stagger, StaggerLink } from "@/components/motion/Stagger";
+import { Stagger, StaggerItem, StaggerLink } from "@/components/motion/Stagger";
 import { NAV_SECTIONS, type NavIcon } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +43,7 @@ import { cn } from "@/lib/utils";
  */
 
 
-const ICONS: Record<NavIcon, React.ComponentType<{ className?: string }>> = {
+export const NAV_ICONS: Record<NavIcon, React.ComponentType<{ className?: string }>> = {
   book: BookOpen,
   award: Award,
   users: Users,
@@ -74,6 +74,7 @@ export default function SectionHub({
   eyebrow = "In This Section",
   title,
   description,
+  linked = true,
   className = "",
 }: {
   /** The section's own href, e.g. "/impact". */
@@ -81,6 +82,12 @@ export default function SectionHub({
   eyebrow?: string;
   title?: string;
   description?: string;
+  /**
+   * False renders the children as informational cards with no link — BIR
+   * CARES lists its programmes this way at the client's request, while the
+   * pages themselves stay reachable from the menu.
+   */
+  linked?: boolean;
   className?: string;
 }) {
   const match = NAV_SECTIONS.find((entry) => entry.href === section);
@@ -106,7 +113,23 @@ export default function SectionHub({
         <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {match.children.map((child) => {
 
-            const Icon = ICONS[child.icon];
+            const Icon = NAV_ICONS[child.icon];
+
+            if (!linked) {
+              return (
+                <StaggerItem key={child.href} className="card flex h-full flex-col p-8">
+                  <span className="icon-tile mb-6">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="mb-3 font-serif text-xl font-bold text-foreground">
+                    {child.label}
+                  </h3>
+                  <p className="flex-1 text-sm leading-relaxed text-muted">
+                    {child.description}
+                  </p>
+                </StaggerItem>
+              );
+            }
 
             return (
               <StaggerLink

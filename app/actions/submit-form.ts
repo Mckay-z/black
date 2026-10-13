@@ -5,6 +5,13 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import { z } from "zod";
 
+import {
+  newsletterWelcomeEmail,
+  staffAlertEmail,
+  visitorConfirmationEmail,
+  type SubmissionForEmail,
+} from "@/lib/email-templates";
+
 /**
  * The single write path for every public form on the site.
  *
@@ -125,7 +132,17 @@ export async function submitForm(
       },
     });
 
-    await notifyStaff(payload, parsed.data.formType, parsed.data.email);
+    const forEmail: SubmissionForEmail = {
+      ...parsed.data,
+      data: {
+        ...(parsed.data.data ?? {}),
+        ...(attachments.length ? { attachments } : {}),
+      },
+    };
+
+    // Both sends are independent and both swallow their own errors, so a
+    // slow or failed email never holds up or fails the visitor's submission.
+    await Promise.all([notifyStaff(payload, forEmail), confirmToVisitor(payload, forEmail)]);
 
     return {
       ok: true,
@@ -202,8 +219,7 @@ async function storeAttachments(
  */
 async function notifyStaff(
   payload: Awaited<ReturnType<typeof getPayload>>,
-  formType: string,
-  from: string,
+  submission: SubmissionForEmail,
 ) {
   try {
     const settings = await payload.findGlobal({ slug: "site-settings", depth: 0 });
@@ -212,12 +228,31 @@ async function notifyStaff(
     const to = settings?.notificationEmail || settings?.email;
     if (!to) return;
 
-    await payload.sendEmail({
-      to,
-      subject: `New ${formType} submission from ${from}`,
-      text: `A new ${formType} submission was received from ${from}.\n\nView it in the dashboard under Inbox → Form Submissions.`,
-    });
+    // Branded HTML with a plain-text twin; the sender's details, any
+    // form-specific fields and the message are all in the email itself, so
+    // staff can follow up without opening the dashboard.
+    await payload.sendEmail({ to, ...staffAlertEmail(submission) });
   } catch (error) {
     console.error("[submit-form] notification email failed (submission was saved):", error);
+  }
+}
+
+/**
+ * Confirm receipt to the visitor — a welcome email for newsletter sign-ups,
+ * a "we received your submission" note for everything else. Same failure
+ * policy as `notifyStaff`: logged, never surfaced to the visitor.
+ */
+async function confirmToVisitor(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  submission: SubmissionForEmail,
+) {
+  try {
+    const email =
+      submission.formType === "newsletter"
+        ? newsletterWelcomeEmail(submission)
+        : visitorConfirmationEmail(submission);
+    await payload.sendEmail({ to: submission.email, ...email });
+  } catch (error) {
+    console.error("[submit-form] visitor confirmation email failed (submission was saved):", error);
   }
 }

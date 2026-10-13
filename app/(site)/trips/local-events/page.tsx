@@ -68,7 +68,7 @@ export default function LocalEventsPage() {
         page="/trips/local-events"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Trips", href: "/trips" },
+          { label: "Upcoming Events & Trips", href: "/trips" },
           { label: "Local Events" },
         ]}
         title="Local"

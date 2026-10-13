@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
+import { externalProps } from "@/lib/donate";
 
 /**
  * A grid or list whose children arrive one after another rather than all at
@@ -141,6 +142,7 @@ export function StaggerLink({
     <MotionLink
       data-motion=""
       href={href}
+      {...externalProps(href)}
       aria-label={ariaLabel}
       className={className}
       variants={itemVariants}

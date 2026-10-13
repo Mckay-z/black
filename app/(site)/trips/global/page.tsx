@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Globe2, HandHeart, Plane, Users } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
-import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
-import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
 
 /** The client's own framing of the programme, taken verbatim from their brief. */
@@ -33,31 +34,43 @@ const DESTINATIONS = [
     image: PHOTOS.ghanaAirport,
     href: "/trips/ghana",
     summary:
-      "Clinical service, cultural immersion, and heritage across Accra and the Cape Coast.",
+      "Clinical service, cultural immersion, and heritage across Accra and Elmina.",
   },
 ];
 
 const PILLARS = [
   {
-    icon: <HandHeart className="w-6 h-6 text-primary" />,
+    icon: HandHeart,
     title: "Service",
     desc: "Hands-on clinical work alongside local rehabilitation professionals, never in place of them.",
+    image: PHOTOS.impactTherapy,
   },
   {
-    icon: <Globe2 className="w-6 h-6 text-primary" />,
+    icon: Globe2,
     title: "Cultural Immersion",
     desc: "Guided heritage experiences, local hosts, and time to genuinely be somewhere rather than pass through.",
+    image: PHOTOS.ghanaDrumming,
   },
   {
-    icon: <Users className="w-6 h-6 text-primary" />,
+    icon: Users,
     title: "Professional Exchange",
     desc: "Shared workshops and case discussions that move knowledge in both directions.",
+    image: PHOTOS.speakingTeamWagmc,
   },
   {
-    icon: <Plane className="w-6 h-6 text-primary" />,
+    icon: Plane,
     title: "Travel Done Well",
     desc: "Vetted lodging, ground transport, and logistics handled so you can focus on the work.",
+    image: PHOTOS.ghanaLawn,
   },
+];
+
+/** "From Past Trips" — Ghana only, and no photo twice. */
+const PAST_TRIPS = [
+  { src: PHOTOS.ghanaKente, alt: "The group in kente in Ghana" },
+  { src: PHOTOS.ghanaCertificates, alt: "Certificate presentation in Ghana" },
+  { src: PHOTOS.ghanaMarket, alt: "At the market in Ghana" },
+  { src: PHOTOS.ghanaBeach, alt: "Evening on the beach in Ghana" },
 ];
 
 export default function GlobalTripsPage() {
@@ -67,7 +80,7 @@ export default function GlobalTripsPage() {
         page="/trips/global"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Trips", href: "/trips" },
+          { label: "Upcoming Events & Trips", href: "/trips" },
           { label: "Sankofa Return" },
         ]}
         title="Sankofa"
@@ -80,7 +93,7 @@ export default function GlobalTripsPage() {
             <span className="chip chip-dark">Ghana 2027</span>
           </>
         }
-        cta={{ label: "VIEW UPCOMING TRIPS", href: "/trips/upcoming-events" }}
+        cta={{ label: "VIEW GHANA EXPERIENCE", href: "/trips/ghana#sankofa-return" }}
         size="tall"
       />
 
@@ -88,133 +101,144 @@ export default function GlobalTripsPage() {
           ongoing programme rather than a trip, and explicitly not as a mission
           trip — so those four points are stated plainly rather than left to be
           inferred from the destination cards below. */}
-      <section className="section-sm bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {SANKOFA_PRINCIPLES.map((principle) => (
-              <li key={principle} className="flex gap-3">
-                <span
-                  aria-hidden="true"
-                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
-                />
-                <p className="text-base leading-relaxed text-muted">{principle}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.ghanaBathOfReturn} imageSide="right">
+        <p className="eyebrow eyebrow-on-dark mb-5">The Programme</p>
+        <h2 className="display-2 text-white">
+          An Ongoing <span className="font-serif italic text-gold-gradient">Return</span>
+        </h2>
+        <ul className="mt-8 space-y-4">
+          {SANKOFA_PRINCIPLES.map((principle) => (
+            <li key={principle} className="flex gap-3">
+              <span
+                aria-hidden="true"
+                className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+              />
+              <p className="text-lg leading-relaxed text-white/80">{principle}</p>
+            </li>
+          ))}
+        </ul>
+      </PhotoSplitBand>
 
       {/* Pillars */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="How We Travel"
-            title="Four Commitments On Every Trip"
-            description="Global service is easy to do badly. These commitments shape how every Black in Rehab experience is designed."
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">How We Travel</p>
+            <h2 className="display-2 text-foreground">Four Commitments On Every Trip</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Global service is easy to do badly. These commitments shape how every Black in Rehab experience is designed.
+            </p>
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {PILLARS.map((pillar) => (
-              <div
-                key={pillar.title}
-                className="card p-8 card-hover"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {pillar.icon}
-                </div>
-                <h3 className="font-bold text-foreground mb-3">{pillar.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{pillar.desc}</p>
-              </div>
+              <StaggerItem key={pillar.title} className="flex">
+                <PhotoCard image={pillar.image} icon={pillar.icon} title={pillar.title} imageClassName="h-44">
+                  {pillar.desc}
+                </PhotoCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Destinations */}
       <section className="section bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Destinations"
-            title="Where We Are Going"
-            description="Active destinations are open for registration now. Upcoming destinations are in partnership development — join the mailing list to hear first."
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {DESTINATIONS.map((dest) => (
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">Destinations</p>
+            <h2 className="display-2 text-foreground">Where We Are Going</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Active destinations are open for registration now. Upcoming destinations are in partnership development — join the mailing list to hear first.
+            </p>
+          </Reveal>
+          {/* One destination today, so it gets the full width as a feature
+              card — half a grid with one card in it reads as something
+              missing. */}
+          {DESTINATIONS.map((dest) => (
+            <Reveal key={dest.title}>
               <Link
-                key={dest.title}
                 href={dest.href}
-                className="group card card-sunken overflow-hidden card-hover flex flex-col"
+                className="card card-hover group grid grid-cols-1 overflow-hidden lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]"
               >
-                <FillerImage
-                  src={dest.image}
-                  alt={`${dest.title} — ${dest.region}`}
-                  wrapperClassName="h-56"
-                  zoomOnHover
-                  overlay="soft"
-                />
-                <div className="p-8 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between gap-4 mb-3">
-                    <p className="text-primary text-xs font-bold uppercase tracking-widest">
-                      {dest.region}
-                    </p>
-                    <span className="text-xs font-bold uppercase tracking-wider text-muted">
-                      {dest.status}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-serif font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                <div className="img-filler relative min-h-72 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={dest.image}
+                    alt={`${dest.title} — ${dest.region}`}
+                    loading="lazy"
+                    className="photo absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                  <span className="chip chip-dark absolute left-5 top-5 uppercase tracking-wider">
+                    {dest.status}
+                  </span>
+                </div>
+                <div className="flex flex-col justify-center p-8 md:p-12">
+                  <p className="text-primary text-xs font-bold uppercase tracking-widest">
+                    {dest.region}
+                  </p>
+                  <h3 className="mt-3 font-serif text-4xl font-bold text-foreground transition-colors group-hover:text-primary">
                     {dest.title}
                   </h3>
-                  <p className="text-muted text-sm leading-relaxed flex-1 mb-6">
-                    {dest.summary}
+                  <p className="mt-4 text-lg leading-relaxed text-muted">{dest.summary}</p>
+                  <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-muted">
+                    {dest.window}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-muted uppercase tracking-wider">
-                      {dest.window}
-                    </span>
-                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                      Learn more <ArrowRight className="w-4 h-4" />
-                    </span>
-                  </div>
+                  <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Learn more <ArrowRight className="btn-arrow h-4 w-4" />
+                  </span>
                 </div>
               </Link>
-            ))}
-          </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
       {/* Gallery */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            title="From Past Trips"
-            description="A look at the work, the people, and the places."
-            align="center"
-            className="mb-12"
-          />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[PHOTOS.impactTherapy, PHOTOS.conferenceHug, PHOTOS.impactTherapy, PHOTOS.ghanaBeach].map(
-              (src, idx) => (
-                <FillerImage
-                  key={idx}
-                  src={src}
-                  alt="Global experience"
-                  wrapperClassName="aspect-square rounded-2xl group"
-                  zoomOnHover
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">Gallery</p>
+            <h2 className="display-2 text-foreground">From Past Trips</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              A look at the work, the people, and the places.
+            </p>
+          </Reveal>
+          <div className="grid grid-cols-2 gap-3 auto-rows-[160px] md:grid-cols-4 md:gap-4 md:auto-rows-[220px]">
+            {PAST_TRIPS.map((photo, idx) => (
+              <div
+                key={photo.src}
+                className={`img-filler group overflow-hidden rounded-[var(--radius-card)] ${
+                  idx === 0 ? "col-span-2 row-span-2" : idx === 3 ? "col-span-2" : ""
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  className="photo h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
                 />
-              )
-            )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <CTABand
-        title="Travel With Purpose"
-        description="Spots on each trip are limited and fill early. Tell us where you would like to serve and we will walk you through the next steps."
-        cta={{ label: "START YOUR APPLICATION", href: "/contact" }}
-        secondaryCta={{ label: "See All Trips", href: "/trips" }}
-      />
+      <PhotoSplitBand image={PHOTOS.ghanaCastleGroup} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Sankofa Return</p>
+        <h2 className="display-2 text-white">Travel With Purpose</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Spots on each trip are limited and fill early. Tell us where you would like to serve and we will walk you through the next steps.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/trips/ghana#how-to-join" className="btn btn-primary btn-lg group">
+            START YOUR APPLICATION <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/trips" className="btn btn-on-dark btn-lg">
+            See All Trips
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

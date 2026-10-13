@@ -79,7 +79,7 @@ export default function GlobalTrips() {
                   />
                   <span>
                     <span className="font-semibold">Sankofa Return</span>
-                    <span className="text-muted"> · March 10–22, 2027 · Accra &amp; Cape Coast</span>
+                    <span className="text-muted"> · March 10–22, 2027 · Accra &amp; Elmina</span>
                   </span>
                 </Link>
               </li>
@@ -94,7 +94,7 @@ export default function GlobalTrips() {
                   />
                   <span>
                     <span className="font-semibold">Ghana Retreat 2.0</span>
-                    <span className="text-muted"> · September 2027</span>
+                    <span className="text-muted"> · Details coming soon</span>
                   </span>
                 </Link>
               </li>

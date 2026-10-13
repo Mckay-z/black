@@ -27,6 +27,10 @@ import { PHOTOS } from "@/lib/images";
  * same document. Worth one confirmation before launch.
  */
 
+/** The walk's own Givebutter page — supplied for this event only. */
+export const BREAST_CANCER_WALK_URL =
+  "https://givebutter.com/2026-5j1je7/black-in-rehab/Blackinrehab";
+
 export type TripStatus = "Open" | "Year-Round" | "Coming Soon";
 
 export type Trip = {
@@ -50,31 +54,31 @@ export const TRIPS: Trip[] = [
     title: "Breast Cancer Walk",
     dates: "October 17, 2026",
     location: "Atlanta, Georgia",
-    image: PHOTOS.impactHandsUp,
-    href: "/impact/service",
+    image: PHOTOS.breastCancerWalkFlyer,
+    href: BREAST_CANCER_WALK_URL,
     status: "Open",
     blurb:
       "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
   },
   {
-    // The client's calendar called this the "ASHA Convention Dinner"; their
-    // brief for the sales page names it The Connection Table, the first city
-    // in a series they intend to take to other conferences. Same evening.
+    // The ASHA dinner. The November 2026 evening was cancelled; it returns in
+    // 2027 with the date and location to be announced and registration
+    // closed until then. Kept off the homepage at the client's request.
     slug: "asha-dinner",
-    title: "The Connection Table™: Indianapolis",
-    dates: "November 20, 2026",
-    location: "Indianapolis, Indiana",
+    title: "The Connection Table™",
+    dates: "2027 — Date TBA",
+    location: "Location to be announced",
     image: PHOTOS.connectionTableFriends,
     href: "/connection-table/indianapolis",
-    status: "Open",
+    status: "Coming Soon",
     blurb:
-      "An elevated dinner experience for Black SLPs and SLP students attending ASHA 2026.",
+      "An elevated dinner experience for Black SLPs and SLP students attending the ASHA Convention.",
   },
   {
     slug: "ghana",
     title: "Ghana: Sankofa Return",
     dates: "March 10–22, 2027",
-    location: "Accra & Cape Coast, Ghana",
+    location: "Accra & Elmina, Ghana",
     image: PHOTOS.ghanaAirport,
     // Both Ghana entries share one page — see the note at the top of
     // `app/(site)/trips/ghana/page.tsx` — so each links to its own gathering
@@ -86,25 +90,26 @@ export const TRIPS: Trip[] = [
   },
   {
     slug: "conference",
-    title: "6th Annual Retreat",
+    title: "6th Annual Conference & Retreat",
     dates: "June 17–20, 2027",
     location: "New Orleans, Louisiana",
     image: PHOTOS.conferenceAudience,
     href: "/trips/conference",
     status: "Open",
     blurb:
-      "Four days of keynotes, continuing education, and the largest gathering of Black rehabilitation professionals in the country.",
+      "A welcome reception, a full conference day, and a wellness day — with Black rehabilitation professionals and students in New Orleans.",
   },
   {
     slug: "ghana-retreat-2",
     title: "Ghana Retreat 2.0",
-    dates: "September 2027",
+    // Date and details are unconfirmed — the client asked for "Details
+    // Coming Soon" until they are.
+    dates: "Details Coming Soon",
     location: "Ghana",
     image: PHOTOS.ghanaBeach,
     href: "/trips/ghana#ghana-retreat-2",
-    status: "Open",
-    blurb:
-      "A second Ghana gathering built around rest and restoration rather than clinical service.",
+    status: "Coming Soon",
+    blurb: "A second Ghana gathering. Details coming soon — stay tuned.",
   },
   {
     slug: "ambassador-meetups",

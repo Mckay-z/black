@@ -14,6 +14,9 @@ import { PHOTOS } from "@/lib/images";
 import BookCallout from "@/components/ui/BookCallout";
 import OfferingsList from "@/components/ui/OfferingsList";
 import SectionHeading from "@/components/ui/SectionHeading";
+import PageHero from "@/components/ui/PageHero";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import ArchPhoto from "@/components/about/ArchPhoto";
 
 export const metadata: Metadata = {
   title: "Meet the Founders | Black in Rehab Foundation",
@@ -65,30 +68,23 @@ export default async function FoundersPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-              <Link href="/" className="hover:text-primary-hover">Home</Link>
-              <span>/</span>
-              <Link href="/about" className="hover:text-primary-hover">About</Link>
-              <span>/</span>
-              <span className="text-foreground">Meet the Founders</span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-              Meet the <span className="text-primary">Founders</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted leading-relaxed">
-              We&apos;re Nancy Yamoah and Dr. Chauntel Altidor—two friends, professionals, and purpose-driven leaders who believed in the power of community, representation, and service to change lives.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        page="/about/founders"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Meet the Founders" },
+        ]}
+        title="Meet the"
+        highlight="Founders"
+        description="We're Nancy Yamoah and Dr. Chauntel Altidor—two friends, professionals, and purpose-driven leaders who believed in the power of community, representation, and service to change lives."
+        image={PHOTOS.pressWagmcStage}
+        imagePosition="65% center"
+      />
 
       {/* Profiles */}
-      <section className="pt-12 md:pt-16 pb-24">
-        <div className="container mx-auto px-4 md:px-6 space-y-24">
+      <section className="section bg-background">
+        <div className="container mx-auto px-4 md:px-6 space-y-16 md:space-y-24">
           {FOUNDERS.map((founder) => {
             const record = bySlug.get(founder.slug);
             const photo = imageUrl(record?.photo, founder.photo);
@@ -98,19 +94,14 @@ export default async function FoundersPage() {
             return (
               <div
                 key={founder.slug}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center card rounded-3xl p-8 md:p-12"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
               >
                 <div
-                  className={`lg:col-span-5 h-112.5 rounded-2xl overflow-hidden relative ${
+                  className={`lg:col-span-5 mx-auto w-full max-w-sm lg:max-w-none ${
                     founder.reverse ? "lg:order-2" : ""
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo}
-                    alt={founder.name}
-                    className="photo photo-hover-lift w-full h-full object-cover object-top"
-                  />
+                  <ArchPhoto src={photo} alt={founder.name} position="center top" />
                 </div>
 
                 <div
@@ -170,14 +161,27 @@ export default async function FoundersPage() {
         </div>
       </section>
 
+      {/* The pair, together — the photo is of both founders. */}
+      <PhotoSplitBand image={PHOTOS.foundersPortrait} imagePosition="center 20%" imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Together</p>
+        <h2 className="display-2 text-white">Two Friends. One Vision.</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          What began with conversations and a shared burden has grown into a global movement that empowers professionals, inspires students, and transforms communities.
+        </p>
+        <Link href="/about/our-story" className="btn btn-primary btn-lg group mt-9">
+          READ OUR STORY <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
+
       {/* Dr. Altidor's own practice.
 
           Her own programmes, not the Foundation's — so they sit in a section
           of their own that says whose they are, rather than inside her
           biography where they would read as something Black in Rehab runs. */}
-      <section className="section bg-background border-t border-border">
+      <section className="section bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
           <SectionHeading
+            align="left"
             eyebrow="From OT with Faith"
             title="Working With Dr. Altidor"
             description="Dr. Altidor supports parents of neurodivergent children through OT with Faith, her own practice. Bookings and purchases are handled there and are separate from donations to the Foundation."
@@ -187,20 +191,16 @@ export default async function FoundersPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="display-2 text-foreground mb-8">
-            Explore the Leadership Team
-          </h2>
-          <Link
-            href="/about/leadership"
-            className="btn btn-primary btn-lg group"
-          >
-            VIEW LEADERSHIP TEAM <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.speakingTeamWagmc} imagePosition="center 30%" imageSide="right">
+        <p className="eyebrow eyebrow-on-dark mb-5">Our Team</p>
+        <h2 className="display-2 text-white">Explore the Leadership Team</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          The people guiding our mission, our programs, and our global community.
+        </p>
+        <Link href="/about/leadership" className="btn btn-primary btn-lg group mt-9">
+          VIEW LEADERSHIP TEAM <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

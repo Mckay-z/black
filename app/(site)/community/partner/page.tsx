@@ -9,8 +9,12 @@ import {
 } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
-import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import FeatureSplit from "@/components/get-involved/FeatureSplit";
+import ProcessSteps from "@/components/get-involved/ProcessSteps";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
 
 /*
@@ -21,22 +25,27 @@ import { PHOTOS } from "@/lib/images";
 */
 const PARTNER_TYPES = [
   {
-    icon: <GraduationCap className="w-6 h-6 text-primary" />,
+    icon: GraduationCap,
     title: "Universities & Programs",
-    desc: "Campus speaking visits, admissions outreach, and mentorship placement with PT, OT, and SLP programs.",
-    href: "/support/universities",
+    desc: "Campus speaking visits and admissions outreach with PT, OT, and SLP programs.",
+    // Was /support/universities, the Mentorship Placement page — hidden at the
+    // client's request, so this card starts a conversation instead.
+    href: "/contact",
+    image: PHOTOS.studentsLectureHall,
   },
   {
-    icon: <Building2 className="w-6 h-6 text-primary" />,
+    icon: Building2,
     title: "Corporate Partners",
     desc: "Multi-year partnerships that fund scholarships, global experiences, and community programs.",
     href: "/support/corporate",
+    image: PHOTOS.conferenceGroupBranded,
   },
   {
-    icon: <Landmark className="w-6 h-6 text-primary" />,
+    icon: Landmark,
     title: "Nonprofits & Associations",
     desc: "Joint advocacy, shared research, and co-hosted programming with aligned organizations.",
     href: "/support/sponsors",
+    image: PHOTOS.speakingTeamWagmc,
   },
 ];
 
@@ -75,123 +84,115 @@ export default function PartnerWithUsPage() {
       {/* Partner types */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Who We Work With"
-            title="Four Kinds of Partnership"
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {PARTNER_TYPES.map((type) => (
-              <Link
-                key={type.title}
-                href={type.href}
-                className="group card p-8 card-hover flex flex-col"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {type.icon}
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {type.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed flex-1 mb-6">{type.desc}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
+          <Reveal>
+            <SectionHeading
+              eyebrow="Who We Work With"
+              title="Three Kinds of Partnership"
+              className="mb-12"
+            />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {PARTNER_TYPES.map(({ icon, title, desc, href, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title} href={href}>
+                  {desc}
+                </PhotoCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* What we bring */}
-      <section className="section bg-surface border-y border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <SectionHeading
-                eyebrow="The Exchange"
-                title="What We Bring to the Table"
-                description="Partnership is not sponsorship with extra steps. Here is what a partner actually gets access to."
-              />
-              <div className="space-y-3 mt-8">
-                {WHAT_WE_BRING.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-start gap-3 card card-sunken rounded-xl p-4"
-                  >
-                    <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <p className="text-foreground text-sm">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <FillerImage
-              src={PHOTOS.conferencePresentation}
-              alt="Partnership meeting"
-              wrapperClassName="aspect-4/3 rounded-3xl group"
-              zoomOnHover
-            />
-          </div>
-        </div>
-      </section>
+      <FeatureSplit
+        image={PHOTOS.conferencePresentation}
+        imageAlt="A Black in Rehab session"
+        imagePosition="center 40%"
+        arch
+        className="section bg-surface border-y border-border"
+      >
+        <SectionHeading
+          eyebrow="The Exchange"
+          title="What We Bring to the Table"
+          description="Partnership is not sponsorship with extra steps. Here is what a partner actually gets access to."
+        />
+        <ul className="mt-8 space-y-3">
+          {WHAT_WE_BRING.map((item) => (
+            <li
+              key={item}
+              className="flex items-start gap-3 card card-sunken rounded-xl p-4"
+            >
+              <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-foreground text-sm">{item}</p>
+            </li>
+          ))}
+        </ul>
+      </FeatureSplit>
 
       {/* Process */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="How It Works"
-            title="From First Call to Signed Agreement"
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PROCESS.map((item) => (
-              <div
-                key={item.step}
-                className="card p-8 card-hover"
-              >
-                <span className="text-3xl font-serif font-bold text-primary block mb-5">
-                  {item.step}
-                </span>
-                <h3 className="font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
+          <Reveal>
+            <SectionHeading
+              eyebrow="How It Works"
+              title="From First Call to Signed Agreement"
+              className="mb-14"
+            />
+          </Reveal>
+          <ProcessSteps steps={PROCESS} />
         </div>
       </section>
 
       {/* Sponsor cross-link */}
-      <section className="section bg-surface border-t border-border">
+      <section className="section-sm bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="card card-sunken rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="max-w-xl">
-              <Handshake className="w-10 h-10 text-primary mb-5" />
-              <h2 className="display-3 text-foreground mb-4">
-                Looking for sponsorship tiers instead?
-              </h2>
-              <p className="text-muted leading-relaxed">
-                If you want a defined package with published benefits and pricing, our
-                sponsorship tiers are probably the faster route.
-              </p>
+          <Reveal className="card grid grid-cols-1 overflow-hidden md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+            <div className="img-filler relative min-h-56">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.retreatGroupFormal}
+                alt=""
+                loading="lazy"
+                className="photo absolute inset-0 h-full w-full object-cover"
+              />
             </div>
-            <Link
-              href="/support/sponsors"
-              className="btn btn-primary btn-lg group shrink-0"
-            >
-              VIEW SPONSORSHIP TIERS <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
+            <div className="flex flex-col items-start justify-center gap-6 p-8 md:p-12">
+              <Handshake className="w-10 h-10 text-primary" aria-hidden="true" />
+              <div>
+                <h2 className="display-3 text-foreground mb-4">
+                  Looking for sponsorship tiers instead?
+                </h2>
+                <p className="text-muted leading-relaxed">
+                  If you want a defined package with published benefits and pricing, our
+                  sponsorship tiers are probably the faster route.
+                </p>
+              </div>
+              <Link
+                href="/support/sponsors"
+                className="btn btn-primary btn-lg group"
+              >
+                VIEW SPONSORSHIP TIERS <ArrowRight className="btn-arrow w-5 h-5" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <CTABand
-        title="Let Us Build Something Real"
-        description="Send us a short note about your organization and what you are trying to change. We will get back to you within three business days."
-        cta={{ label: "CONTACT OUR PARTNERSHIPS TEAM", href: "/contact" }}
-        secondaryCta={{ label: "See Current Partners", href: "/support/sponsors" }}
-      />
+      <PhotoSplitBand image={PHOTOS.ghanaLawn} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Partnerships</p>
+        <h2 className="display-2 text-white">Let Us Build Something Real</h2>
+        <p className="mt-5 mb-9 max-w-lg text-lg leading-relaxed text-white/80">
+          Send us a short note about your organization and what you are trying to change. We will get back to you within three business days.
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link href="/contact" className="btn btn-primary btn-lg group">
+            CONTACT OUR PARTNERSHIPS TEAM <ArrowRight className="btn-arrow w-5 h-5" />
+          </Link>
+          <Link href="/support/sponsors" className="btn btn-on-dark btn-lg">
+            See Current Partners
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

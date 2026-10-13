@@ -4,94 +4,91 @@ import TripDetail, { type TripDetailData } from "@/components/trips/TripDetail";
 import { PHOTOS } from "@/lib/images";
 
 export const metadata: Metadata = {
-  title: "6th Annual Retreat | Black In Rehab Foundation",
+  title: "6th Annual Conference & Retreat | Black In Rehab Foundation",
   description:
-    "Four days of keynotes, continuing education, and celebration in New Orleans — June 17–20, 2027.",
+    "The 6th Annual Black in Rehab Conference & Retreat in New Orleans over Juneteenth weekend, June 17–20, 2027. Booking coming soon.",
 };
 
 /**
- * The 6th Annual Retreat, on the shared trip-detail layout.
+ * The 6th Annual Conference & Retreat, on the shared trip-detail layout.
  *
- * Moved onto `components/trips/TripDetail.tsx` so it reads as the same
- * publication as Sankofa Return rather than as a differently-built page that
- * happens to share a palette. Every section below is content; the layout,
- * motion and section order live in the component.
+ * Copy follows the client's "Website Updates" revision document (section 5):
+ * the event is named the 6th Annual Conference & Retreat, the daily overview
+ * is their three days verbatim, and "What Makes It Worth the Trip" is their
+ * four items verbatim. The earlier claims — 1,000+ attendees, CEU credits and
+ * annual awards — were removed at their request: CEUs are being explored but
+ * are not official, and there are no annual awards.
  *
- * All copy here was already on the page before the move — the agenda, the four
- * highlights, the hero line and the closing invitation are carried over
- * verbatim. Nothing was invented to fill a section: the bands this trip has no
- * material for (photographs, what the price covers, the price itself, the
- * small print) are simply absent, which is what the component does with an
- * omitted key.
+ * BOOKING is not open. Every action that used to say "Register Now" now points
+ * at something real (a sponsorship inquiry, the events calendar) and the page
+ * says plainly that booking is coming soon. When the client supplies a booking
+ * link, put it in `hero.cta` and `closing.cta` and drop the "Booking Coming
+ * Soon" wording from `info` and `closing`.
  *
- * Three things still need the client:
+ * SPONSORSHIP has an inquiry action and nothing else. The tiers on
+ * `/support/sponsors` are organisation-wide, not this event's, so the page
+ * links to the contact form rather than to them — no tiers, prices or
+ * benefits are stated here until the client provides them.
  *
- *   1. TITLE. The page used to be headed "Annual Conference". The client's own
- *      calendar calls it the "6th Annual Retreat", which is what
- *      `lib/trips.ts` lists and what is used here. Worth confirming the two
- *      names mean one event.
- *   2. DATES. The page carried "June 20–22, 2025", three days and long past.
- *      The client's calendar gives June 17–20, which is four days, and the
- *      year is ours (see the date note in `lib/trips.ts`).
- *   3. AGENDA. The three days below are the ones the page already had. They do
- *      not cover a four-day window, so either a day is missing or the dates
- *      are. Left as three rather than a fourth being written for them.
+ * There is still no `pricing` block: nobody has given us the figures.
  *
- * There is no `pricing` block, deliberately, and for the same reason Sankofa
- * Return has none: nobody has given us the figures, and a price is the one
- * thing on a page like this a visitor will act on. "Early bird pricing
- * available" survives in the closing copy because that is what the page said;
- * a number would have been invention.
+ * DATES: "June 17–20, 2027" is from the client's calendar (year ours — see
+ * `lib/trips.ts`). The overview is three days inside a four-day window; worth
+ * confirming whether the window or the overview is the one to adjust.
  */
+const SPONSOR_INQUIRY = { label: "SPONSORSHIP INQUIRY", href: "/contact" };
+
 const CONFERENCE: TripDetailData = {
   hero: {
-    title: "6th Annual Retreat",
+    title: "6th Annual Conference & Retreat",
     dates: "June 17–20, 2027",
-    tagline: "Connection, Continuing Education & Celebration",
-    detail: "Four days in New Orleans, Louisiana",
+    tagline: "Juneteenth Weekend in New Orleans",
+    detail: "Booking coming soon",
     image: PHOTOS.conferenceAudience,
-    cta: { label: "REGISTER NOW", href: "/trips/conference/register" },
+    cta: SPONSOR_INQUIRY,
   },
 
   intro: {
     heading: "Our Flagship",
     accent: "Gathering",
     paragraphs: [
-      "The largest gathering of Black rehabilitation professionals in the country, and the one weekend a year the whole community is in one room.",
-      "Transformative days of connection, professional development, inspiration, and celebration — keynotes and continuing education through the day, and the kind of evening that reminds you why you do this work.",
+      "The 6th Annual Black in Rehab Conference & Retreat brings Black rehabilitation professionals and students together in New Orleans over Juneteenth weekend.",
+      "Days of connection, learning, culture, and rest — time with people who understand the work you do and the experiences you bring to it.",
     ],
     closing: "Join us in New Orleans for an unforgettable experience.",
+    image: PHOTOS.conferencePodium,
+    imageAlt: "A speaker at the podium at a Black in Rehab conference",
   },
 
   itinerary: {
-    image: PHOTOS.conferenceSession,
+    // Stand-in group photo until the client's Dropbox selection arrives.
+    image: PHOTOS.conferenceCelebration,
     heading: "The Days",
     accent: "Ahead",
     description:
-      "Three days that move from meeting each other, to learning together, to sending each other back out with something to build on.",
-    cardTitle: "Conference Agenda",
+      "Three days that move from meeting each other, to learning together, to resting and celebrating together.",
+    cardTitle: "Daily Overview",
     cardSubtitle: "New Orleans, Louisiana",
     days: [
       {
         day: "Day 1",
-        title: "Arrive & Connect",
-        note: "Welcome reception, registration, opening keynote address, and networking dinner.",
+        title: "Welcome",
+        note: "Welcome reception, registration, meet & greet, and night out",
         icon: "users",
       },
       {
         day: "Day 2",
-        title: "Elevate & Learn",
-        note: "Workshops, panel discussions, continuing education sessions, and breakout groups.",
+        title: "Conference",
         icon: "compass",
       },
       {
         day: "Day 3",
-        title: "Lead & Launch",
-        note: "Leadership summit, awards ceremony, evening celebration, and closing send-off.",
+        title: "Wellness & Farewell",
+        note: "Wellness Day Workshop and farewell dinner celebration",
         icon: "heart",
       },
     ],
-    cta: { label: "REGISTER NOW", href: "/trips/conference/register" },
+    cta: { label: "SEE UPCOMING EVENTS", href: "/trips/upcoming-events" },
   },
 
   highlights: {
@@ -99,38 +96,78 @@ const CONFERENCE: TripDetailData = {
     accent: "Worth the Trip",
     items: [
       {
-        title: "1,000+ Attendees",
+        title: "Community That Gets You",
         description:
-          "Professionals, students, and allies from across the globe.",
+          "Meet Black rehabilitation professionals and students who understand your experiences. Build connections that go beyond exchanging social handles.",
         icon: "users",
+        image: PHOTOS.conferenceTableTalk,
       },
       {
-        title: "CEU Credits",
+        title: "Connection Across Professions",
         description:
-          "Earn continuing education units while connecting with peers.",
+          "Bring OT, PT, and SLP perspectives into the same space. Share ideas, learn from each other, and expand your professional circle.",
         icon: "compass",
+        image: PHOTOS.conferencePanel,
       },
       {
-        title: "Cultural Celebration",
+        title: "Culture & Shared Experiences",
         description:
-          "Evening events celebrating culture, community, and excellence.",
-        icon: "heart",
-      },
-      {
-        title: "Annual Awards",
-        description:
-          "Honoring individuals and organizations making an extraordinary impact.",
+          "Explore together, celebrate our culture, and make memories with people who share your passion for rehabilitation and community.",
         icon: "globe",
+        image: PHOTOS.retreatGroupColorful,
+      },
+      {
+        title: "Time to Enjoy Yourself",
+        description:
+          "Make room for rest, laughter, and life beyond your professional role. You spend so much time showing up for others—this is time for you.",
+        icon: "heart",
+        image: PHOTOS.retreatBeachYogaGroup,
+      },
+    ],
+  },
+
+  // Past conferences and retreats — what the weekend looks like.
+  gallery: [
+    PHOTOS.conferenceSession,
+    PHOTOS.conferenceNetworking,
+    PHOTOS.conferenceSpeakerMic,
+    PHOTOS.conferenceGroupBranded,
+    PHOTOS.conferenceGala,
+    PHOTOS.retreatDinner,
+    PHOTOS.conferencePresentation,
+  ],
+
+  info: {
+    heading: "Sponsor &",
+    accent: "Book",
+    blocks: [
+      {
+        title: "Sponsorship Opportunities",
+        tone: "primary",
+        body: [
+          "Interested in sponsoring the 6th Annual Conference & Retreat? We would love to talk with your organisation about being part of it.",
+          "Send us a sponsorship inquiry — choose “Partnership / Sponsorship” as the subject — and our team will follow up with the details.",
+        ],
+      },
+      {
+        title: "Booking Coming Soon",
+        tone: "dark",
+        body: [
+          "Booking for the 6th Annual Conference & Retreat is not open yet.",
+          "Booking details will be shared here as soon as they are available. In the meantime, keep an eye on our upcoming events.",
+        ],
       },
     ],
   },
 
   closing: {
-    title: "Secure Your Spot Today",
+    title: "Booking Coming Soon",
     description:
-      "Early bird pricing available for a limited time. Join us in New Orleans for an unforgettable experience.",
-    cta: { label: "REGISTER NOW", href: "/trips/conference/register" },
+      "Booking for the 6th Annual Conference & Retreat will open soon. Interested in sponsoring? Send us an inquiry today.",
+    cta: SPONSOR_INQUIRY,
     secondaryCta: { label: "See Upcoming Events", href: "/trips/upcoming-events" },
+    image: PHOTOS.retreatGroupBlazers,
+    eyebrow: "June 17–20, 2027 · New Orleans",
   },
 };
 

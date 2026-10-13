@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowRight, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 
 import { getTestimonials, imageUrl } from "@/lib/cms";
 import { FALLBACK_TESTIMONIALS } from "@/lib/fallback-content";
@@ -135,18 +134,6 @@ export default async function Testimonials() {
           })}
         </Stagger>
 
-        <div className="mt-14 text-center">
-          <p className="mb-6 text-muted">
-            Been part of this community? We would like to hear how it went.
-          </p>
-          <Link
-            href="/community/share-your-story"
-            className="btn btn-primary btn-lg group"
-          >
-            SHARE YOUR STORY
-            <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
-          </Link>
-        </div>
       </div>
     </section>
   );

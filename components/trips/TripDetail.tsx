@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import CTABand from "@/components/ui/CTABand";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import Reveal from "@/components/motion/Reveal";
 import ParallaxImage from "@/components/motion/ParallaxImage";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
@@ -58,6 +59,33 @@ const DAY_ICONS = {
 
 export type DayIcon = keyof typeof DAY_ICONS;
 
+type Cta = { label: string; href: string };
+
+/**
+ * A button that may leave the site. Off-site destinations (an application
+ * form, a booking platform) open in a new tab so the trip page stays where
+ * the visitor left it.
+ */
+function CtaLink({
+  cta,
+  className,
+}: {
+  cta: Cta;
+  className: string;
+}) {
+  const external = /^https?:\/\//.test(cta.href);
+  return (
+    <Link
+      href={cta.href}
+      className={className}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {cta.label}
+      <ArrowRight className="btn-arrow h-5 w-5" />
+    </Link>
+  );
+}
+
 export type TripDetailData = {
   hero: {
     title: string;
@@ -75,7 +103,13 @@ export type TripDetailData = {
     accent: string;
     paragraphs: string[];
     /** The one line set in full weight at the end of the section. */
-    closing: string;
+    closing?: string;
+    /**
+     * Optional portrait beside the copy, framed as the arch from the BIR
+     * CARES page. Without one the intro stays a centred column.
+     */
+    image?: string;
+    imageAlt?: string;
   };
 
   /**
@@ -98,6 +132,8 @@ export type TripDetailData = {
       dates: string;
       location: string;
       summary: string;
+      /** Optional photo across the top of the card. */
+      image?: string;
     }[];
   };
 
@@ -110,12 +146,17 @@ export type TripDetailData = {
     cardSubtitle: string;
     days: { day: string; title: string; note?: string; icon: DayIcon }[];
     cta: { label: string; href: string };
+    /** A second button under the card, e.g. the full itinerary off-site. */
+    secondaryCta?: Cta;
+    /** Small print under the card's buttons. */
+    footnote?: string;
   };
 
   highlights?: {
     heading: string;
     accent: string;
-    items: { title: string; description: string; icon: DayIcon }[];
+    /** With `image`, the row shows that photo in place of the icon tile. */
+    items: { title: string; description: string; icon: DayIcon; image?: string }[];
     /**
      * The photograph and pull-out beside the list. Optional: a trip whose
      * highlights stand on their own renders the list full width rather than
@@ -150,6 +191,20 @@ export type TripDetailData = {
     note?: string;
   };
 
+  /**
+   * Numbered steps for joining, each with its own button — for a trip where
+   * applying and booking are separate actions on separate platforms, so a
+   * visitor can see which one they are taking.
+   */
+  steps?: {
+    /** Anchor target, so other buttons on the page can jump here. */
+    id: string;
+    heading: string;
+    accent: string;
+    description?: string;
+    items: { label: string; title: string; description: string; cta: Cta }[];
+  };
+
   info?: {
     heading: string;
     accent: string;
@@ -161,9 +216,15 @@ export type TripDetailData = {
     }[];
   };
 
-  closing: {
+  /**
+   * The closing call-to-action band. Absent on a page that ends without one.
+   * With `image` it is a dark photo split band; without, the plain CTABand.
+   */
+  closing?: {
     title: string;
     description: string;
+    image?: string;
+    eyebrow?: string;
     cta: { label: string; href: string };
     secondaryCta?: { label: string; href: string };
   };
@@ -214,46 +275,42 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
     gallery,
     includes,
     pricing,
+    steps,
     info,
   } = trip;
 
   return (
     <div className="min-h-screen bg-background">
-      {/* ---- Banner ----------------------------------------------------- */}
-      <section className="section-dark relative isolate flex min-h-[85svh] items-center overflow-hidden bg-secondary">
+      {/* ---- Banner -----------------------------------------------------
+          Left-aligned over a full-strength photograph, dark on the left
+          where the copy sits and clearing to the right — the same hero as
+          the BIR CARES and Get Involved pages, so the trip pages read as
+          part of the same site. */}
+      <section className="section-dark relative isolate flex min-h-[85svh] items-center overflow-hidden bg-black">
         <ParallaxImage
           src={hero.image}
           position="35%"
           strength={80}
           className="-z-20"
         />
-
-        {/* The reference right-aligns its banner copy over a photograph whose
-            subject sits left. Same idea here, but the scrim is directional so
-            the copy holds contrast whichever way a given photo is composed. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-linear-to-l from-black/85 via-black/55 to-black/25"
+          className="absolute inset-0 -z-10 bg-linear-to-r from-black via-black/75 to-black/10 md:from-black/90 md:via-black/50 md:to-transparent"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-linear-to-t from-black/75 via-transparent to-black/45"
+          className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-linear-to-t from-black/70 to-transparent"
         />
 
         <div className="container relative mx-auto px-4 pb-24 pt-36 md:px-6">
           {/*
             The trail, derived rather than passed in: this component only ever
             renders a trip, so the first two steps are always the same and the
-            third is the trip's own name. A page that supplied its own crumbs
-            could disagree with the menu it sits under, and there is nothing a
-            trip page would want to say here that its title does not.
-
-            Right-aligned because the hero is — the same row set left would
-            read as belonging to a different block.
+            third is the trip's own name.
           */}
           <nav
             aria-label="Breadcrumb"
-            className="mb-7 flex flex-wrap items-center justify-end gap-1 text-sm font-medium"
+            className="mb-7 flex flex-wrap items-center gap-1 text-sm font-medium"
           >
             <Link
               href="/"
@@ -266,7 +323,7 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
               href="/trips"
               className="rounded-md px-1 py-0.5 text-primary transition-colors hover:text-accent"
             >
-              Trips
+              Upcoming Events &amp; Trips
             </Link>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" aria-hidden="true" />
             <span aria-current="page" className="px-1 py-0.5 text-white/60">
@@ -274,33 +331,29 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
             </span>
           </nav>
 
-          <div className="ml-auto max-w-2xl text-right">
-            <Reveal direction="right" distance={36}>
-              <h1 className="font-serif text-[clamp(2.5rem,7vw,5rem)] font-bold italic leading-[1.02] tracking-tight text-white">
-                {hero.title}
-              </h1>
-            </Reveal>
-
-            <Reveal direction="right" distance={28} delay={0.12}>
-              <p className="mt-6 text-2xl font-light tracking-wide text-white/90 md:text-3xl">
+          <div className="max-w-2xl">
+            <Reveal direction="left" distance={28}>
+              <p className="chip chip-dark mb-6 uppercase tracking-[0.14em]">
+                <Calendar className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                 {hero.dates}
               </p>
-              <p className="mt-2 text-lg tracking-wide text-white/75 md:text-2xl">
+              <h1 className="display-1 text-white">{hero.title}</h1>
+            </Reveal>
+
+            <Reveal direction="left" distance={20} delay={0.12}>
+              <p className="mt-6 font-serif text-xl italic text-gold-gradient md:text-2xl">
                 {hero.tagline}
               </p>
               {hero.detail && (
-                <p className="mt-2 text-lg tracking-wide text-white/60 md:text-xl">
+                <p className="mt-3 text-lg tracking-wide text-white/75">
                   {hero.detail}
                 </p>
               )}
             </Reveal>
 
-            <Reveal direction="right" distance={20} delay={0.24}>
-              <div className="mt-9 flex justify-end">
-                <Link href={hero.cta.href} className="btn btn-primary btn-lg group">
-                  {hero.cta.label}
-                  <ArrowRight className="btn-arrow h-5 w-5" />
-                </Link>
+            <Reveal direction="left" distance={16} delay={0.24}>
+              <div className="mt-10">
+                <CtaLink cta={hero.cta} className="btn btn-primary btn-lg group" />
               </div>
             </Reveal>
           </div>
@@ -310,23 +363,59 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
       {/* ---- The framing ------------------------------------------------ */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto max-w-3xl text-center">
-            <ScriptHeading heading={intro.heading} accent={intro.accent} />
+          {intro.image ? (
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+              <Reveal direction="left" className="mx-auto w-full max-w-sm lg:max-w-none">
+                {/* The arch from the BIR CARES page: a rounded top over a portrait. */}
+                <div className="img-filler relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={intro.image}
+                    alt={intro.imageAlt ?? ""}
+                    loading="lazy"
+                    className="photo h-full w-full object-cover"
+                  />
+                </div>
+              </Reveal>
 
-            <div className="mt-9 space-y-5">
-              {intro.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="text-lg leading-relaxed text-muted">
-                  {paragraph}
-                </p>
-              ))}
+              <Reveal>
+                <p className="eyebrow mb-5">{hero.title}</p>
+                <ScriptHeading heading={intro.heading} accent={intro.accent} />
+                <div className="mt-8 space-y-5">
+                  {intro.paragraphs.map((paragraph) => (
+                    <p key={paragraph} className="text-lg leading-relaxed text-muted">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                {intro.closing && (
+                  <p className="mt-8 border-l-2 border-primary pl-5 text-lg font-bold leading-relaxed text-foreground">
+                    {intro.closing}
+                  </p>
+                )}
+              </Reveal>
             </div>
+          ) : (
+            <Reveal className="mx-auto max-w-3xl text-center">
+              <ScriptHeading heading={intro.heading} accent={intro.accent} />
 
-            <p className="mt-8 text-lg font-bold leading-relaxed text-foreground">
-              {intro.closing}
-            </p>
+              <div className="mt-9 space-y-5">
+                {intro.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-lg leading-relaxed text-muted">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
 
-            <Ornament />
-          </Reveal>
+              {intro.closing && (
+                <p className="mt-8 text-lg font-bold leading-relaxed text-foreground">
+                  {intro.closing}
+                </p>
+              )}
+
+              <Ornament />
+            </Reveal>
+          )}
         </div>
       </section>
 
@@ -354,16 +443,30 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                     `scroll-mt-24` clears the fixed header: without it a link
                     from the calendar lands with the heading tucked behind it.
                   */}
-                  <div id={item.id} className="card h-full scroll-mt-24 p-8">
-                    <p className="chip">{item.dates}</p>
-                    <h3 className="mt-5 font-serif text-2xl font-bold text-foreground">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 flex items-center gap-2 text-sm text-muted">
-                      <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                      {item.location}
-                    </p>
-                    <p className="mt-5 leading-relaxed text-muted">{item.summary}</p>
+                  <div id={item.id} className="card flex h-full scroll-mt-24 flex-col overflow-hidden">
+                    {item.image && (
+                      <div className="img-filler relative h-56 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.image}
+                          alt=""
+                          loading="lazy"
+                          className="photo h-full w-full object-cover"
+                        />
+                        <p className="chip chip-dark absolute left-5 top-5">{item.dates}</p>
+                      </div>
+                    )}
+                    <div className="flex-1 p-8">
+                      {!item.image && <p className="chip mb-5">{item.dates}</p>}
+                      <h3 className="font-serif text-2xl font-bold text-foreground">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 flex items-center gap-2 text-sm text-muted">
+                        <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                        {item.location}
+                      </p>
+                      <p className="mt-5 leading-relaxed text-muted">{item.summary}</p>
+                    </div>
                   </div>
                 </StaggerItem>
               ))}
@@ -444,15 +547,23 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                     })}
                   </Stagger>
 
-                  <div className="mt-10 text-center">
-                    <Link
-                      href={itinerary.cta.href}
+                  <div className="mt-10 flex flex-wrap justify-center gap-3">
+                    <CtaLink
+                      cta={itinerary.cta}
                       className="btn btn-lg group bg-secondary text-white hover:bg-secondary-hover"
-                    >
-                      {itinerary.cta.label}
-                      <ArrowRight className="btn-arrow h-5 w-5" />
-                    </Link>
+                    />
+                    {itinerary.secondaryCta && (
+                      <CtaLink
+                        cta={itinerary.secondaryCta}
+                        className="btn btn-outline btn-lg group"
+                      />
+                    )}
                   </div>
+                  {itinerary.footnote && (
+                    <p className="mt-6 text-center text-xs text-muted">
+                      {itinerary.footnote}
+                    </p>
+                  )}
                 </div>
               </Reveal>
             </div>
@@ -485,12 +596,24 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                     return (
                       <StaggerItem
                         key={item.title}
-                        className="card flex gap-5 p-6"
+                        className={`card flex gap-5 overflow-hidden ${item.image ? "items-stretch" : "p-6"}`}
                       >
-                        <span className="icon-tile shrink-0">
-                          <Icon className="h-6 w-6" aria-hidden="true" />
-                        </span>
-                        <div>
+                        {item.image ? (
+                          <div className="img-filler relative w-28 shrink-0 overflow-hidden sm:w-36">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.image}
+                              alt=""
+                              loading="lazy"
+                              className="photo absolute inset-0 h-full w-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <span className="icon-tile shrink-0">
+                            <Icon className="h-6 w-6" aria-hidden="true" />
+                          </span>
+                        )}
+                        <div className={item.image ? "py-6 pr-6" : ""}>
                           <h3 className="font-bold text-foreground">{item.title}</h3>
                           <p className="mt-1.5 text-sm leading-relaxed text-muted">
                             {item.description}
@@ -581,10 +704,7 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
             </Stagger>
 
             <div className="mt-12 text-center">
-              <Link href={includes.cta.href} className="btn btn-primary btn-lg group">
-                {includes.cta.label}
-                <ArrowRight className="btn-arrow h-5 w-5" />
-              </Link>
+              <CtaLink cta={includes.cta} className="btn btn-primary btn-lg group" />
             </div>
           </div>
         </section>
@@ -631,13 +751,10 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
               </div>
 
               <div className="mt-10">
-                <Link
-                  href={pricing.cta.href}
+                <CtaLink
+                  cta={pricing.cta}
                   className="btn btn-lg group bg-secondary text-white hover:bg-secondary-hover"
-                >
-                  {pricing.cta.label}
-                  <ArrowRight className="btn-arrow h-5 w-5" />
-                </Link>
+                />
               </div>
 
               {pricing.note && (
@@ -646,6 +763,35 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                 </p>
               )}
             </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* ---- How to join ------------------------------------------------- */}
+      {steps && (
+        <section id={steps.id} className="section scroll-mt-24 bg-surface">
+          <div className="container mx-auto px-4 md:px-6">
+            <Reveal className="mx-auto max-w-3xl text-center">
+              <ScriptHeading heading={steps.heading} accent={steps.accent} />
+              {steps.description && (
+                <p className="mt-6 leading-relaxed text-muted">{steps.description}</p>
+              )}
+            </Reveal>
+
+            <Stagger as="ul" className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+              {steps.items.map((item) => (
+                <StaggerItem as="li" key={item.label} className="card flex h-full flex-col p-8">
+                  <p className="chip self-start">{item.label}</p>
+                  <h3 className="mt-5 font-serif text-2xl font-bold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 flex-1 leading-relaxed text-muted">{item.description}</p>
+                  <div className="mt-8">
+                    <CtaLink cta={item.cta} className="btn btn-primary btn-lg group w-full" />
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
           </div>
         </section>
       )}
@@ -707,12 +853,32 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
         </section>
       )}
 
-      <CTABand
-        title={trip.closing.title}
-        description={trip.closing.description}
-        cta={trip.closing.cta}
-        secondaryCta={trip.closing.secondaryCta}
-      />
+      {trip.closing?.image ? (
+        <PhotoSplitBand image={trip.closing.image} imageSide="left">
+          <p className="eyebrow eyebrow-on-dark mb-5">
+            {trip.closing.eyebrow ?? hero.title}
+          </p>
+          <h2 className="display-2 text-white">{trip.closing.title}</h2>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+            {trip.closing.description}
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <CtaLink cta={trip.closing.cta} className="btn btn-primary btn-lg group" />
+            {trip.closing.secondaryCta && (
+              <CtaLink cta={trip.closing.secondaryCta} className="btn btn-on-dark btn-lg group" />
+            )}
+          </div>
+        </PhotoSplitBand>
+      ) : (
+        trip.closing && (
+          <CTABand
+            title={trip.closing.title}
+            description={trip.closing.description}
+            cta={trip.closing.cta}
+            secondaryCta={trip.closing.secondaryCta}
+          />
+        )
+      )}
     </div>
   );
 }

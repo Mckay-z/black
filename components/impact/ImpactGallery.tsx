@@ -8,20 +8,20 @@ import { parseVideoUrl } from "@/lib/video";
 export type GalleryItem = {
   id: string;
   title: string;
-  category: "community" | "scholarships" | "donations";
+  category: string;
   image: string;
   videoUrl?: string | null;
   caption?: string | null;
 };
 
-const CATEGORIES = [
+export type GalleryCategory = { value: string; label: string };
+
+const CATEGORIES: GalleryCategory[] = [
   { value: "all", label: "All" },
   { value: "community", label: "Community Highlights" },
   { value: "scholarships", label: "Scholarships" },
   { value: "donations", label: "Donations" },
-] as const;
-
-type Filter = (typeof CATEGORIES)[number]["value"];
+];
 
 /**
  * The Impact page's evidence grid.
@@ -33,18 +33,49 @@ type Filter = (typeof CATEGORIES)[number]["value"];
  * A video plays in an overlay rather than inline in the grid — an embed per
  * card would mean one third-party iframe per item on first paint.
  */
-export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
-  const [filter, setFilter] = useState<Filter>("all");
+/** Tile spans for the mosaic: a 2×2 lead, then singles, a wide one in row 3. */
+const MOSAIC_SPANS = [
+  "col-span-2 row-span-2",
+  "",
+  "",
+  "",
+  "",
+  "col-span-2",
+  "",
+];
+
+export default function ImpactGallery({
+  items,
+  categories = CATEGORIES,
+  filterLabel = "Filter impact stories",
+  layout = "grid",
+  aside,
+}: {
+  items: GalleryItem[];
+  /** Filter tabs, "all" first. Media & Press passes its own set. */
+  categories?: GalleryCategory[];
+  filterLabel?: string;
+  /**
+   * "mosaic" is the BIR CARES page's picture wall: one large tile, the rest
+   * small, no filter tabs. Use it with 7 items and an `aside` tile to fill
+   * the last row on desktop.
+   */
+  layout?: "grid" | "mosaic";
+  /** Extra non-photo tile at the end of a mosaic, e.g. a quote. */
+  aside?: React.ReactNode;
+}) {
+  const mosaic = layout === "mosaic";
+  const [filter, setFilter] = useState("all");
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Only offer a filter the gallery can actually satisfy, so the client does
   // not end up with a "Donations" tab that shows an empty grid.
   const available = useMemo(
     () =>
-      CATEGORIES.filter(
+      categories.filter(
         (c) => c.value === "all" || items.some((i) => i.category === c.value),
       ),
-    [items],
+    [items, categories],
   );
 
   const visible = useMemo(
@@ -85,10 +116,10 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
 
   return (
     <>
-      {available.length > 2 && (
+      {!mosaic && available.length > 2 && (
         <div
           role="tablist"
-          aria-label="Filter impact stories"
+          aria-label={filterLabel}
           className="mb-10 flex flex-wrap justify-center gap-2"
         >
           {available.map((category) => {
@@ -113,18 +144,24 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
         </div>
       )}
 
-      <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((item) => {
+      <ul
+        className={
+          mosaic
+            ? "grid grid-cols-2 gap-3 auto-rows-[150px] md:grid-cols-4 md:gap-4 md:auto-rows-[190px]"
+            : "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        }
+      >
+        {visible.map((item, i) => {
           const isVideo = Boolean(parseVideoUrl(item.videoUrl));
 
           return (
-            <li key={item.id}>
+            <li key={item.id} className={mosaic ? MOSAIC_SPANS[i] ?? "" : undefined}>
               <button
                 type="button"
                 onClick={() => setOpenId(item.id)}
                 className="group relative block h-full w-full overflow-hidden rounded-[var(--radius-card)] border border-border text-left shadow-soft transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:shadow-float"
               >
-                <span className="block aspect-4/3 overflow-hidden">
+                <span className={`block overflow-hidden ${mosaic ? "h-full" : "aspect-4/3"}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.image}
@@ -156,6 +193,7 @@ export default function ImpactGallery({ items }: { items: GalleryItem[] }) {
             </li>
           );
         })}
+        {mosaic && aside && <li className="col-span-2 md:col-span-1">{aside}</li>}
       </ul>
 
       {open && (

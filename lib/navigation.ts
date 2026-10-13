@@ -56,6 +56,12 @@ export type NavChild = {
 
 export type NavSection = {
   label: string;
+  /**
+   * Shorter labels for the desktop header bar, where the full one does not
+   * fit: `short` from xl, `compact` from lg. The full label shows from 2xl and
+   * everywhere else (mobile menu, footer, search, breadcrumbs).
+   */
+  headerLabels?: { short: string; compact: string };
   href: string;
   /** Lede for the section hub. */
   description: string;
@@ -103,14 +109,17 @@ export const NAV_SECTIONS: NavSection[] = [
       {
         label: "Media & Press",
         href: "/about/media-press",
-        description: "Press kit, media coverage, and brand assets.",
+        description: "Photo gallery from our events, trips and community work.",
         icon: "news",
       },
     ],
   },
 
   {
-    label: "Trips",
+    label: "Upcoming Events & Trips",
+    // The client asked for "Upcoming Events & Trips", falling back to
+    // "Upcoming Events" where it is too long for the layout.
+    headerLabels: { short: "Upcoming Events", compact: "Events" },
     href: "/trips",
     description:
       "Conferences, retreats, global service journeys, and local gatherings.",
@@ -138,10 +147,10 @@ export const NAV_SECTIONS: NavSection[] = [
   },
 
   {
-    label: "Impact",
+    label: "BIR CARES",
     href: "/impact",
     description:
-      "Where the work goes: scholarships, projects, service, and advocacy.",
+      "Compassion in action: scholarships, global partnerships, service, and advocacy.",
     children: [
       {
         label: "Scholarships",
@@ -156,9 +165,9 @@ export const NAV_SECTIONS: NavSection[] = [
         icon: "heart",
       },
       {
-        label: "Mission Projects",
+        label: "Global Partnerships & Service",
         href: "/impact/mission-projects",
-        description: "Multi-year rehabilitation projects with partner organisations.",
+        description: "Clinical and cultural exchange with our partners in Ghana.",
         icon: "globe",
       },
       {
@@ -203,25 +212,20 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Get Involved",
     href: "/get-involved",
     description:
-      "Every way to take part — as a member, a student, a partner, or a sponsor.",
+      "Every way to take part — as a student, a professional, a partner, or a sponsor.",
     children: [
       {
-        label: "Become a Member",
-        href: "/community/join",
-        description: "Join the community, and everything membership opens up.",
-        icon: "users",
-      },
-      {
-        label: "For Students",
+        label: "Black in Rehab University",
         href: "/community/students",
-        description: "Community, mentorship, and resources for students in the field.",
+        description: "Free monthly virtual sessions for OT, PT, and SLP students.",
         icon: "graduation",
       },
       {
-        label: "Share Your Story",
-        href: "/community/share-your-story",
-        description: "Tell us what this work has meant for you.",
-        icon: "pen",
+        // Paid, cohort-based — kept separate from the free University above.
+        label: "Accountability Lab",
+        href: "/get-involved/accountability-lab",
+        description: "A 12-week small-group experience for professionals building something.",
+        icon: "briefcase",
       },
       {
         label: "Partner With Us",
@@ -240,18 +244,6 @@ export const NAV_SECTIONS: NavSection[] = [
         href: "/support/corporate",
         description: "Multi-year commitments for companies backing health equity.",
         icon: "building",
-      },
-      {
-        label: "Mentorship Placement",
-        href: "/support/universities",
-        description: "For universities placing students with mentors in the field.",
-        icon: "graduation",
-      },
-      {
-        label: "Shop",
-        href: "/shop",
-        description: "Wear the movement. Every purchase funds the programmes.",
-        icon: "shop",
       },
     ],
   },
@@ -317,6 +309,22 @@ export const UNLISTED: { href: string; reason: string }[] = [
   { href: "/support/healthcare-systems", reason: "Placeholder copy — offer not finalised." },
   { href: "/support/career-lounge", reason: "Placeholder copy — programme not running." },
   { href: "/community/online", reason: "Hidden at the client's request." },
+  // "Website Updates" document, section 8: hidden from Get Involved, kept for
+  // future use.
+  { href: "/community/join", reason: "Hidden at the client's request (Become a Member)." },
+  { href: "/community/join/register", reason: "Parent page is hidden." },
+  // The 6th Annual Conference & Retreat's booking is "coming soon" — the
+  // register page now says so and takes no registrations.
+  { href: "/trips/conference/register", reason: "Booking not open yet." },
+  {
+    href: "/trips/ghana/register",
+    reason: "Redirects to the Cognito application form — not a page of ours.",
+  },
+  { href: "/community/share-your-story", reason: "Hidden at the client's request." },
+  { href: "/support/universities", reason: "Hidden at the client's request (Mentorship Placement)." },
+  // Same document: "Shop — move under Resources, then hide it for now." It
+  // belongs to Resources when it comes back; restore it there.
+  { href: "/shop", reason: "Hidden at the client's request — returns under Resources." },
   // The revision document's tab notes: Resources shows the library only,
   // Speakers drops the booking-topics page, Support drops "Recruit With Us",
   // and Trips keeps Upcoming Events and Ambassador Meetups. Sankofa Return

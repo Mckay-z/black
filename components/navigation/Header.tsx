@@ -7,6 +7,7 @@ import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import Logo from "@/components/navigation/Logo";
 import { NAV_SECTIONS } from "@/lib/navigation";
+import { DONATE_URL } from "@/lib/donate";
 import {
   SearchDialog,
   SearchTrigger,
@@ -14,7 +15,10 @@ import {
 } from "@/components/navigation/SiteSearch";
 
 type NavItem = { name: string; href: string };
-type NavLink = NavItem & { dropdownItems?: NavItem[] };
+type NavLink = NavItem & {
+  headerLabels?: { short: string; compact: string };
+  dropdownItems?: NavItem[];
+};
 
 /**
  * The menu is derived from `lib/navigation.ts` rather than written out here.
@@ -28,6 +32,7 @@ const NAV_LINKS: NavLink[] = [
   { name: "Home", href: "/" },
   ...NAV_SECTIONS.map((section) => ({
     name: section.label,
+    headerLabels: section.headerLabels,
     href: section.href,
     dropdownItems: section.children.map((child) => ({
       name: child.label,
@@ -205,7 +210,17 @@ export default function Header() {
                       : "text-foreground/85 hover:text-primary"
                   }`}
                 >
-                  {link.name}
+                  {link.headerLabels ? (
+                    <>
+                      <span className="xl:hidden">{link.headerLabels.compact}</span>
+                      <span className="hidden xl:inline 2xl:hidden">
+                        {link.headerLabels.short}
+                      </span>
+                      <span className="hidden 2xl:inline">{link.name}</span>
+                    </>
+                  ) : (
+                    link.name
+                  )}
                   {link.dropdownItems && (
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-300 ${
@@ -270,7 +285,9 @@ export default function Header() {
           <SearchTrigger variant="bar" onClick={openSearch} />
           <ThemeToggle />
           <Link
-            href="/impact/donate"
+            href={DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-primary min-h-0! px-5 py-2.5 text-xs tracking-wider"
           >
             DONATE
@@ -372,7 +389,9 @@ export default function Header() {
           </div>
 
           <Link
-            href="/impact/donate"
+            href={DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-primary btn-lg w-full mt-8"
             onClick={() => setIsMobileMenuOpen(false)}
           >

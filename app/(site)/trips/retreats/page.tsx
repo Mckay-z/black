@@ -30,7 +30,7 @@ export default function RetreatsPage() {
           <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
             <span className="text-white/40">/</span>
-            <Link href="/trips" className="hover:text-primary-hover">Trips</Link>
+            <Link href="/trips" className="hover:text-primary-hover">Upcoming Events &amp; Trips</Link>
             <span className="text-white/40">/</span>
             <span className="text-white/70">Retreats</span>
           </div>

@@ -17,10 +17,27 @@ const SPEAKER: SpeakerProfileData = {
   role: "Founder, CEO & President, Black in Rehab Foundation",
   tagline:
     "Occupational Therapist | Whole Health Doctoral Student | Healthcare Visionary | Founder & CEO | Clinician Wellness & Leadership Speaker",
-  portrait: PHOTOS.teamNancy,
-  heroImage: PHOTOS.conferenceNetworking,
+  // The hero is the landscape portrait of Nancy so the banner shows the
+  // speaker it names; the upright one sits beside the biography.
+  portrait: PHOTOS.founderNancy,
+  heroImage: PHOTOS.teamNancy,
+  heroImagePosition: "75% 30%",
+  ctaImage: PHOTOS.conferenceAudience,
   bio: NANCY_BIO,
   book: NANCY_BOOK,
+  // "Nancy's other services" in the client's "Website Updates" document —
+  // a link only; the services themselves are described on her own site.
+  offerings: [
+    {
+      title: "You Can Therapy Services",
+      subtitle: "Nancy's own practice",
+      description:
+        "Find out about the services Nancy offers through her own practice. Bookings and payments are handled on its site and are separate from donations to the Foundation.",
+      cta: "Visit You Can Therapy Services",
+      url: "https://you-can-therapy-services.square.site/",
+      host: "Square",
+    },
+  ],
   /*
     Supplied by the client as "Nancy on stage" — the Ghana session at the West
     African Genetic Medicine Centre. It replaces nothing: this band had no

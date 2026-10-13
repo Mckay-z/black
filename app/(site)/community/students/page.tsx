@@ -1,108 +1,94 @@
-import Link from "next/link";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  BookOpen,
-  CheckCircle,
-  GraduationCap,
-  School,
-  Users,
-} from "lucide-react";
+import type { Metadata } from "next";
+import { ArrowUpRight, CalendarDays, CheckCircle, HelpCircle, Mic, Sparkles, Users } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
-import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import FeatureSplit from "@/components/get-involved/FeatureSplit";
+import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { getBirUniversity } from "@/lib/cms";
 import { PHOTOS } from "@/lib/images";
 
-const BENEFITS = [
-  {
-    icon: <Users className="w-6 h-6 text-primary" />,
-    title: "A Mentor Who Gets It",
-    desc: "Every student member is matched with a working clinician in their discipline within 30 days.",
-  },
-  {
-    icon: <GraduationCap className="w-6 h-6 text-primary" />,
-    title: "Scholarship Access",
-    desc: "Priority notice and application support for every scholarship we award.",
-  },
-  {
-    icon: <BookOpen className="w-6 h-6 text-primary" />,
-    title: "Board Prep & Study Groups",
-    desc: "Peer-led NPTE, NBCOT, and Praxis groups that run every exam cycle.",
-  },
-  {
-    icon: <School className="w-6 h-6 text-primary" />,
-    title: "Campus Speaking Visits",
-    desc: "Invite Black in Rehab to your program for a panel, workshop, or career talk.",
-  },
-];
-
-/*
-  Carried over from `/resources/students`, which was merged into this page.
-
-  That page's other section duplicated the membership benefits above, and
-  three of its four cards linked to "#" — a dead anchor dressed up as a
-  download. This list was the part with something in it.
-*/
-const PLAYBOOK = [
-  "Connect with a mentor in your field before you graduate",
-  "Attend at least one national or regional conference as a student",
-  "Start building your professional brand online early",
-  "Apply for every scholarship you qualify for — every dollar counts",
-  "Shadow practitioners in at least three different settings",
-  "Join professional associations as a student member",
-];
+export const metadata: Metadata = {
+  title: "Black in Rehab University | Black in Rehab Foundation",
+  description:
+    "A free community learning experience for Black OT, PT, and SLP students — including future assistants — to connect, learn from rehabilitation professionals, and prepare for life beyond the classroom.",
+};
 
 /**
- * Black in Rehab University, with the registration links the client supplied.
+ * Black in Rehab University — the free monthly student sessions.
  *
- * Both destinations are third-party — a Google Form and Stripe Checkout — so
- * each is a plain `<a>` with an explicit external-link icon rather than a
- * `next/link`. The mastermind has two payment routes and no price stated
- * anywhere we control: the figures live on the Stripe pages, and a number
- * hardcoded here is one that goes stale silently.
+ * Copy is the client's revision document, verbatim. It replaced a student
+ * membership page that promised mentor matching, board-prep groups and
+ * scholarship priority, none of which run today; do not add benefits back
+ * without the client confirming them.
+ *
+ * The registration link changes every month, so every button reads one field:
+ * Site Settings → BIR University → Session registration URL. The optional
+ * next-session box appears only when its title is filled in there.
+ *
+ * The paid Accountability Lab used to share this page (and the old site's
+ * /black-in-rehab-university URL). It now has its own page at
+ * /get-involved/accountability-lab and is deliberately not linked as part of
+ * the free programme.
+ *
+ * Laid out after the client's BIR CARES / Get Involved mockups: photo cards
+ * for the four pillars, an arched photo beside the sessions, and a dark photo
+ * band to close.
  */
-const UNIVERSITY = [
+
+const PILLARS = [
   {
-    title: "Free Zoom Sessions",
-    description:
-      "Live sessions open to every student in the community — career guidance, clinical insight, and time with working clinicians. Register once and you are on the list.",
-    links: [
-      {
-        label: "Register for the free Zooms",
-        url: "https://docs.google.com/forms/d/e/1FAIpQLSdmxk_35NDkdouv8g6c5zvKvqGb4cB9ehAqeukaWXmEhbn1Jw/viewform",
-        host: "Google Forms",
-      },
-    ],
+    icon: Mic,
+    title: "Real Conversations With Rehab Professionals",
+    desc: "Hear from practicing therapists and educators about navigating your program, exploring your profession, and building your future.",
+    image: PHOTOS.conferenceSession,
   },
   {
-    title: "Accountability Mastermind",
-    description:
-      "A paid small-group programme for students who want structure, accountability, and a cohort moving at the same pace. Choose the payment option that suits you.",
-    links: [
-      {
-        label: "Pay in full",
-        url: "https://buy.stripe.com/bJecN70Lw2a85iId4K8IU02",
-        host: "Stripe",
-      },
-      {
-        label: "Pay monthly over 3 months",
-        url: "https://buy.stripe.com/aFa3cx0Lw1644eE4ye8IU05",
-        host: "Stripe",
-      },
-    ],
+    icon: Users,
+    title: "Connection Across OT, PT & SLP",
+    desc: "Meet students across rehabilitation disciplines and learn how our professions work together to support the people we serve.",
+    image: PHOTOS.conferenceNetworking,
+  },
+  {
+    icon: Sparkles,
+    title: "Support Beyond the Classroom",
+    desc: "Join conversations about the student experience—from managing the semester and protecting your wellbeing to preparing for your next chapter.",
+    image: PHOTOS.retreatYogaClass,
+  },
+  {
+    icon: HelpCircle,
+    title: "Space for Your Questions",
+    desc: "Bring your questions to live discussions and Q&A sessions with our guest professionals. You don’t have to figure everything out alone.",
+    image: PHOTOS.conferencePanel,
   },
 ];
 
-const VISIT_STEPS = [
-  "Tell us your program and who the audience will be",
-  "Pick a format — panel, workshop, or career talk",
-  "We match you with a speaker and confirm a date",
-  "We show up, on campus or virtually",
+const TOPICS = [
+  "Navigating school while caring for yourself.",
+  "Understanding interprofessional collaboration.",
+  "Exploring rehabilitation careers, settings, and specialties.",
+  "Financial wellness for students and new graduates.",
 ];
 
-export default function StudentCommunityPage() {
+function RegisterButton({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn btn-primary btn-lg group"
+    >
+      {label}
+      <ArrowUpRight className="w-5 h-5" aria-hidden="true" />
+    </a>
+  );
+}
+
+export default async function BirUniversityPage() {
+  const uni = await getBirUniversity();
+
   return (
     <div className="bg-background min-h-screen">
       <PageHero
@@ -110,195 +96,125 @@ export default function StudentCommunityPage() {
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Get Involved", href: "/get-involved" },
-          { label: "Students" },
+          { label: "Black in Rehab University" },
         ]}
-        title="The Student"
-        highlight="Community"
-        description="Black students are a small share of most PT, OT, and SLP cohorts. Our student community makes sure that never means going through the program alone."
-        image={PHOTOS.ghanaJerseysGroup}
-        cta={{ label: "JOIN FREE AS A STUDENT", href: "/community/join" }}
-        secondaryCta={{ label: "Resource Library", href: "/resources/library" }}
+        title="Black in Rehab"
+        highlight="University"
+        description="A free community learning experience for Black OT, PT, and SLP students—including future assistants—to connect, learn from rehabilitation professionals, and prepare for life beyond the classroom."
+        image={PHOTOS.studentsLectureHall}
+        imagePosition="center 55%"
+        meta={<span className="chip chip-dark">Your Future Starts Here</span>}
+        cta={{ label: "REGISTER FOR THE NEXT SESSION", href: uni.registrationUrl }}
       />
 
-      {/* Benefits */}
+      {/* Learn. Connect. Prepare. */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Student Membership"
-            title="What You Get, At No Cost"
-            description="Student membership is free. It always has been, and it is not a trial."
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {BENEFITS.map((benefit) => (
-              <div
-                key={benefit.title}
-                className="card p-8 card-hover"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {benefit.icon}
-                </div>
-                <h3 className="font-bold text-foreground mb-3">{benefit.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{benefit.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Black in Rehab University */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Black in Rehab University"
-            title="Learn With Us Between Semesters"
-            description="Live sessions and a small-group accountability programme, run by clinicians who were where you are not long ago."
-            align="center"
-            className="mb-14"
-          />
-          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-            {UNIVERSITY.map((track) => (
-              <article key={track.title} className="card flex flex-col p-8">
-                <h3 className="font-serif text-xl font-bold text-foreground">
-                  {track.title}
-                </h3>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
-                  {track.description}
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  {track.links.map((link) => (
-                    <a
-                      key={link.url}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-outline"
-                    >
-                      {link.label}
-                      <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                      <span className="sr-only">
-                        (opens on {link.host} in a new tab)
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Invite us to campus */}
-      <section className="section bg-background border-t border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* The photo the client supplied for this section in their
-                revision document: the founders on stage at the Africa
-                Business Investment Summit. */}
-            <FillerImage
-              src={PHOTOS.speakingAfricaSummit}
-              alt="Black in Rehab founders on stage at the Africa Business Investment Summit"
-              wrapperClassName="aspect-4/3 rounded-3xl group"
-              zoomOnHover
+          <Reveal>
+            <SectionHeading
+              eyebrow="Black in Rehab University"
+              title="Learn. Connect. Prepare."
+              className="mb-12"
             />
-            <div>
-              <SectionHeading
-                eyebrow="Bring Us In"
-                title="Invite Us to Speak at Your Program"
-                description="We visit PT, OT, and SLP programs to talk about careers, representation, and life after graduation — in person or virtually."
-              />
-              <div className="space-y-3 mt-8">
-                {VISIT_STEPS.map((step, idx) => (
-                  <div
-                    key={step}
-                    className="flex items-start gap-4 card rounded-xl p-5"
-                  >
-                    <span className="text-primary font-serif font-bold shrink-0">
-                      0{idx + 1}
-                    </span>
-                    <p className="text-foreground text-sm">{step}</p>
-                  </div>
-                ))}
-              </div>
-              {/* Two audiences for one section: the student inviting us, and
-                  the partner who would pay for the visit. The second button is
-                  the sponsor route the client asked for — it lands on the
-                  School Event Sponsor tier. */}
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/speakers/book" className="btn btn-primary btn-lg group">
-                  REQUEST A SPEAKER <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link href="/support/sponsors" className="btn btn-outline btn-lg group">
-                  SPONSOR A SCHOOL EVENT <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Student playbook */}
-      <section className="section bg-background border-t border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="Student Playbook"
-            title="Six Things Worth Doing Before You Graduate"
-            description="None of these cost anything. All of them are easier with a community behind you."
-            align="center"
-            className="mb-14"
-          />
-
-          <Stagger className="mx-auto grid max-w-4xl grid-cols-1 gap-3 md:grid-cols-2">
-            {PLAYBOOK.map((tip, index) => (
-              <StaggerItem
-                key={tip}
-                className="card flex items-start gap-4 p-5"
-              >
-                <span className="font-serif text-lg font-bold text-primary" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <p className="text-sm leading-relaxed text-foreground">{tip}</p>
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PILLARS.map(({ icon, title, desc, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title} imageClassName="h-44">
+                  {desc}
+                </PhotoCard>
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      {/* Support strip */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Scholarships", desc: "Direct financial support for tuition and board exams.", href: "/impact/scholarships" },
-              { title: "Student Support Fund", desc: "Emergency grants for exam fees, equipment, and travel.", href: "/impact/student-support" },
-              { title: "Career Resources", desc: "Resumes, interviews, and first-job negotiation guidance.", href: "/resources/library" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group card card-sunken p-8 card-hover flex flex-col"
-              >
-                <CheckCircle className="w-8 h-8 text-primary mb-5" />
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed flex-1 mb-5">{item.desc}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Monthly sessions */}
+      <FeatureSplit
+        image={PHOTOS.studentsAwards}
+        imageAlt="Students at a Black in Rehab event"
+        imagePosition="center 30%"
+        arch
+        className="section bg-surface border-y border-border"
+      >
+        <SectionHeading
+          eyebrow="Monthly on Zoom"
+          title="Join Our Monthly Virtual Sessions"
+          description="Black in Rehab University meets monthly on Zoom, bringing students and rehabilitation professionals together for practical conversations, shared experiences, and connection."
+        />
+        <p className="mt-8 mb-4 font-semibold text-foreground">Topics include:</p>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {TOPICS.map((topic) => (
+            <li key={topic} className="card card-sunken flex items-start gap-3 rounded-xl p-4 text-sm text-foreground">
+              <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+              <span>{topic}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-8 font-semibold text-primary">
+          Free to attend. Registration required.
+        </p>
 
-      <CTABand
-        title="Free For Students. Always."
-        description="Join the community, get matched with a mentor, and find the people who will be your professional network for the next thirty years."
-        cta={{ label: "JOIN AS A STUDENT", href: "/community/join" }}
-        secondaryCta={{ label: "See Scholarships", href: "/impact/scholarships" }}
-      />
+        {uni.sessionTitle && (
+          <div className="card mt-8 p-6">
+            <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
+              <CalendarDays className="h-4 w-4" aria-hidden="true" />
+              Next session
+            </p>
+            <p className="text-lg font-bold text-foreground">{uni.sessionTitle}</p>
+            {(uni.sessionDate || uni.sessionTime) && (
+              <p className="mt-1 text-sm text-muted">
+                {[uni.sessionDate, uni.sessionTime].filter(Boolean).join(" · ")}
+              </p>
+            )}
+            {uni.sessionDescription && (
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                {uni.sessionDescription}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="mt-8">
+          <RegisterButton href={uni.registrationUrl} label="REGISTER FOR THE NEXT SESSION" />
+        </div>
+      </FeatureSplit>
+
+      {/* Who is this for */}
+      <FeatureSplit
+        image={PHOTOS.conferenceAudience}
+        imageSide="right"
+        imagePosition="center"
+        className="section bg-background"
+      >
+        <SectionHeading
+          eyebrow="Eligibility"
+          title="Who Is This For?"
+          description="Students enrolled in OT, COTA, PT, PTA, SLP, and SLPA programs who want to learn, connect, and grow alongside a community that centers Black experiences in rehabilitation."
+        />
+        <ul className="mt-8 flex flex-wrap gap-2">
+          {["OT", "COTA", "PT", "PTA", "SLP", "SLPA"].map((program) => (
+            <li key={program} className="chip">
+              {program}
+            </li>
+          ))}
+        </ul>
+      </FeatureSplit>
+
+      {/* Closing band. The registration link is external and opens a new
+          tab, which CTABand's internal <Link> does not do. */}
+      <PhotoSplitBand image={PHOTOS.conferenceGroupBranded} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Free to Attend</p>
+        <h2 className="display-2 text-white">Find Your Community Before You Graduate</h2>
+        <p className="mt-5 mb-9 max-w-lg text-lg leading-relaxed text-white/80">
+          Come with your questions, your goals, and your curiosity. Connect with
+          people who understand the journey and want to see you succeed.
+        </p>
+        <RegisterButton
+          href={uni.registrationUrl}
+          label="REGISTER FOR THE NEXT BIR UNIVERSITY SESSION"
+        />
+      </PhotoSplitBand>
     </div>
   );
 }

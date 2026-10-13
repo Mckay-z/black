@@ -4,32 +4,29 @@ import BookCallout from "@/components/ui/BookCallout";
 import OfferingsList from "@/components/ui/OfferingsList";
 import { CHAUNTEL_OFFERINGS, NANCY_BOOK } from "@/lib/fallback-content";
 import { ArrowRight, FileText } from "lucide-react";
+import PageHero from "@/components/ui/PageHero";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import { PHOTOS } from "@/lib/images";
 
 export default function ResourceLibraryPage() {
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20 bg-surface border-b border-border">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-            <Link href="/" className="hover:text-primary-hover">Home</Link>
-            <span>/</span>
-            <Link href="/resources" className="hover:text-primary-hover">Resources</Link>
-            <span>/</span>
-            <span className="text-foreground">Resource Library</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6">
-            Resource <span className="text-primary">Library</span>
-          </h1>
-          {/* Describes what is actually on the page. The previous version
-              promised research papers, webinar recordings and toolkits above a
-              library holding one title. */}
-          <p className="text-lg md:text-xl text-muted max-w-2xl">
-            Practical guides for Black rehabilitation professionals and students.
-            We are building this library out — here is what is available so far.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        page="/resources/library"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Resources", href: "/resources" },
+          { label: "Resource Library" },
+        ]}
+        title="Resource"
+        highlight="Library"
+        // Describes what is actually on the page. The previous version
+        // promised research papers, webinar recordings and toolkits above a
+        // library holding one title.
+        description="Practical guides for Black rehabilitation professionals and students. We are building this library out — here is what is available so far."
+        image={PHOTOS.conferenceTableTalk}
+        imagePosition="center 40%"
+      />
 
       {/* Payhip listing.
 
@@ -41,16 +38,27 @@ export default function ResourceLibraryPage() {
           through LovelyyOT — Nancy's own store — not a Foundation product, and
           a visitor on a 501(c)(3) website should not be left assuming a
           purchase here is a gift to the charity. */}
-      <section className="section pt-12 md:pt-16 bg-background">
+      <section id="clinical-guides" className="section scroll-mt-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mb-10 max-w-2xl">
-            <p className="eyebrow mb-5">From Our Founder</p>
-            <h2 className="display-2 text-foreground">Clinical Guides</h2>
-            <p className="mt-5 text-lg leading-relaxed text-muted">
-              Nancy Yamoah publishes practical guides for rehabilitation
-              professionals through LovelyyOT, her own store. Purchases are handled
-              by Payhip and are separate from donations to the Foundation.
-            </p>
+          <div className="mb-10 grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,1fr)_16rem] lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-5">From Our Founder</p>
+              <h2 className="display-2 text-foreground">Clinical Guides</h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted">
+                Nancy Yamoah publishes practical guides for rehabilitation
+                professionals through LovelyyOT, her own store. Purchases are handled
+                by Payhip and are separate from donations to the Foundation.
+              </p>
+            </div>
+            <div className="img-filler hidden aspect-4/5 overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 md:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.founderNancy}
+                alt="Nancy Yamoah"
+                loading="lazy"
+                className="photo h-full w-full object-cover"
+              />
+            </div>
           </div>
 
           {/* The cover and title, shown before the embed rather than after:
@@ -72,16 +80,27 @@ export default function ResourceLibraryPage() {
           Same attribution logic as the section above: these are hers, sold
           through OT with Faith, and the lede says so before anyone clicks a
           button on a charity's website. */}
-      <section className="section border-t border-border bg-surface">
+      <section id="parents" className="section scroll-mt-24 border-t border-border bg-surface">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mb-10 max-w-2xl">
-            <p className="eyebrow mb-5">From Our Co-Founder</p>
-            <h2 className="display-2 text-foreground">For Parents & Families</h2>
-            <p className="mt-5 text-lg leading-relaxed text-muted">
-              Dr. Chauntel Altidor supports parents of neurodivergent children
-              through OT with Faith, her own practice. Bookings and purchases are
-              handled there and are separate from donations to the Foundation.
-            </p>
+          <div className="mb-10 grid grid-cols-1 items-center gap-10 md:grid-cols-[16rem_minmax(0,1fr)] lg:grid-cols-[20rem_minmax(0,1fr)]">
+            <div className="img-filler hidden aspect-4/5 overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 md:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.teamChauntel}
+                alt="Dr. Chauntel Altidor"
+                loading="lazy"
+                className="photo h-full w-full object-cover object-top"
+              />
+            </div>
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-5">From Our Co-Founder</p>
+              <h2 className="display-2 text-foreground">For Parents & Families</h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted">
+                Dr. Chauntel Altidor supports parents of neurodivergent children
+                through OT with Faith, her own practice. Bookings and purchases are
+                handled there and are separate from donations to the Foundation.
+              </p>
+            </div>
           </div>
 
           <OfferingsList offerings={CHAUNTEL_OFFERINGS} />
@@ -116,20 +135,17 @@ export default function ResourceLibraryPage() {
           all resources, webinars, and tools", which described a members' area
           that does not exist. This offers the thing we can actually deliver:
           telling people when something new lands. */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="text-3xl font-serif font-bold text-foreground mb-4">
-            Be First to Know
-          </h2>
-          <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
-            New guides, templates, and recordings are published as they are ready.
-            Join the community and we will let you know when they land.
-          </p>
-          <Link href="/community/join" className="btn btn-primary btn-lg group">
-            JOIN THE COMMUNITY <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.retreatGroupBlazers} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Stay in the Loop</p>
+        <h2 className="display-2 text-white">Be First to Know</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          New guides, templates, and recordings are published as they are ready.
+          Get involved with the community to hear when they land.
+        </p>
+        <Link href="/get-involved" className="btn btn-primary btn-lg group mt-9">
+          GET INVOLVED <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

@@ -2,29 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Clock, Gift, Users } from "lucide-react";
 
-import SectionHub from "@/components/navigation/SectionHub";
-import CTABand from "@/components/ui/CTABand";
+import { NAV_ICONS } from "@/components/navigation/SectionHub";
+import GiftBand from "@/components/sections/GiftBand";
+import PhotoCard from "@/components/ui/PhotoCard";
 import Reveal from "@/components/motion/Reveal";
-import ParallaxImage from "@/components/motion/ParallaxImage";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
+import { NAV_SECTIONS } from "@/lib/navigation";
+import { DONATE_URL, externalProps } from "@/lib/donate";
 
 export const metadata: Metadata = {
   title: "Get Involved | Black In Rehab Foundation",
   description:
-    "Every way to take part in Black In Rehab — as a member, a student, a partner, a sponsor, or a volunteer.",
+    "Every way to take part in Black In Rehab — as a student, a professional, a partner, a sponsor, or a volunteer.",
 };
 
 /**
- * The merged Community + Support landing page.
+ * The merged Community + Support landing page, laid out after the client's
+ * "You Belong Here" mockup: photographic hero, three photo cards, a dark
+ * Accountability Lab band, the section's pages as photo cards, and the shared
+ * "Your Gift Powers the Mission" band.
  *
- * Those were two tabs asking the same question — how do I take part — split by
- * whether the answer involved time or money. In practice that meant a visitor
- * wanting to sponsor had to guess between Support and Impact, and a student
- * had to guess between Community, Impact and Resources. This page is the one
- * place that question gets answered.
- *
- * `/community` and `/support` now redirect here. Their children keep their
+ * `/community` and `/support` redirect here. Their children keep their
  * original URLs — see the note in `lib/navigation.ts`.
  */
 
@@ -34,49 +33,66 @@ const WAYS = [
     icon: Users,
     title: "Bring yourself",
     description:
-      "Membership, the student community, ambassador meetups, and somewhere to tell your story. Free to start.",
-    href: "/community/join",
-    cta: "Become a member",
+      "Black in Rehab University for students, ambassador meetups in your city, and the people nearest you. Free to start.",
+    href: "/community/students",
+    cta: "Explore BIR University",
+    image: PHOTOS.conferenceNetworking,
   },
   {
     icon: Clock,
     title: "Bring your time",
     description:
-      "Volunteer on a service day, mentor a student, host a local event, or take a place on a global trip.",
+      "Volunteer on a service day, host a local event, or take a place on a global trip.",
     href: "/impact/service",
     cta: "Volunteer with us",
+    image: PHOTOS.impactVolunteerChildren,
   },
   {
     icon: Gift,
     title: "Bring your resources",
     description:
-      "Donate, sponsor a programme, partner as an organisation, or recruit through us. Every pound is reported back.",
-    href: "/impact/donate",
+      "Donate, sponsor a programme, or partner with us as an organisation.",
+    href: DONATE_URL,
     cta: "Donate or sponsor",
+    image: PHOTOS.conferenceGroupBranded,
   },
 ];
+
+/**
+ * A photo per Get Involved page for the "Pick Your Starting Point" cards.
+ * Titles, descriptions and icons come from `lib/navigation.ts`, so the cards
+ * always match the menu; a page without a photo here falls back to a
+ * community shot rather than going blank.
+ */
+const HUB_PHOTOS: Record<string, string> = {
+  "/community/students": PHOTOS.studentsLectureHall,
+  "/get-involved/accountability-lab": PHOTOS.conferencePresentation,
+  "/community/partner": PHOTOS.speakingTeamWagmc,
+  "/support/sponsors": PHOTOS.retreatGroupFormal,
+  "/support/corporate": PHOTOS.speakingAfricaSummit,
+};
+
+const HUB = NAV_SECTIONS.find((section) => section.href === "/get-involved");
 
 export default function GetInvolvedPage() {
   return (
     <div className="min-h-screen bg-background">
-      <section className="section-dark relative isolate overflow-hidden bg-secondary pb-20 pt-32 md:pb-28 md:pt-40">
-        <ParallaxImage
-          src={PHOTOS.conferenceCelebration}
-          position="30%"
-          strength={60}
-          className="-z-20"
-          opacity={0.35}
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section className="section-dark relative isolate overflow-hidden bg-black">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={PHOTOS.ghanaKente}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 -z-20 h-full w-full object-cover object-[75%_30%]"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-linear-to-r from-black/90 via-black/70 to-black/45"
+          className="absolute inset-0 -z-10 bg-linear-to-r from-black via-black/75 to-transparent md:from-black/90 md:via-black/45"
         />
 
-        <div className="container relative mx-auto px-4 md:px-6">
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-7 flex items-center gap-2 text-sm font-medium"
-          >
+        <div className="container mx-auto px-4 md:px-6 pt-32 pb-20 md:pt-40 md:pb-28">
+          <nav aria-label="Breadcrumb" className="mb-7 flex items-center gap-2 text-sm font-medium">
             <Link href="/" className="text-primary transition-colors hover:text-accent">
               Home
             </Link>
@@ -84,11 +100,11 @@ export default function GetInvolvedPage() {
             <span className="text-white/60">Get Involved</span>
           </nav>
 
-          <Reveal>
-            <h1 className="display-1 max-w-4xl text-white">
-              You Belong <span className="text-gold-gradient">Here</span>
+          <Reveal className="max-w-2xl">
+            <h1 className="display-1 text-white">
+              You Belong <span className="font-serif italic text-gold-gradient">Here</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80 md:text-xl">
+            <p className="mt-6 text-lg leading-relaxed text-white/80 md:text-xl">
               A global movement of rehabilitation professionals, students, and allies.
               However much you have to give — an evening, a skill, a cheque — there is
               a way in.
@@ -96,57 +112,117 @@ export default function GetInvolvedPage() {
           </Reveal>
 
           <Reveal delay={0.12} className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <Link href="/community/join" className="btn btn-primary btn-lg group">
-              BECOME A MEMBER
+            <Link href="/community/students" className="btn btn-primary btn-lg group">
+              BLACK IN REHAB UNIVERSITY
               <ArrowRight className="btn-arrow h-5 w-5" />
             </Link>
-            <Link href="/impact/donate" className="btn btn-on-dark btn-lg">
+            <Link href={DONATE_URL} {...externalProps(DONATE_URL)} className="btn btn-on-dark btn-lg">
               DONATE
             </Link>
           </Reveal>
         </div>
       </section>
 
-      {/* Three doors, before the full list. Nine cards is a lot to land on
-          cold; this sorts them by what the visitor actually has to offer. */}
+      {/* ── Make a difference: three doors ───────────────────────────── */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">Get Involved</p>
+            <h2 className="display-2 text-foreground">Make a Difference</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              There are many ways to support our mission. Choose how you’d like to
+              get involved.
+            </p>
+          </Reveal>
+
           <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {WAYS.map(({ icon: Icon, title, description, href, cta }) => (
-              <StaggerItem key={title} className="card flex flex-col p-8">
-                <span className="icon-tile mb-6">
-                  <Icon className="h-6 w-6" aria-hidden="true" />
-                </span>
-                <h2 className="mb-3 font-serif text-xl font-bold text-foreground">
-                  {title}
-                </h2>
-                <p className="mb-6 flex-1 text-sm leading-relaxed text-muted">
+            {WAYS.map(({ icon, title, description, href, cta, image }) => (
+              <StaggerItem key={title} className="flex">
+                <PhotoCard image={image} icon={icon} title={title} href={href} cta={cta}>
                   {description}
-                </p>
-                <Link href={href} className="link-arrow group mt-auto">
-                  {cta}
-                  <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
-                </Link>
+                </PhotoCard>
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      <SectionHub
-        section="/get-involved"
-        eyebrow="Every Way In"
-        title="Pick Your Starting Point"
-        description="Membership, students, partnership, sponsorship, mentorship, recruitment, and the shop — all of it, on one page."
-        className="border-y border-border bg-surface"
-      />
+      {/* ── Accountability Lab ───────────────────────────────────────────
+          Its own band rather than one of the doors above: it is a paid
+          professional programme, and the client wants it kept clearly apart
+          from the free Black in Rehab University. Copy is the revision
+          document's overview card, verbatim. */}
+      <section className="section-dark relative isolate overflow-hidden bg-black">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+          <div className="order-2 px-6 py-16 md:order-1 md:px-12 md:py-20 lg:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
+            <p className="chip chip-dark mb-6 uppercase tracking-[0.14em]">For Professionals</p>
+            <h2 className="display-2 text-white">Accountability Lab</h2>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+              A focused space for Black rehabilitation professionals to make
+              progress on business, creative, and leadership goals through
+              structure, shared work time, and community support.
+            </p>
+            <p className="mt-4 font-semibold text-white">
+              The current cohort is underway. Join the waitlist for the next cohort.
+            </p>
+            <Link
+              href="/get-involved/accountability-lab"
+              className="btn btn-primary btn-lg group mt-9"
+            >
+              Explore the Accountability Lab
+              <ArrowRight className="btn-arrow h-5 w-5" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="relative order-1 min-h-64 md:order-2 md:min-h-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={PHOTOS.conferencePodium}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent md:bg-linear-to-l md:from-transparent md:via-black/20 md:to-black"
+            />
+          </div>
+        </div>
+      </section>
 
-      <CTABand
-        title="Not Sure Which One You Are?"
-        description="Tell us a little about yourself and what you are hoping to do, and we will point you at the right door rather than making you guess."
-        cta={{ label: "GET IN TOUCH", href: "/contact" }}
-        secondaryCta={{ label: "See Our Impact", href: "/impact" }}
-      />
+      {/* ── Pick Your Starting Point ─────────────────────────────────── */}
+      {HUB && (
+        <section className="section bg-surface border-b border-border">
+          <div className="container mx-auto px-4 md:px-6">
+            <Reveal className="mb-12 max-w-2xl">
+              <p className="eyebrow mb-5">Every Way In</p>
+              <h2 className="display-2 text-foreground">Pick Your Starting Point</h2>
+              <p className="mt-5 text-lg leading-relaxed text-muted">
+                Students, the Accountability Lab, partnership, and sponsorship — all
+                of it, on one page.
+              </p>
+            </Reveal>
+
+            <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {HUB.children.map((child) => (
+                <StaggerItem key={child.href} className="flex">
+                  <PhotoCard
+                    image={HUB_PHOTOS[child.href] ?? PHOTOS.conferenceGroupBranded}
+                    icon={NAV_ICONS[child.icon]}
+                    title={child.label}
+                    href={child.href}
+                    imageClassName="h-40"
+                  >
+                    {child.description}
+                  </PhotoCard>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+        </section>
+      )}
+
+      <GiftBand image={PHOTOS.impactVolunteersKids} />
     </div>
   );
 }

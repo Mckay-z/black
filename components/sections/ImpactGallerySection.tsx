@@ -25,6 +25,8 @@ export default async function ImpactGallerySection({
   featuredOnly = false,
   limit,
   cta,
+  layout = "grid",
+  aside,
   className = "section border-t border-border bg-surface",
 }: {
   eyebrow?: string;
@@ -33,6 +35,9 @@ export default async function ImpactGallerySection({
   featuredOnly?: boolean;
   limit?: number;
   cta?: { label: string; href: string };
+  /** See `ImpactGallery`. The mosaic puts the heading left and `cta` beside it. */
+  layout?: "grid" | "mosaic";
+  aside?: React.ReactNode;
   className?: string;
 }) {
   const stories = await getImpactStories({ featuredOnly, limit });
@@ -56,17 +61,33 @@ export default async function ImpactGallerySection({
   return (
     <section className={className}>
       <div className="container mx-auto px-4 md:px-6">
-        <Reveal className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="eyebrow mb-5">{eyebrow}</p>
-          <h2 className="display-2 text-foreground">{heading}</h2>
-          {description && (
-            <p className="mt-5 text-lg leading-relaxed text-muted">{description}</p>
-          )}
-        </Reveal>
+        {layout === "mosaic" ? (
+          <Reveal className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="eyebrow mb-5">{eyebrow}</p>
+              <h2 className="display-2 text-foreground">{heading}</h2>
+              {description && <p className="mt-4 text-lg text-muted">{description}</p>}
+            </div>
+            {cta && (
+              <Link href={cta.href} className="link-arrow group shrink-0">
+                {cta.label}
+                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+              </Link>
+            )}
+          </Reveal>
+        ) : (
+          <Reveal className="mx-auto mb-12 max-w-3xl text-center">
+            <p className="eyebrow mb-5">{eyebrow}</p>
+            <h2 className="display-2 text-foreground">{heading}</h2>
+            {description && (
+              <p className="mt-5 text-lg leading-relaxed text-muted">{description}</p>
+            )}
+          </Reveal>
+        )}
 
-        <ImpactGallery items={items} />
+        <ImpactGallery items={items} layout={layout} aside={aside} />
 
-        {cta && (
+        {layout !== "mosaic" && cta && (
           <div className="mt-14 text-center">
             <Link href={cta.href} className="btn btn-outline btn-lg group">
               {cta.label}

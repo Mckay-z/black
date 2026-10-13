@@ -2,6 +2,10 @@ import Link from "next/link";
 import { ArrowRight, Mic, Mail } from "lucide-react";
 import { getPeople } from "@/lib/cms";
 import { PHOTOS } from "@/lib/images";
+import PageHero from "@/components/ui/PageHero";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -64,127 +68,176 @@ function speakerLinks(
   return { linkedin: match?.linkedin ?? null, email: match?.email ?? null };
 }
 
+/**
+ * The Speakers Bureau landing page, in the layout of the BIR CARES and Get
+ * Involved pages: photo hero, large portrait cards for the two speakers, the
+ * topics beside a photo collage, and a dark photo band to close.
+ */
 export default async function SpeakersPage() {
   const people = await getPeople("speaker");
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero */}
-      <section className="section-dark relative pt-24 md:pt-32 pb-16 md:pb-20 bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${PHOTOS.retreatGroupOutdoors})` }}></div>
-        <div className="container relative z-10 mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary mb-6">
-            <Link href="/" className="hover:text-primary-hover">Home</Link>
-            <span className="text-white/40">/</span>
-            <span className="text-white/70">Speakers</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-serif font-bold text-white mb-6">
-            Speakers <span className="text-primary">Bureau</span>
-          </h1>
-          <p className="text-lg md:text-xl text-white/80 max-w-2xl mb-10">
-            Bring the Black in Rehab message to your conference, campus, podcast, or event. Our speakers are passionate, dynamic, and deeply experienced in rehabilitation and community impact.
-          </p>
-          <Link href="/contact" className="btn btn-primary btn-lg group">
-            BOOK A SPEAKER <ArrowRight className="w-5 h-5" />
-          </Link>
+      <PageHero
+        page="/speakers"
+        crumbs={[{ label: "Home", href: "/" }, { label: "Speakers" }]}
+        title="Speakers"
+        highlight="Bureau"
+        description="Bring the Black in Rehab message to your conference, campus, podcast, or event. Our speakers are passionate, dynamic, and deeply experienced in rehabilitation and community impact."
+        image={PHOTOS.conferenceAudience}
+        cta={{ label: "BOOK A SPEAKER", href: "/contact" }}
+      />
+
+      {/* Our Speakers — a large portrait card per named speaker. */}
+      <section className="section bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">Meet the Speakers</p>
+            <h2 className="display-2 text-foreground">Our Speakers</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
+              Available for keynotes, panels, lectures, podcasts, and workshops —
+              in person and virtually.
+            </p>
+          </Reveal>
+
+          <Stagger className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {SPEAKERS.map((speaker) => {
+              const links = speakerLinks(speaker.name, people);
+              return (
+                <StaggerItem key={speaker.href} className="flex">
+                  <div className="card card-hover group relative flex w-full flex-col overflow-hidden">
+                    <div className="img-filler aspect-4/5 overflow-hidden sm:aspect-4/3 md:aspect-4/5 lg:aspect-4/3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={speaker.image}
+                        alt={speaker.name}
+                        loading="lazy"
+                        className="photo h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-5 p-7 sm:flex-row sm:items-end sm:justify-between">
+                      <div>
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-primary">
+                          {speaker.specialty}
+                        </p>
+                        <h3 className="font-serif text-2xl font-bold text-foreground transition-colors group-hover:text-primary">
+                          {speaker.name}
+                        </h3>
+                        <p className="mt-1 text-sm text-muted">{speaker.title}</p>
+                        <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                          View profile
+                          <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+                        </span>
+                      </div>
+                      {/*
+                        The card is the link, laid over it rather than wrapped
+                        around it: the LinkedIn and email buttons below are
+                        interactive too, and an anchor inside an anchor is
+                        invalid HTML. This sits under them in the stacking
+                        order, so a click on a social button is that button's,
+                        and a click anywhere else on the card opens the profile.
+                      */}
+                      <Link
+                        href={speaker.href}
+                        aria-label={`${speaker.name} — speaker profile`}
+                        className="absolute inset-0 rounded-[inherit]"
+                      />
+
+                      {/* Rendered only once the People record carries a real
+                          destination; a dead icon is worse than no icon. */}
+                      <div className="relative z-10 flex gap-2">
+                        {links.linkedin && (
+                          <a
+                            href={links.linkedin!}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${speaker.name} on LinkedIn`}
+                            className="w-9 h-9 rounded-full bg-background border border-border hover:border-primary flex items-center justify-center transition-colors"
+                          >
+                            <LinkedInIcon className="w-4 h-4 text-muted hover:text-primary" />
+                          </a>
+                        )}
+                        {links.email && (
+                          <a
+                            href={`mailto:${links.email}`}
+                            aria-label={`Email ${speaker.name}`}
+                            className="w-9 h-9 rounded-full bg-background border border-border hover:border-primary flex items-center justify-center transition-colors"
+                          >
+                            <Mail className="w-4 h-4 text-muted hover:text-primary" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </StaggerItem>
+              );
+            })}
+          </Stagger>
         </div>
       </section>
 
-      {/* Speaking Topics */}
-      <section className="section pt-12 md:pt-16 bg-surface">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="eyebrow mb-5">What We Speak On</h2>
-              <h3 className="display-2 text-foreground mb-6">Keynotes, Panels & Workshops</h3>
-              <p className="text-muted text-lg leading-relaxed mb-10">
-                Our speakers are available for in-person and virtual engagements including keynote addresses, panel discussions, university lectures, podcast appearances, and professional development workshops.
-              </p>
-              <div className="grid grid-cols-1 gap-3">
-                {TOPICS.map((topic, idx) => (
-                  <div key={idx} className="flex items-center gap-3 card rounded-xl p-4 card-hover">
-                    <Mic className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-foreground text-sm font-medium">{topic}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+      {/* Speaking topics, beside a photo collage. */}
+      <section className="section bg-surface border-y border-border">
+        <div className="container mx-auto grid grid-cols-1 items-start gap-12 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <p className="eyebrow mb-5">What We Speak On</p>
+            <h2 className="display-2 text-foreground">Keynotes, Panels &amp; Workshops</h2>
+            <p className="mt-5 mb-10 text-lg leading-relaxed text-muted">
+              Our speakers are available for in-person and virtual engagements including keynote addresses, panel discussions, university lectures, podcast appearances, and professional development workshops.
+            </p>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {TOPICS.map((topic) => (
+                <li key={topic} className="card flex items-center gap-3 rounded-xl p-4">
+                  <Mic className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  <span className="text-sm font-medium text-foreground">{topic}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-            <div className="space-y-6">
-              <h3 className="display-2 text-foreground mb-6">Our Speakers</h3>
-              {SPEAKERS.map((speaker, idx) => {
-                const links = speakerLinks(speaker.name, people);
-                return (
-                <div key={idx} className="group card relative p-6 flex gap-5 items-center card-hover">
-                  <div className="w-20 h-20 rounded-full overflow-hidden shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={speaker.image} alt={speaker.name} className="photo photo-hover-lift w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-bold text-foreground mb-1 transition-colors group-hover:text-primary">
-                      {speaker.name}
-                    </h4>
-                    <p className="text-muted text-sm mb-2">{speaker.title}</p>
-                    <p className="text-primary text-xs font-semibold uppercase tracking-wider">{speaker.specialty}</p>
-                  </div>
-                  {/*
-                    The card is the link, laid over it rather than wrapped
-                    around it: the LinkedIn and email buttons below are
-                    interactive too, and an anchor inside an anchor is invalid
-                    HTML. This sits under them in the stacking order, so a
-                    click on a social button is that button's, and a click
-                    anywhere else on the card opens the profile.
-                  */}
-                  <Link
-                    href={speaker.href}
-                    aria-label={`${speaker.name} — speaker profile`}
-                    className="absolute inset-0 rounded-[inherit]"
-                  />
-
-                  {/* Rendered only once the People record carries a real
-                      destination; a dead icon is worse than no icon. */}
-                  <div className="relative z-10 flex gap-2">
-                    {links.linkedin && (
-                      <a
-                        href={links.linkedin!}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${speaker.name} on LinkedIn`}
-                        className="w-9 h-9 rounded-full bg-background border border-border hover:border-primary flex items-center justify-center transition-colors"
-                      >
-                        <LinkedInIcon className="w-4 h-4 text-muted hover:text-primary" />
-                      </a>
-                    )}
-                    {links.email && (
-                      <a
-                        href={`mailto:${links.email}`}
-                        aria-label={`Email ${speaker.name}`}
-                        className="w-9 h-9 rounded-full bg-background border border-border hover:border-primary flex items-center justify-center transition-colors"
-                      >
-                        <Mail className="w-4 h-4 text-muted hover:text-primary" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-                );
-              })}
+          <Reveal direction="right" className="grid grid-cols-2 gap-4">
+            <div className="img-filler col-span-2 aspect-4/3 overflow-hidden rounded-[var(--radius-panel)] shadow-float">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.conferencePanel}
+                alt="A panel discussion at a Black in Rehab conference"
+                loading="lazy"
+                className="photo h-full w-full object-cover"
+              />
             </div>
-          </div>
+            <div className="img-filler aspect-square overflow-hidden rounded-[var(--radius-card)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.conferenceSpeakerMic}
+                alt="A speaker addressing the room at a Black in Rehab event"
+                loading="lazy"
+                className="photo h-full w-full object-cover object-top"
+              />
+            </div>
+            <div className="img-filler aspect-square overflow-hidden rounded-[var(--radius-card)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.conferenceSession}
+                alt="A conference session in progress"
+                loading="lazy"
+                className="photo h-full w-full object-cover"
+              />
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Book CTA */}
-      <section className="section bg-surface border-t border-border">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="display-2 text-foreground mb-4">Ready to Book?</h2>
-          <p className="text-muted text-lg mb-10 max-w-xl mx-auto">
-            Submit a speaker request with your event details, date, audience size, and topic of interest. We&apos;ll be in touch within 48 hours.
-          </p>
-          <Link href="/contact" className="btn btn-primary btn-lg group">
-            SUBMIT SPEAKER REQUEST <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.speakingTeamWagmc} imagePosition="center 30%" imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Book a Speaker</p>
+        <h2 className="display-2 text-white">Ready to Book?</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Submit a speaker request with your event details, date, audience size, and topic of interest. We&apos;ll be in touch within 48 hours.
+        </p>
+        <Link href="/contact" className="btn btn-primary btn-lg group mt-9">
+          SUBMIT SPEAKER REQUEST <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

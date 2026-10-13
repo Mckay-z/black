@@ -2,9 +2,11 @@ import Link from "next/link";
 import { ArrowRight, Calendar, Clock, Globe2, MapPin } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import FillerImage from "@/components/ui/FillerImage";
-import { PHOTOS } from "@/lib/images";
+import { PHOTOS, photoPosition } from "@/lib/images";
+import { externalProps } from "@/lib/donate";
+import { BREAST_CANCER_WALK_URL } from "@/lib/trips";
 
 type EventItem = {
   title: string;
@@ -36,29 +38,29 @@ const EVENTS: EventItem[] = [
     time: "Morning",
     location: "Atlanta, Georgia",
     format: "In Person",
-    image: PHOTOS.impactHandsUp,
-    href: "/impact/service",
+    image: PHOTOS.breastCancerWalkFlyer,
+    href: BREAST_CANCER_WALK_URL,
     description:
       "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
   },
   {
-    title: "The Connection Table™: Indianapolis",
+    title: "The Connection Table™",
     category: "Community",
-    date: "November 20, 2026",
-    time: "7:30 PM",
-    location: "Kountry Kitchen, Indianapolis",
+    date: "2027 — Date TBA",
+    time: "To be announced",
+    location: "Location to be announced",
     format: "In Person",
     image: PHOTOS.connectionTableFriends,
     href: "/connection-table/indianapolis",
     description:
-      "An elevated dinner experience for Black SLPs and SLP students attending ASHA 2026.",
+      "An elevated dinner experience for Black SLPs and SLP students attending the ASHA Convention. Registration opens once the date and location are confirmed.",
   },
   {
     title: "Ghana: Sankofa Return",
     category: "Global Trip",
     date: "March 10–22, 2027",
     time: "Full program",
-    location: "Accra & Cape Coast, Ghana",
+    location: "Accra & Elmina, Ghana",
     format: "In Person",
     image: PHOTOS.ghanaAirport,
     href: "/trips/ghana#sankofa-return",
@@ -66,7 +68,7 @@ const EVENTS: EventItem[] = [
       "Clinical education, community engagement, and cultural exchange alongside our partners in West Africa.",
   },
   {
-    title: "6th Annual Retreat",
+    title: "6th Annual Conference & Retreat",
     category: "Conference",
     date: "June 17–20, 2027",
     time: "Full program",
@@ -75,19 +77,19 @@ const EVENTS: EventItem[] = [
     image: PHOTOS.conferenceAudience,
     href: "/trips/conference",
     description:
-      "Four days of keynotes, continuing education, and the largest gathering of Black rehabilitation professionals in the country.",
+      "A welcome reception, a full conference day, and a wellness day — with Black rehabilitation professionals and students in New Orleans.",
   },
   {
     title: "Ghana Retreat 2.0",
     category: "Retreat",
-    date: "September 2027",
-    time: "Full program",
+    date: "Details Coming Soon",
+    time: "Stay tuned",
     location: "Ghana",
     format: "In Person",
     image: PHOTOS.ghanaBeach,
     href: "/trips/ghana#ghana-retreat-2",
     description:
-      "A second Ghana gathering built around rest and restoration rather than clinical service.",
+      "A second Ghana gathering. Details coming soon — stay tuned.",
   },
   {
     title: "Ambassador Meetups",
@@ -125,7 +127,7 @@ function FeaturedWrapper({
     "grid grid-cols-1 lg:grid-cols-2 card rounded-3xl overflow-hidden";
 
   return href ? (
-    <Link href={href} className={`group ${className} card-hover`}>
+    <Link href={href} {...externalProps(href)} className={`group ${className} card-hover`}>
       {children}
     </Link>
   ) : (
@@ -143,7 +145,7 @@ function CardWrapper({
   const className = "card card-sunken overflow-hidden flex flex-col";
 
   return href ? (
-    <Link href={href} className={`group ${className} card-hover`}>
+    <Link href={href} {...externalProps(href)} className={`group ${className} card-hover`}>
       {children}
     </Link>
   ) : (
@@ -160,7 +162,7 @@ export default function UpcomingEventsPage() {
         page="/trips/upcoming-events"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Trips", href: "/trips" },
+          { label: "Upcoming Events & Trips", href: "/trips" },
           { label: "Upcoming Events" },
         ]}
         title="Upcoming"
@@ -180,6 +182,7 @@ export default function UpcomingEventsPage() {
             <FillerImage
               src={featured.image}
               alt={featured.title}
+              className={photoPosition(featured.image)}
               wrapperClassName="h-64 lg:h-full min-h-72"
               zoomOnHover
             />
@@ -230,6 +233,7 @@ export default function UpcomingEventsPage() {
                 <FillerImage
                   src={event.image}
                   alt={event.title}
+                  className={photoPosition(event.image)}
                   wrapperClassName="h-44"
                   zoomOnHover
                   overlay="soft"
@@ -274,12 +278,21 @@ export default function UpcomingEventsPage() {
         </div>
       </section>
 
-      <CTABand
-        title="Never Miss a Date"
-        description="Members hear about new events, early-bird pricing, and travel deposits before anyone else."
-        cta={{ label: "JOIN THE MOVEMENT", href: "/get-involved" }}
-        secondaryCta={{ label: "Contact Our Events Team", href: "/contact" }}
-      />
+      <PhotoSplitBand image={PHOTOS.retreatGroupOutdoors} imageSide="left">
+        <p className="eyebrow eyebrow-on-dark mb-5">Stay in the Loop</p>
+        <h2 className="display-2 text-white">Never Miss a Date</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Members hear about new events, early-bird pricing, and travel deposits before anyone else.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/get-involved" className="btn btn-primary btn-lg group">
+            JOIN THE MOVEMENT <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/contact" className="btn btn-on-dark btn-lg">
+            Contact Our Events Team
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

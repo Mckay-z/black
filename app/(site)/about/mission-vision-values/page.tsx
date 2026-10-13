@@ -1,108 +1,133 @@
 import Link from "next/link";
 import { ArrowRight, Globe2, Sparkles, HeartHandshake, Zap, Target } from "lucide-react";
 
+import PageHero from "@/components/ui/PageHero";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { PHOTOS } from "@/lib/images";
+
 const VALUES = [
   {
-    icon: <Globe2 className="w-8 h-8 text-primary" />,
-    title: "WE BELIEVE",
+    icon: Globe2,
+    title: "We Believe",
     description: "the greatest impact is never created alone.",
+    image: PHOTOS.conferenceGroupBranded,
   },
   {
-    icon: <Sparkles className="w-8 h-8 text-primary" />,
-    title: "WE DREAM",
+    icon: Sparkles,
+    title: "We Dream",
     description: "boldly and build community intentionally.",
+    image: PHOTOS.retreatBeachYogaGroup,
   },
   {
-    icon: <HeartHandshake className="w-8 h-8 text-primary" />,
-    title: "WE SERVE",
+    icon: HeartHandshake,
+    title: "We Serve",
     description: "with excellence through rehabilitation, service, and purpose.",
+    image: PHOTOS.impactTherapy,
   },
   {
-    icon: <Zap className="w-8 h-8 text-primary" />,
-    title: "WE EMPOWER",
+    icon: Zap,
+    title: "We Empower",
     description: "the next generation of rehabilitation professionals.",
+    image: PHOTOS.studentsLectureHall,
   },
   {
-    icon: <Target className="w-8 h-8 text-primary" />,
-    title: "WE LEAVE",
+    icon: Target,
+    title: "We Leave",
     description: "every community better than we found it.",
+    image: PHOTOS.impactBackpacks,
+  },
+];
+
+const STATEMENTS = [
+  {
+    label: "Our Mission",
+    text: "Black in Rehab equips rehabilitation professionals to lead with excellence, serve with purpose, and create lasting impact worldwide.",
+    image: PHOTOS.retreatGroupBlazers,
+  },
+  {
+    label: "Our Vision",
+    text: "We envision a global community where rehabilitation professionals discover purpose, develop as leaders, serve with excellence, and leave every community better than they found it.",
+    image: PHOTOS.ghanaKente,
   },
 ];
 
 export default function MissionVisionValuesPage() {
   return (
     <div className="bg-background min-h-screen">
-      <section className="pt-24 md:pt-32 pb-16 md:pb-20">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary mb-12">
-            <Link href="/" className="hover:text-primary-hover">Home</Link>
-            <span>/</span>
-            <Link href="/about" className="hover:text-primary-hover">About</Link>
-            <span>/</span>
-            <span className="text-foreground">Mission, Vision & Values</span>
-          </div>
+      <PageHero
+        page="/about/mission-vision-values"
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "Mission, Vision & Values" },
+        ]}
+        title="Mission, Vision"
+        highlight="& Values"
+        description="These beliefs guide every program, every partnership, and every experience we create."
+        image={PHOTOS.ghanaCertificates}
+      />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
-            {/* Mission */}
-            <div className="bg-surface p-10 md:p-16 rounded-3xl border border-border">
-              <h2 className="eyebrow mb-6">Our Mission</h2>
-              <p className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-foreground leading-tight">
-                Black in Rehab equips rehabilitation professionals to lead with excellence, serve with purpose, and create lasting impact worldwide.
-              </p>
-            </div>
-
-            {/* Vision */}
-            <div className="bg-surface p-10 md:p-16 rounded-3xl border border-border">
-              <h2 className="eyebrow mb-6">Our Vision</h2>
-              <p className="text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-foreground leading-tight">
-                We envision a global community where rehabilitation professionals discover purpose, develop as leaders, serve with excellence, and leave every community better than they found it.
-              </p>
-            </div>
-          </div>
+      {/* Mission and vision, each over a photograph. */}
+      <section className="section bg-background">
+        <div className="container mx-auto grid grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2">
+          {STATEMENTS.map((statement) => (
+            <Reveal key={statement.label} className="card flex h-full flex-col overflow-hidden">
+              <div className="img-filler h-56 overflow-hidden md:h-64">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={statement.image}
+                  alt=""
+                  loading="lazy"
+                  className="photo h-full w-full object-cover"
+                />
+              </div>
+              <div className="flex-1 p-8 md:p-12">
+                <h2 className="eyebrow mb-6">{statement.label}</h2>
+                <p className="font-serif text-2xl font-bold leading-tight text-foreground md:text-3xl">
+                  {statement.text}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* Core Values */}
-      <section className="section pt-12 md:pt-16 bg-surface border-t border-border">
+      {/* Core beliefs */}
+      <section className="section bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="eyebrow mb-5">What Drives Us</h2>
-            <h3 className="display-1 text-foreground mb-6">
-              Our Core Beliefs
-            </h3>
-            <p className="text-xl text-muted leading-relaxed">
+          <Reveal className="mb-12 max-w-2xl">
+            <p className="eyebrow mb-5">What Drives Us</p>
+            <h2 className="display-2 text-foreground">Our Core Beliefs</h2>
+            <p className="mt-5 text-lg leading-relaxed text-muted">
               These beliefs guide every program, every partnership, and every experience we create.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {VALUES.map((value, idx) => (
-              <div key={idx} className="card card-sunken p-8 card-hover text-center flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {value.icon}
-                </div>
-                <h4 className="text-xl font-bold text-foreground mb-4 uppercase tracking-wider">{value.title}</h4>
-                <p className="text-muted text-lg">{value.description}</p>
-              </div>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {VALUES.map((value) => (
+              <StaggerItem key={value.title} className="flex">
+                <PhotoCard image={value.image} icon={value.icon} title={value.title}>
+                  <span className="text-base">{value.description}</span>
+                </PhotoCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
-      {/* CTA Next Page */}
-      <section className="py-24">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h2 className="display-2 text-foreground mb-8">
-            Meet the Visionaries
-          </h2>
-          <Link
-            href="/about/founders"
-            className="btn btn-primary btn-lg group"
-          >
-            MEET THE FOUNDERS <ArrowRight className="w-5 h-5" />
-          </Link>
-        </div>
-      </section>
+      <PhotoSplitBand image={PHOTOS.foundersStanding} imagePosition="center 20%" imageSide="right">
+        <p className="eyebrow eyebrow-on-dark mb-5">The People Behind It</p>
+        <h2 className="display-2 text-white">Meet the Visionaries</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Nancy Yamoah and Dr. Chauntel Altidor — two friends who believed in the power of community, representation, and service.
+        </p>
+        <Link href="/about/founders" className="btn btn-primary btn-lg group mt-9">
+          MEET THE FOUNDERS <ArrowRight className="btn-arrow h-5 w-5" />
+        </Link>
+      </PhotoSplitBand>
     </div>
   );
 }

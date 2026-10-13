@@ -5,39 +5,37 @@ import {
   CheckCircle,
   GraduationCap,
   HandCoins,
-  Users,
   Wallet,
 } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
-import CTABand from "@/components/ui/CTABand";
 import FillerImage from "@/components/ui/FillerImage";
+import PhotoCard from "@/components/ui/PhotoCard";
+import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
+import Reveal from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
 
 const SUPPORTS = [
   {
-    icon: <GraduationCap className="w-6 h-6 text-primary" />,
+    icon: GraduationCap,
+    image: PHOTOS.studentsLectureHall,
     title: "Scholarships",
     desc: "Awards of $1,000 to $2,500 toward tuition for students in accredited PT, OT, and SLP programs.",
     href: "/impact/scholarships",
     cta: "See scholarships",
   },
   {
-    icon: <Wallet className="w-6 h-6 text-primary" />,
+    icon: Wallet,
+    image: PHOTOS.impactBackpacks,
     title: "Emergency Grants",
     desc: "Small, fast grants for board exam fees, licensure applications, clinical rotation travel, and equipment.",
     href: "/contact",
     cta: "Request a grant",
   },
   {
-    icon: <Users className="w-6 h-6 text-primary" />,
-    title: "Mentorship Matching",
-    desc: "A working clinician in your discipline, matched to you within 30 days of joining.",
-    href: "/community/students",
-    cta: "Get matched",
-  },
-  {
-    icon: <BookOpen className="w-6 h-6 text-primary" />,
+    icon: BookOpen,
+    image: PHOTOS.conferencePresentation,
     title: "Board Exam Support",
     desc: "Peer study groups, discounted prep materials, and a repeat-taker support track.",
     href: "/community/students",
@@ -55,7 +53,6 @@ const ELIGIBILITY = [
   "Currently enrolled in an accredited PT, OT, or SLP program",
   "Identify as Black or African American",
   "Demonstrated financial need for grant support",
-  "Active Black in Rehab student membership (free to join)",
 ];
 
 export default function StudentSupportPage() {
@@ -65,7 +62,7 @@ export default function StudentSupportPage() {
         page="/impact/student-support"
         crumbs={[
           { label: "Home", href: "/" },
-          { label: "Impact", href: "/impact" },
+          { label: "BIR CARES", href: "/impact" },
           { label: "Student Support" },
         ]}
         title="Student"
@@ -79,12 +76,13 @@ export default function StudentSupportPage() {
       {/* Barriers */}
       <section className="section bg-surface border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="The Problem"
-            title="The Numbers Behind the Gap"
-            align="center"
-            className="mb-16"
-          />
+          <Reveal>
+            <SectionHeading
+              eyebrow="The Problem"
+              title="The Numbers Behind the Gap"
+              className="mb-12"
+            />
+          </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {BARRIERS.map((item) => (
               <div
@@ -107,32 +105,25 @@ export default function StudentSupportPage() {
       {/* Supports */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <SectionHeading
-            eyebrow="What We Offer"
-            title="Four Kinds of Support"
-            align="center"
-            className="mb-16"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <Reveal>
+            <SectionHeading eyebrow="What We Offer" title="Four Kinds of Support" className="mb-12" />
+          </Reveal>
+          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SUPPORTS.map((support) => (
-              <Link
-                key={support.title}
-                href={support.href}
-                className="group card p-8 card-hover flex flex-col"
-              >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  {support.icon}
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {support.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed flex-1 mb-6">{support.desc}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  {support.cta} <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
+              <StaggerItem key={support.title} className="flex">
+                <PhotoCard
+                  image={support.image}
+                  icon={support.icon}
+                  title={support.title}
+                  href={support.href}
+                  cta={support.cta}
+                  imageClassName="h-40"
+                >
+                  {support.desc}
+                </PhotoCard>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -140,12 +131,14 @@ export default function StudentSupportPage() {
       <section className="section bg-surface border-y border-border">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <FillerImage
-              src={PHOTOS.studentsAwards}
-              alt="Student studying"
-              wrapperClassName="aspect-4/3 rounded-3xl group"
-              zoomOnHover
-            />
+            <Reveal direction="left">
+              <FillerImage
+                src={PHOTOS.studentsAwards}
+                alt="Students holding their award certificates"
+                wrapperClassName="aspect-4/5 sm:aspect-4/3 lg:aspect-4/5 rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 group"
+                zoomOnHover
+              />
+            </Reveal>
             <div>
               <SectionHeading
                 eyebrow="Eligibility"
@@ -177,33 +170,48 @@ export default function StudentSupportPage() {
       {/* Give */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="card rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="max-w-xl">
-              <HandCoins className="w-10 h-10 text-primary mb-5" />
-              <h2 className="display-3 text-foreground mb-4">
+          <Reveal className="card grid grid-cols-1 overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <div className="img-filler relative min-h-64">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTOS.impactPediatric}
+                alt="A Black in Rehab clinician with children"
+                loading="lazy"
+                className="photo absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-8 md:p-12">
+              <HandCoins className="mb-5 h-10 w-10 text-primary" aria-hidden="true" />
+              <h2 className="display-3 mb-4 text-foreground">
                 A $250 gift covers a board exam fee
               </h2>
-              <p className="text-muted leading-relaxed">
+              <p className="leading-relaxed text-muted">
                 Most of our emergency grants are small. That is exactly why they work — a few
                 hundred dollars at the right moment keeps someone in the profession.
               </p>
+              <Link href="/impact/donate" className="btn btn-primary btn-lg group mt-8 self-start">
+                FUND A STUDENT <ArrowRight className="btn-arrow h-5 w-5" />
+              </Link>
             </div>
-            <Link
-              href="/impact/donate"
-              className="btn btn-primary btn-lg group shrink-0"
-            >
-              FUND A STUDENT <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <CTABand
-        title="No One Should Leave Because of Money"
-        description="Whether you need support or want to fund it, this is where that starts."
-        cta={{ label: "APPLY FOR SUPPORT", href: "/impact/scholarships/apply" }}
-        secondaryCta={{ label: "Give to the Fund", href: "/impact/donate" }}
-      />
+      <PhotoSplitBand image={PHOTOS.ghanaLawn} imageSide="right">
+        <p className="eyebrow eyebrow-on-dark mb-5">Student Support</p>
+        <h2 className="display-2 text-white">No One Should Leave Because of Money</h2>
+        <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/80">
+          Whether you need support or want to fund it, this is where that starts.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <Link href="/impact/scholarships/apply" className="btn btn-primary btn-lg group">
+            APPLY FOR SUPPORT <ArrowRight className="btn-arrow h-5 w-5" />
+          </Link>
+          <Link href="/impact/donate" className="btn btn-on-dark btn-lg">
+            Give to the Fund
+          </Link>
+        </div>
+      </PhotoSplitBand>
     </div>
   );
 }

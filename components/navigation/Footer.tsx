@@ -4,6 +4,7 @@ import Logo from "@/components/navigation/Logo";
 import SocialLinks from "@/components/navigation/SocialLinks";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import { getSiteSettings } from "@/lib/cms";
+import { DONATE_URL, externalProps } from "@/lib/donate";
 import { NAV_SECTIONS } from "@/lib/navigation";
 
 /**
@@ -22,10 +23,10 @@ const SECTION_LINKS = NAV_SECTIONS.map((section) => ({
 
 const POPULAR_LINKS = [
   { label: "Upcoming Events", href: "/trips/upcoming-events" },
-  { label: "Become a Member", href: "/community/join" },
+  { label: "Black in Rehab University", href: "/community/students" },
   { label: "Scholarships", href: "/impact/scholarships" },
   { label: "Book a Speaker", href: "/speakers/book" },
-  { label: "Donate", href: "/impact/donate" },
+  { label: "Donate", href: DONATE_URL },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -83,6 +84,7 @@ export default async function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      {...externalProps(link.href)}
                       className="inline-block text-muted transition-[color,transform] duration-200 hover:translate-x-1 hover:text-primary"
                     >
                       {link.label}
