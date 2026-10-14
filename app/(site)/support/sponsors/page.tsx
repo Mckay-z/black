@@ -9,6 +9,7 @@ import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
+import { PARTNERS } from "@/lib/partners";
 
 export const metadata: Metadata = {
   title: "Become a Sponsor | Black In Rehab Foundation",
@@ -124,16 +125,6 @@ const PARTNER_TYPES = [
   },
 ];
 
-/** Supplied as logos in the client's "Website Updates" document. */
-const SPONSORS = [
-  { name: "Alo", logo: "/logos/sponsor-alo.png" },
-  { name: "OT Designz", logo: "/logos/sponsor-ot-designz.png" },
-  { name: "Jaanuu", logo: "/logos/sponsor-jaanuu.png" },
-  { name: "Clove", logo: "/logos/sponsor-clove.png" },
-  { name: "Garde Malade", logo: "/logos/sponsor-garde-malade.png" },
-  { name: "Vakae Luxe", logo: "/logos/sponsor-vakae-luxe.png" },
-];
-
 export default function SponsorsPage() {
   return (
     <div className="min-h-screen bg-background">
@@ -167,11 +158,11 @@ export default function SponsorsPage() {
             </div>
           </Reveal>
           <Reveal>
-            <SectionHeading eyebrow="Thank You" title="Our Sponsors" className="mb-8" />
+            <SectionHeading eyebrow="Thank You" title="Our Partners" className="mb-8" />
             {/* The source logos are small, so they sit at a modest size on
                 white tiles rather than being stretched. */}
             <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {SPONSORS.map((sponsor) => (
+              {PARTNERS.map((sponsor) => (
                 <li
                   key={sponsor.name}
                   className="flex h-28 items-center justify-center rounded-2xl border border-border bg-white p-4"

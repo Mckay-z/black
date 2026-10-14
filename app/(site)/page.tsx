@@ -9,6 +9,7 @@ import Leadership from "@/components/sections/Leadership";
 import Testimonials from "@/components/sections/Testimonials";
 import ResourcesSection from "@/components/sections/ResourcesSection";
 import FinalCTA from "@/components/sections/FinalCTA";
+import PartnersStrip from "@/components/sections/PartnersStrip";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
         limit={6}
         cta={{ label: "SEE OUR FULL IMPACT", href: "/impact" }}
       />
+      <PartnersStrip />
       <Testimonials />
       <ResourcesSection />
       <FinalCTA />

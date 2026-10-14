@@ -15,6 +15,7 @@ import SectionHub from "@/components/navigation/SectionHub";
 import Reveal from "@/components/motion/Reveal";
 import GiftBand, { NSA_WISHLIST_URL } from "@/components/sections/GiftBand";
 import { DONATE_URL, externalProps } from "@/lib/donate";
+import PartnersStrip from "@/components/sections/PartnersStrip";
 
 export const metadata: Metadata = {
   title: "BIR CARES | Black in Rehab Foundation",
@@ -290,6 +291,11 @@ export default function ImpactPage() {
       </section>
 
       {/* ── Where the Work Goes (not links, by request) ──────────────── */}
+      <PartnersStrip
+        description="The organisations BIR CARES partners with to extend care, training, and opportunity."
+        className="section-sm bg-background"
+      />
+
       <SectionHub
         section="/impact"
         eyebrow="Our Impact"

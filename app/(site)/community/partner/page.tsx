@@ -16,6 +16,7 @@ import ProcessSteps from "@/components/get-involved/ProcessSteps";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
+import PartnersStrip from "@/components/sections/PartnersStrip";
 
 /*
   Healthcare Systems used to lead this list. It is gone at the client's
@@ -102,6 +103,12 @@ export default function PartnerWithUsPage() {
           </Stagger>
         </div>
       </section>
+
+      <PartnersStrip
+        eyebrow="Current Partners"
+        title="Who We Work With"
+        cta={null}
+      />
 
       {/* What we bring */}
       <FeatureSplit

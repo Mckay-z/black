@@ -16,6 +16,7 @@ import ProcessSteps from "@/components/get-involved/ProcessSteps";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { PHOTOS } from "@/lib/images";
+import { PARTNERS } from "@/lib/partners";
 
 const OPPORTUNITIES = [
   {
@@ -51,11 +52,6 @@ const WHY_US = [
   "Recognition that never comes with editorial control over our advocacy",
 ];
 
-const PARTNERS = [
-  { name: "SENA Pediatric Therapy Centre", logo: "/logos/sena-pediatric.png" },
-  { name: "Nature's Sprout Academy", logo: "/logos/nature-sprouts-academy.png" },
-  { name: "GUBA Foundation", logo: "/logos/guba-foundation.png" },
-];
 
 const PROCESS = [
   { step: "01", title: "Discovery", desc: "A short call to understand your goals, budget cycle, and reporting requirements." },
