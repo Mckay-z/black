@@ -96,15 +96,15 @@ export default function ImpactPage() {
           className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-linear-to-t from-black/70 to-transparent"
         />
 
-        <div className="container mx-auto px-4 md:px-6 pt-28 pb-20 md:pt-36 md:pb-28">
-          <nav aria-label="Breadcrumb" className="mb-10 flex items-center gap-2 text-sm font-medium text-primary">
+        <div className="container mx-auto px-4 md:px-6 pt-28 pb-12 md:pt-32 md:pb-16">
+          <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm font-medium text-primary">
             <Link href="/" className="hover:text-primary-hover">Home</Link>
             <span className="text-white/40">/</span>
             <span className="text-white/70">BIR CARES</span>
           </nav>
 
           <div className="max-w-2xl">
-            <div className="mb-8 flex items-center gap-4">
+            <div className="mb-5 flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logos/bir-cares-emblem.png"
@@ -112,10 +112,10 @@ export default function ImpactPage() {
                 aria-hidden="true"
                 width={286}
                 height={244}
-                className="h-16 w-auto md:h-20"
+                className="h-11 w-auto md:h-14"
               />
               <div className="leading-none">
-                <p className="font-serif text-2xl font-bold tracking-wide text-white md:text-3xl">
+                <p className="font-serif text-xl font-bold tracking-wide text-white md:text-2xl">
                   BIR CARES
                 </p>
                 <p className="mt-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/70">
@@ -124,24 +124,24 @@ export default function ImpactPage() {
               </div>
             </div>
 
-            <p className="eyebrow eyebrow-on-dark mb-6">
+            <p className="eyebrow eyebrow-on-dark mb-4">
               Sponsors · Volunteers · Community Partners
             </p>
-            <h1 className="display-1 text-white">
+            <h1 className="font-serif text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-5xl lg:text-[3.5rem]">
               Compassion in Action.{" "}
               <span className="text-gold-gradient">Healing Beyond Borders.</span>
             </h1>
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-white/80">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg">
               BIR CARES brings together sponsors, volunteers, and community
               partners to help turn care into action — in the clinic and in the
               communities we serve.
             </p>
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link href={DONATE_URL} {...externalProps(DONATE_URL)} className="btn btn-primary btn-lg group">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href={DONATE_URL} {...externalProps(DONATE_URL)} className="btn btn-primary group">
                 DONATE NOW <ArrowRight className="btn-arrow h-5 w-5" />
               </Link>
-              <a href={NSA_WISHLIST_URL} target="_blank" rel="noopener noreferrer" className="btn btn-on-dark btn-lg">
+              <a href={NSA_WISHLIST_URL} target="_blank" rel="noopener noreferrer" className="btn btn-on-dark">
                 <Heart className="h-5 w-5" aria-hidden="true" /> SHOP THE NSA WISHLIST
               </a>
             </div>
