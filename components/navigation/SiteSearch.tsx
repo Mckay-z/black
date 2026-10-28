@@ -120,27 +120,28 @@ export function SearchTrigger({
 
     From there it collapses as the header runs out of room. At `lg` the bar is
     already carrying a logo, seven nav items, the theme toggle and DONATE, so
-    search is a plain icon; the label arrives at `xl` and the shortcut hint at
-    `2xl`. The button keeps its accessible name at every size — which is what
+    search is a plain icon; the label arrives at `2xl` and the shortcut hint
+    at 1800px — one tier later than before Buy Now, Pay Later joined the bar.
+    The button keeps its accessible name at every size — which is what
     `sr-only` is doing below rather than `hidden`.
 
     Padding tracks that: even `px-4` once the label shows, tightening on the
-    right only at `2xl`, where the chip needs the room and supplies its own
+    right only at 1800px, where the chip needs the room and supplies its own
     visual inset.
   */
   return (
     <button
       type="button"
       onClick={onClick}
-      className="group inline-flex h-10 w-10 items-center justify-center gap-2 rounded-full border border-border bg-surface text-sm text-muted transition-colors hover:border-primary/60 hover:text-primary xl:w-auto xl:px-4 2xl:pr-2"
+      className="group inline-flex h-10 w-10 items-center justify-center gap-2 rounded-full border border-border bg-surface text-sm text-muted transition-colors hover:border-primary/60 hover:text-primary 2xl:w-auto 2xl:px-4 min-[112.5rem]:pr-2"
     >
       <Search className="h-5 w-5 shrink-0" aria-hidden="true" />
-      <span className="sr-only font-medium xl:not-sr-only">Search</span>
+      <span className="sr-only font-medium 2xl:not-sr-only">Search</span>
       {/* Presentational: the accessible name is the word "Search" above, and
           reading out a keyboard shortcut mid-sentence helps nobody. */}
       <span
         aria-hidden="true"
-        className="hidden rounded-md border border-border px-1.5 py-1 text-[0.65rem] font-semibold leading-none tracking-wide text-muted 2xl:inline-block"
+        className="hidden rounded-md border border-border px-1.5 py-1 text-[0.65rem] font-semibold leading-none tracking-wide text-muted min-[112.5rem]:inline-block"
       >
         {shortcut ?? " "}
       </span>

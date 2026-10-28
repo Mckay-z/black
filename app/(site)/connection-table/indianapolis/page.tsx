@@ -295,6 +295,16 @@ function SeatsNote({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * The photographs either side of the "Come alone" clip, named rather than
+ * taken by index: the folder also holds 50 MB PNG exports, and these four are
+ * not used anywhere else on the page.
+ */
+const EMBRACE_SIDE_PHOTOS = [
+  ["Photo Jun 23 2025, 5 03 07 PM.jpg", "Photo Jun 23 2025, 5 41 51 PM.jpg"],
+  ["Photo Jun 23 2025, 5 36 24 PM.jpg", "Photo Jun 23 2025, 5 09 32 PM.jpg"],
+];
+
 export default async function ConnectionTableIndianapolisPage() {
   const settings = await getSiteSettings();
   
@@ -756,12 +766,34 @@ export default async function ConnectionTableIndianapolisPage() {
       <section className="section-espresso relative isolate flex min-h-152 items-center overflow-hidden bg-background py-24 md:min-h-176">
         <div className="absolute inset-0 -z-20 overflow-hidden">
           {embraceVideo ? (
-            <video 
-              src={`/photos/dinners/${encodeURIComponent(embraceVideo)}`}
-              autoPlay muted loop playsInline
-              className="w-full h-full object-cover scale-105 opacity-55"
-              style={{ objectPosition: '50% 30%' }}
-            />
+            // The clip is portrait (9:16). Covering a wide band with it zoomed
+            // in to a sliver of the top, so on desktop the whole frame sits in
+            // the open left half between two columns of dinner photographs.
+            // On a phone the band is itself tall, so the clip simply covers it.
+            <div className="absolute inset-0 flex gap-1.5 opacity-70 lg:right-1/2">
+              {EMBRACE_SIDE_PHOTOS.map((column, i) => (
+                <div
+                  key={i}
+                  className={`hidden min-w-0 flex-1 flex-col gap-1.5 lg:flex ${i === 0 ? "order-first" : "order-last"}`}
+                >
+                  {column.map((img) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={img}
+                      src={`/photos/dinners/${encodeURIComponent(img)}`}
+                      alt=""
+                      loading="lazy"
+                      className="min-h-0 w-full flex-1 object-cover"
+                    />
+                  ))}
+                </div>
+              ))}
+              <video
+                src={`/photos/dinners/${encodeURIComponent(embraceVideo)}`}
+                autoPlay muted loop playsInline
+                className="h-full w-full object-cover object-center lg:aspect-9/16 lg:w-auto lg:shrink-0"
+              />
+            </div>
           ) : (
             <div
               className="w-full h-full scale-105 bg-cover opacity-55"

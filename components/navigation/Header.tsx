@@ -16,7 +16,7 @@ import {
 
 type NavItem = { name: string; href: string };
 type NavLink = NavItem & {
-  headerLabels?: { short: string; compact: string };
+  headerLabels?: { short: string; compact: string; wide?: string };
   dropdownItems?: NavItem[];
 };
 
@@ -34,10 +34,10 @@ const NAV_LINKS: NavLink[] = [
     name: section.label,
     headerLabels: section.headerLabels,
     href: section.href,
-    dropdownItems: section.children.map((child) => ({
-      name: child.label,
-      href: child.href,
-    })),
+    // A section with no children is a plain link, not an empty dropdown.
+    dropdownItems: section.children.length
+      ? section.children.map((child) => ({ name: child.label, href: child.href }))
+      : undefined,
   })),
 ];
 
@@ -187,7 +187,11 @@ export default function Header() {
             return (
               <div
                 key={link.name}
-                className="relative h-full flex items-center"
+                // Home gives way at `lg`, where the bar is tightest — the logo
+                // beside it already links home.
+                className={`relative h-full items-center ${
+                  link.href === "/" ? "hidden xl:flex" : "flex"
+                }`}
                 onMouseEnter={() => link.dropdownItems && setOpenDropdown(link.name)}
                 onMouseLeave={() => setOpenDropdown(null)}
                 onFocus={() => link.dropdownItems && setOpenDropdown(link.name)}
@@ -204,7 +208,7 @@ export default function Header() {
                   aria-current={active ? "page" : undefined}
                   aria-haspopup={link.dropdownItems ? "true" : undefined}
                   aria-expanded={link.dropdownItems ? isOpen : undefined}
-                  className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 xl:px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
+                  className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-3 2xl:px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
                     active || isOpen
                       ? "text-primary"
                       : "text-foreground/85 hover:text-primary"
@@ -216,7 +220,10 @@ export default function Header() {
                       <span className="hidden xl:inline 2xl:hidden">
                         {link.headerLabels.short}
                       </span>
-                      <span className="hidden 2xl:inline">{link.name}</span>
+                      <span className="hidden 2xl:inline min-[112.5rem]:hidden">
+                        {link.headerLabels.wide ?? link.name}
+                      </span>
+                      <span className="hidden min-[112.5rem]:inline">{link.name}</span>
                     </>
                   ) : (
                     link.name
@@ -234,7 +241,7 @@ export default function Header() {
                       alone, and it survives on the condensed bar. */}
                   <span
                     aria-hidden="true"
-                    className={`pointer-events-none absolute inset-x-2.5 xl:inset-x-3.5 -bottom-0.5 h-0.5 origin-center rounded-full bg-primary transition-transform duration-300 ease-out ${
+                    className={`pointer-events-none absolute inset-x-2 xl:inset-x-3 2xl:inset-x-3.5 -bottom-0.5 h-0.5 origin-center rounded-full bg-primary transition-transform duration-300 ease-out ${
                       active ? "scale-x-100" : "scale-x-0"
                     }`}
                   />
@@ -321,21 +328,26 @@ export default function Header() {
               return (
                 <div key={link.name} className="py-1">
                   {link.dropdownItems ? (
-                    <button
-                      type="button"
-                      className="flex items-center justify-between w-full py-3.5 text-left"
-                      onClick={() => toggleMobileDropdown(link.name)}
-                      aria-expanded={isOpen}
-                    >
-                      <span
-                        className={`font-serif text-lg font-bold ${
-                          active ? "text-primary" : "text-foreground"
+                    // Two targets: the name goes to the section's own page,
+                    // the chevron opens its children. One button doing only
+                    // the second left every landing page unreachable here.
+                    <div className="flex items-center justify-between gap-3">
+                      <Link
+                        href={link.href}
+                        aria-current={isLinkActive(pathname, link.href) ? "page" : undefined}
+                        className={`flex-1 py-3.5 font-serif text-lg font-bold transition-colors ${
+                          active ? "text-primary" : "text-foreground hover:text-primary"
                         }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {link.name}
-                      </span>
-                      <span
-                        className={`inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors ${
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => toggleMobileDropdown(link.name)}
+                        aria-expanded={isOpen}
+                        aria-label={`${isOpen ? "Hide" : "Show"} ${link.name} pages`}
+                        className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors ${
                           isOpen
                             ? "border-primary/50 bg-primary/10 text-primary"
                             : "border-border text-muted"
@@ -346,8 +358,8 @@ export default function Header() {
                             isOpen ? "rotate-180" : ""
                           }`}
                         />
-                      </span>
-                    </button>
+                      </button>
+                    </div>
                   ) : (
                     <Link
                       href={link.href}

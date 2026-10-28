@@ -98,6 +98,15 @@ const EXTRA_PAGES: SearchEntry[] = [
     section: "Upcoming Events & Trips",
     keywords: ["register", "apply", "book", "sign up", "sankofa", "accra", "elmina", "africa"],
   },
+  {
+    // Was reached through the "Sankofa Return" menu entry, which now opens
+    // the Ghana page; still linked from /trips and the homepage.
+    title: "Global Trips",
+    href: "/trips/global",
+    description: "The global programme — clinical and cultural exchange across the Diaspora.",
+    section: "Upcoming Events & Trips",
+    keywords: ["global", "international", "diaspora", "travel", "sankofa"],
+  },
 
   // Legal and policy. Nobody browses to these; they search for them by name.
   {

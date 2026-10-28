@@ -31,6 +31,13 @@ import { PHOTOS } from "@/lib/images";
 export const BREAST_CANCER_WALK_URL =
   "https://givebutter.com/2026-5j1je7/black-in-rehab/Blackinrehab";
 
+/**
+ * Ghana's TravelJoy booking form, run by Vakae Luxe. Shared by the Ghana page
+ * and the Buy Now, Pay Later trip selector (`lib/pay-later.ts`).
+ */
+export const GHANA_BOOKING_URL =
+  "https://traveljoy.com/bookings/6vW6cHjmvfSXecTczjskN4At";
+
 export type TripStatus = "Open" | "Year-Round" | "Coming Soon";
 
 export type Trip = {

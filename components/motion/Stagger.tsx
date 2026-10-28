@@ -39,6 +39,7 @@ const itemVariants: Variants = {
 const CONTAINER_TAGS = {
   div: motion.div,
   ul: motion.ul,
+  ol: motion.ol,
   section: motion.section,
 } as const;
 

@@ -59,6 +59,8 @@ const DAY_ICONS = {
 
 export type DayIcon = keyof typeof DAY_ICONS;
 
+const PAY_LATER_LABEL = "Explore Buy Now, Pay Later Options";
+
 type Cta = { label: string; href: string };
 
 /**
@@ -139,6 +141,12 @@ export type TripDetailData = {
 
   itinerary?: {
     image: string;
+    /**
+     * Further photographs stacked under `image`. A long itinerary makes this
+     * column very tall, and a single photograph stretched over it is cropped
+     * down to an enlarged, soft sliver.
+     */
+    moreImages?: string[];
     heading: string;
     accent: string;
     description: string;
@@ -204,6 +212,13 @@ export type TripDetailData = {
     description?: string;
     items: { label: string; title: string; description: string; cta: Cta }[];
   };
+
+  /**
+   * Link to the Buy Now, Pay Later page, carrying this trip so the traveller
+   * can find their booking form again — build it with `payLaterHref` from
+   * `lib/pay-later.ts`. Shown beside the price and the booking steps.
+   */
+  payLater?: string;
 
   info?: {
     heading: string;
@@ -276,6 +291,7 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
     includes,
     pricing,
     steps,
+    payLater,
     info,
   } = trip;
 
@@ -481,15 +497,36 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
           <div className="grid lg:grid-cols-2">
             {/* On a narrow screen the photograph becomes a band above the
                 copy rather than a half-height sliver beside it. */}
-            <div className="img-filler relative min-h-72 overflow-hidden lg:min-h-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={itinerary.image}
-                alt=""
-                loading="lazy"
-                className="photo absolute inset-0 h-full w-full object-cover"
-              />
-            </div>
+            {itinerary.moreImages?.length ? (
+              <div className="grid grid-cols-2 gap-1.5 lg:flex lg:flex-col">
+                {[itinerary.image, ...itinerary.moreImages].map((src, i) => (
+                  <div
+                    key={src}
+                    className={`img-filler relative overflow-hidden ${
+                      i === 0 ? "col-span-2 min-h-72" : "min-h-48"
+                    } ${i > 2 ? "hidden lg:block" : ""} lg:min-h-0 lg:flex-1`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt=""
+                      loading="lazy"
+                      className="photo absolute inset-0 h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="img-filler relative min-h-72 overflow-hidden lg:min-h-full">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={itinerary.image}
+                  alt=""
+                  loading="lazy"
+                  className="photo absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            )}
 
             <div className="px-4 py-20 md:px-10 lg:px-16 lg:py-24">
               <Reveal className="mx-auto max-w-xl text-center">
@@ -757,6 +794,12 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                 />
               </div>
 
+              {payLater && (
+                <Link href={payLater} className="link-arrow mt-6">
+                  {PAY_LATER_LABEL} <ArrowRight className="btn-arrow h-4 w-4" />
+                </Link>
+              )}
+
               {pricing.note && (
                 <p className="mx-auto mt-7 max-w-xl text-sm leading-relaxed text-white/65">
                   {pricing.note}
@@ -792,6 +835,15 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                 </StaggerItem>
               ))}
             </Stagger>
+
+            {payLater && (
+              <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-muted">
+                Want to spread the cost?{" "}
+                <Link href={payLater} className="link-arrow">
+                  {PAY_LATER_LABEL} <ArrowRight className="btn-arrow h-4 w-4" />
+                </Link>
+              </p>
+            )}
           </div>
         </section>
       )}

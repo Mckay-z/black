@@ -58,10 +58,11 @@ export type NavSection = {
   label: string;
   /**
    * Shorter labels for the desktop header bar, where the full one does not
-   * fit: `short` from xl, `compact` from lg. The full label shows from 2xl and
+   * fit: `compact` from lg, `short` from xl, `wide` from 2xl (the full label
+   * when omitted). The full label shows from 1800px (`min-[112.5rem]`) and
    * everywhere else (mobile menu, footer, search, breadcrumbs).
    */
-  headerLabels?: { short: string; compact: string };
+  headerLabels?: { short: string; compact: string; wide?: string };
   href: string;
   /** Lede for the section hub. */
   description: string;
@@ -119,7 +120,7 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Upcoming Events & Trips",
     // The client asked for "Upcoming Events & Trips", falling back to
     // "Upcoming Events" where it is too long for the layout.
-    headerLabels: { short: "Upcoming Events", compact: "Events" },
+    headerLabels: { short: "Upcoming Events", compact: "Events", wide: "Upcoming Events" },
     href: "/trips",
     description:
       "Conferences, retreats, global service journeys, and local gatherings.",
@@ -132,9 +133,11 @@ export const NAV_SECTIONS: NavSection[] = [
       },
       {
         label: "Sankofa Return",
-        href: "/trips/global",
+        // The Sankofa Return page itself, not the wider global-programme
+        // overview at /trips/global, which stays reachable from /trips.
+        href: "/trips/ghana",
         description:
-          "The global programme — clinical and cultural exchange across the Diaspora.",
+          "Ghana: Sankofa Return — clinical exchange, service and culture in Accra and Elmina.",
         icon: "globe",
       },
       {
@@ -144,6 +147,17 @@ export const NAV_SECTIONS: NavSection[] = [
         icon: "compass",
       },
     ],
+  },
+
+  {
+    // A tab of its own beside the trips, at the client's request: one page,
+    // no children, so the header shows it as a plain link.
+    label: "Buy Now, Pay Later",
+    headerLabels: { short: "Pay Later", compact: "Pay Later" },
+    href: "/buy-now-pay-later",
+    description:
+      "Trip payment schedules and independent financing resources — Affirm, Klarna and Zip — explained before you book.",
+    children: [],
   },
 
   {

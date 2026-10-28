@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import TripDetail, { type TripDetailData } from "@/components/trips/TripDetail";
 import { PHOTOS } from "@/lib/images";
+import { payLaterHref } from "@/lib/pay-later";
+import { GHANA_BOOKING_URL as BOOKING_URL } from "@/lib/trips";
 
 export const metadata: Metadata = {
   title: "Ghana: Sankofa Return | Black In Rehab Foundation",
@@ -35,7 +37,6 @@ export const metadata: Metadata = {
 const APPLY_URL =
   "https://www.cognitoforms.com/BlackInRehab1/SANKOFAMISSIONSHEALINGBEYONDBORDERSGHANA";
 const ITINERARY_URL = "https://muse.ai/s/sankofa-ghana-itinerary-yxj625dxxbleo";
-const BOOKING_URL = "https://traveljoy.com/bookings/6vW6cHjmvfSXecTczjskN4At";
 
 const APPLY = { label: "APPLY NOW", href: APPLY_URL };
 
@@ -90,6 +91,14 @@ const GHANA: TripDetailData = {
 
   itinerary: {
     image: PHOTOS.ghanaCastleGroup,
+    // In the order the trip meets them: Elmina, cooking, the market, drumming.
+    // Kept out of the gallery below so no photograph shows twice.
+    moreImages: [
+      PHOTOS.ghanaDoorOfReturn,
+      PHOTOS.ghanaCooking,
+      PHOTOS.ghanaMarket,
+      PHOTOS.ghanaDrumming,
+    ],
     heading: "The Journey",
     accent: "Day by Day",
     description:
@@ -234,10 +243,6 @@ const GHANA: TripDetailData = {
 
   gallery: [
     PHOTOS.ghanaAirport,
-    PHOTOS.ghanaDrumming,
-    PHOTOS.ghanaDoorOfReturn,
-    PHOTOS.ghanaMarket,
-    PHOTOS.ghanaCooking,
     PHOTOS.ghanaCertificates,
     PHOTOS.ghanaFood,
     PHOTOS.ghanaCeremonyDetail,
@@ -295,6 +300,8 @@ const GHANA: TripDetailData = {
       },
     ],
   },
+
+  payLater: payLaterHref("ghana"),
 
   info: {
     heading: "Additional",
