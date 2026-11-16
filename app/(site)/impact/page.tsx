@@ -266,11 +266,11 @@ export default function ImpactPage() {
                   <p className="mt-4 leading-relaxed text-muted">
                     Black in Rehab partners with Nature Sprouts Academy to train and equip staff with practical, evidence-informed strategies to better support children with developmental disabilities—advancing health equity, inclusion, and quality care in Ghana.
                   </p>
-                  <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                    <Link href="/impact/mission-projects" className="btn btn-primary group">
+                  <div className="mt-7 flex flex-wrap gap-3">
+                    <Link href="/impact/mission-projects" className="btn btn-primary group whitespace-nowrap">
                       LEARN MORE <ArrowRight className="btn-arrow h-4 w-4" />
                     </Link>
-                    <a href={NSA_WISHLIST_URL} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+                    <a href={NSA_WISHLIST_URL} target="_blank" rel="noopener noreferrer" className="btn btn-outline whitespace-nowrap">
                       Support NSA’s Sensory Room <ArrowUpRight className="h-4 w-4" />
                     </a>
                   </div>
