@@ -19,13 +19,17 @@ export const metadata: Metadata = {
  * set the link to `null` and the page says pre-orders are opening soon. The link is read at build time, so
  * changing it needs a redeploy.
  *
- * The link itself must collect, on top of payment: the buyer's name, a
- * REQUIRED "Size" dropdown (S, M, L, XL, 2XL, 3XL) and a shipping address.
- * $129 includes shipping, so no shipping rate is added in Stripe.
+ * Pre-ordering is two steps: pay through the link, then fill in the Google
+ * Form (`ORDER_FORM_URL`) for name, size and shipping address. $129 includes
+ * shipping, so no shipping rate is added in Stripe.
  */
 const PREORDER_URL: string | null =
   process.env.NEXT_PUBLIC_JACKET_PREORDER_URL ||
   "https://buy.stripe.com/aFa28t51M3ec26wd4K8IU0b";
+
+/** Collects name, size and shipping address — step 2, after paying. */
+const ORDER_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSd5v_Qv34NJR4vuB8yiyBzzGOL7JPhheB7_3_XWyT59SxAZIA/viewform";
 
 const JACKET_IMAGE = "/photos/merch-varsity-jacket.png";
 
@@ -81,28 +85,48 @@ export default function ShopPage() {
 
               <p className="mt-6 leading-relaxed text-muted">
                 Black body, white sleeves, and the &ldquo;We Are the 5%&rdquo; crest across the
-                back for OT, PT and SLP. Choose your size and shipping address at checkout.
+                back for OT, PT and SLP. Pre-ordering takes two quick steps: pay, then tell us your size and where to ship it.
               </p>
 
-              <div className="mt-8">
-                {PREORDER_URL ? (
-                  <Link
-                    href={PREORDER_URL}
-                    {...externalProps(PREORDER_URL)}
-                    className="btn btn-primary btn-lg group w-full sm:w-auto"
-                  >
-                    PRE-ORDER NOW <ArrowRight className="btn-arrow h-5 w-5" />
-                  </Link>
-                ) : (
-                  <p
-                    role="status"
-                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-sm font-medium text-foreground"
-                  >
-                    <ShoppingBag className="h-4 w-4 text-primary" aria-hidden="true" />
-                    Pre-orders are opening soon.
-                  </p>
-                )}
-              </div>
+              {PREORDER_URL ? (
+                <ol className="mt-8 space-y-4">
+                  <li className="card p-5">
+                    <p className="chip self-start">Step 1</p>
+                    <p className="mt-3 font-semibold text-foreground">Pay for your jacket</p>
+                    <Link
+                      href={PREORDER_URL}
+                      {...externalProps(PREORDER_URL)}
+                      className="btn btn-primary btn-lg group mt-4 w-full sm:w-auto"
+                    >
+                      PRE-ORDER NOW — $129 <ArrowRight className="btn-arrow h-5 w-5" />
+                    </Link>
+                  </li>
+                  <li className="card p-5">
+                    <p className="chip self-start">Step 2</p>
+                    <p className="mt-3 font-semibold text-foreground">
+                      Tell us your size and shipping address
+                    </p>
+                    <p className="mt-1 text-sm text-muted">
+                      Required &mdash; we can&rsquo;t ship your jacket without it.
+                    </p>
+                    <Link
+                      href={ORDER_FORM_URL}
+                      {...externalProps(ORDER_FORM_URL)}
+                      className="btn btn-outline btn-lg group mt-4 w-full sm:w-auto"
+                    >
+                      COMPLETE ORDER FORM <ArrowRight className="btn-arrow h-5 w-5" />
+                    </Link>
+                  </li>
+                </ol>
+              ) : (
+                <p
+                  role="status"
+                  className="mt-8 inline-flex items-center gap-2 rounded-xl border border-border bg-surface px-4 py-3 text-sm font-medium text-foreground"
+                >
+                  <ShoppingBag className="h-4 w-4 text-primary" aria-hidden="true" />
+                  Pre-orders are opening soon.
+                </p>
+              )}
 
               {/* Size chart */}
               <h3 className="mt-12 font-serif text-2xl font-bold text-foreground">
