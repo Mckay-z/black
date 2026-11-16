@@ -65,6 +65,12 @@ const PROCESS = [
   { step: "04", title: "Launch & Report", desc: "Quarterly check-ins and an annual impact report on what the partnership produced." },
 ];
 
+export const metadata = {
+  title: "Partner With Us | Black In Rehab Foundation",
+  description:
+    "Partner with Black in Rehab on shared work and measurable outcomes: health systems, universities, companies and nonprofits.",
+};
+
 export default function PartnerWithUsPage() {
   return (
     <div className="bg-background min-h-screen">

@@ -60,6 +60,12 @@ const PROCESS = [
   { step: "04", title: "Report", desc: "Quarterly statements and an annual impact report showing exactly what your investment produced." },
 ];
 
+export const metadata = {
+  title: "Corporate Partnerships | Black In Rehab Foundation",
+  description:
+    "Multi-year partnerships for companies that want their commitment to health equity to show up as funded programs and measurable outcomes.",
+};
+
 export default function CorporatePartnershipsPage() {
   return (
     <div className="bg-background min-h-screen">

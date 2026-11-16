@@ -1,4 +1,9 @@
 import { redirect } from "next/navigation";
+import { unlistedMetadata } from "@/lib/seo";
+
+export const metadata = unlistedMetadata({
+  title: "Ghana Registration | Black In Rehab Foundation",
+});
 
 /**
  * The Ghana application now lives on Cognito Forms, at the client's request.

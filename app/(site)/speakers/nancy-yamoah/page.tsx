@@ -157,6 +157,12 @@ const SPEAKER: SpeakerProfileData = {
   ],
 };
 
+export const metadata = {
+  title: "Nancy Yamoah, MS, OTR/L | Black In Rehab Foundation",
+  description:
+    "Occupational therapist, founder and clinician wellness and leadership speaker. Book Nancy Yamoah to speak at your event.",
+};
+
 export default function NancyYamoahPage() {
   return <SpeakerProfile speaker={SPEAKER} />;
 }

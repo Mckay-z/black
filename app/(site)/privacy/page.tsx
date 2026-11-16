@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Privacy Policy | Black In Rehab Foundation",
+  description:
+    "How Black in Rehab collects, uses and protects your information.",
+};
+
 export default function PrivacyPage() {
   return (
     <div className="bg-background min-h-screen">

@@ -54,6 +54,12 @@ const STATEMENTS = [
   },
 ];
 
+export const metadata = {
+  title: "Mission, Vision & Values | Black In Rehab Foundation",
+  description:
+    "The beliefs that guide every Black in Rehab program, partnership and experience.",
+};
+
 export default function MissionVisionValuesPage() {
   return (
     <div className="bg-background min-h-screen">

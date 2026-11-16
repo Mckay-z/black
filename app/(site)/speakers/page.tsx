@@ -45,7 +45,7 @@ const SPEAKERS = [
     name: "Dr. Chauntel Altidor, OTD",
     title: "Co-Founder & Executive Director, Black in Rehab",
     specialty: "Leadership · Global Health · Representation",
-    image: PHOTOS.founderChauntel,
+    image: PHOTOS.teamChauntel,
     href: "/speakers/dr-chauntel-altidor",
   },
 ];
@@ -67,6 +67,12 @@ function speakerLinks(
   });
   return { linkedin: match?.linkedin ?? null, email: match?.email ?? null };
 }
+
+export const metadata = {
+  title: "Speakers Bureau | Black In Rehab Foundation",
+  description:
+    "Book a Black in Rehab speaker for your conference, campus, podcast or event.",
+};
 
 /**
  * The Speakers Bureau landing page, in the layout of the BIR CARES and Get

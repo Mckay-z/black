@@ -55,6 +55,12 @@ const ELIGIBILITY = [
   "Demonstrated financial need for grant support",
 ];
 
+export const metadata = {
+  title: "Student Support | Black In Rehab Foundation",
+  description:
+    "Removing the financial and practical barriers that push talented Black students out of rehabilitation programs.",
+};
+
 export default function StudentSupportPage() {
   return (
     <div className="bg-background min-h-screen">

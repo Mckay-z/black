@@ -140,6 +140,12 @@ function CardWrapper({
   );
 }
 
+export const metadata = {
+  title: "Upcoming Events | Black In Rehab Foundation",
+  description:
+    "Conferences, retreats, global experiences and local meetups: everything on the Black in Rehab calendar in one place.",
+};
+
 export default function UpcomingEventsPage() {
   const [featured, ...rest] = EVENTS;
 

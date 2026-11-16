@@ -27,6 +27,12 @@ const SECTION_PHOTOS: Record<string, { src: string; position?: string }> = {
 
 const ABOUT = NAV_SECTIONS.find((section) => section.href === "/about");
 
+export const metadata = {
+  title: "About Black in Rehab | Black In Rehab Foundation",
+  description:
+    "The global leader empowering Black rehabilitation professionals to transform lives and strengthen communities worldwide.",
+};
+
 export default function AboutPage() {
   return (
     <div className="bg-background min-h-screen">

@@ -10,6 +10,9 @@ import { Stagger, StaggerLink } from "@/components/motion/Stagger";
 /** How many of the team to show before sending people to the full page. */
 const SHOWN = 4;
 
+/** Photos framed too wide; zoomed in slightly so the face reads at card size. */
+const ZOOMED = /taylor/i;
+
 /**
  * The leadership section on the homepage.
  *
@@ -74,13 +77,13 @@ export default async function Leadership() {
                   phone, and on a large handset that crop landed across
                   Nicole's chin. An aspect ratio scales with the card, so every
                   portrait keeps the same top-two-thirds framing at any width. */}
-              <div className="img-filler relative aspect-square w-full sm:aspect-auto sm:h-auto sm:w-2/5">
+              <div className="img-filler relative overflow-hidden aspect-square w-full sm:aspect-auto sm:h-auto sm:w-2/5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={leader.image}
                   alt={leader.name}
                   loading="lazy"
-                  className="photo photo-hover-lift absolute inset-0 h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0"
+                  className={`photo photo-hover-lift absolute inset-0 h-full w-full object-cover object-top grayscale transition-all duration-500 group-hover:grayscale-0${ZOOMED.test(leader.name) ? " scale-[1.45] origin-[50%_55%]" : ""}`}
                 />
               </div>
 

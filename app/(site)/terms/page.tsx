@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Terms of Use | Black In Rehab Foundation",
+  description:
+    "The terms that apply when you use the Black in Rehab website and services.",
+};
+
 export default function TermsPage() {
   return (
     <div className="bg-background min-h-screen">

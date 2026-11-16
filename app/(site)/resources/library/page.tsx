@@ -8,6 +8,12 @@ import PageHero from "@/components/ui/PageHero";
 import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import { PHOTOS } from "@/lib/images";
 
+export const metadata = {
+  title: "Resource Library | Black In Rehab Foundation",
+  description:
+    "Practical guides for Black rehabilitation professionals and students.",
+};
+
 export default function ResourceLibraryPage() {
   return (
     <div className="bg-background min-h-screen">

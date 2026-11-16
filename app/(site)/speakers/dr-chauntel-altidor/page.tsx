@@ -19,8 +19,8 @@ const SPEAKER: SpeakerProfileData = {
   // The hero is the wide-frame photo of Dr. Altidor (she stands ~70% across
   // it), so the banner shows the speaker it names.
   portrait: PHOTOS.teamChauntel,
-  heroImage: PHOTOS.founderChauntel,
-  heroImagePosition: "70% 25%",
+  heroImage: PHOTOS.teamChauntel,
+  heroImagePosition: "50% 20%",
   bio: CHAUNTEL_BIO,
   offerings: CHAUNTEL_OFFERINGS,
   offeringsIntro:
@@ -151,6 +151,12 @@ const SPEAKER: SpeakerProfileData = {
     { src: PHOTOS.conferencePresentation, alt: "Leadership workshop" },
     { src: PHOTOS.conferenceHug, alt: "Community celebration" },
   ],
+};
+
+export const metadata = {
+  title: "Dr. Chauntel Altidor, OTD, OTR/L | Black In Rehab Foundation",
+  description:
+    "Occupational therapist, neurodiversity educator and co-founder of Black in Rehab. Book Dr. Altidor to speak at your event.",
 };
 
 export default function DrChauntelAltidorPage() {

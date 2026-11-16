@@ -58,7 +58,7 @@ const GHANA: TripDetailData = {
     accent: "Yours",
     paragraphs: [
       "Journey to Ghana for a transformative experience rooted in service, culture, connection and shared learning.",
-      "This is a reciprocal exchange between Black rehabilitation professionals and students from the diaspora and the therapists, educators, children and families of Nature Sprout Academy (NSA) in Accra.",
+      "This is a reciprocal exchange between Black rehabilitation professionals and students from the diaspora and the therapists, educators, children and families of Nature’s Sprout Academy (NSA) in Accra.",
       "From arrival in Elmina to mission week in Accra, each day makes room for purpose and connection.",
     ],
     closing: "Come home with your skills — and your whole self.",
@@ -118,13 +118,13 @@ const GHANA: TripDetailData = {
       {
         day: "Thu, Mar 11",
         title: "Ancestral Welcome & Journey to Elmina",
-        note: "Arrive at Kotoka International Airport, Accra, and depart directly for Elmina. Check in at Lemon Beach Resort.",
+        note: "Arrive at Kotoka International Airport, Accra, and depart directly for Elmina. Check in at Lemon Resort.",
         icon: "pin",
       },
       {
         day: "Fri, Mar 12",
         title: "History, Community Impact & Return to Accra",
-        note: "Guided visit to Elmina Castle. Empower & Equip Community Impact Project: visit a local women's and children's community, donate books and school supplies for children, and provide hygiene and personal-care products for women. Return to Accra with a grocery stop and check in at NSA Villa.",
+        note: "Guided visit to Elmina Castle. Empower & Equip Community Impact Project: visit a local women's and children's community, donate books and school supplies for children, and provide hygiene and personal-care products for women. Depart Elmina and return to Accra, with a grocery store stop, and check in at NSA Villa.",
         icon: "heart",
       },
       {
@@ -142,49 +142,49 @@ const GHANA: TripDetailData = {
       {
         day: "Sun, Mar 14",
         title: "NSA Orientation & Cook Like a Local",
-        note: "Breakfast at NSA, a Cook Like a Local culinary experience, and a welcome dinner hosted by NSA at 5 PM.",
+        note: "Breakfast at NSA, a Cook Like a Local culinary experience, and a welcome dinner hosted by NSA at 5 PM. Breakfast, lunch and dinner included.",
         icon: "food",
       },
       {
         day: "Mon, Mar 15",
         title: "Mission Week — Orientation Day",
-        note: "Black in Rehab observes NSA. Breakfast at NSA. Core mission-week hours are 7:00 AM–4:30 PM unless noted.",
+        note: "Orientation, with Black in Rehab observing NSA. 7:00 AM–4:30 PM. Breakfast at NSA included.",
         icon: "users",
       },
       {
         day: "Tue, Mar 16",
         title: "Mission Week — Exchange Day",
-        note: "NSA observes Black in Rehab. Breakfast from 7–8 AM.",
+        note: "NSA observes Black in Rehab. 7:00 AM–4:30 PM. Breakfast (7–8 AM) included.",
         icon: "users",
       },
       {
         day: "Wed, Mar 17",
         title: "Mission Week — Melanin & Gold Poolside Social",
-        note: "Work together during the day, then gather with NSA therapists at the villa. African and natural colours; catered bites and Ghanaian treats.",
+        note: "Work together during the day, then host the poolside social at the villa with our 16 NSA therapists. Attire: African and natural colors (white, brown, black or orange swimsuits). Catered food such as pizza, Ghana meat pies, puff puff, wings, Fanta, malt and Ghana ice cream. Breakfast and dinner included.",
         icon: "sun",
       },
       {
         day: "Thu, Mar 18",
         title: "Mission Week — Inservice Day with NSA",
-        note: "Training and feedback day, 8:00 AM–6:30 PM.",
+        note: "Training and feedback day, 8:00 AM–6:30 PM. Breakfast included.",
         icon: "calendar",
       },
       {
         day: "Fri, Mar 19",
         title: "Final Mission Day & Meet and Greet",
-        note: "Final mission day with breakfast from 7–8 AM, followed by an evening meet and greet with area therapists.",
+        note: "Final mission day, with breakfast from 7–8 AM, followed by an evening meet and greet with the community and area therapists. Tickets are available for purchase. Breakfast and dinner included.",
         icon: "heart",
       },
       {
         day: "Sat, Mar 20",
         title: "Markets, Music & Ghanaian Nightlife",
-        note: "Visit a local craft market and a Ghanaian drumming experience. Meals on your own.",
+        note: "Visit a local craft market and enjoy a Ghanaian drumming experience. Breakfast, lunch and dinner not included.",
         icon: "globe",
       },
       {
         day: "Sun, Mar 21",
         title: "Free Morning & Farewell Celebration",
-        note: "Breakfast on your own. Choose an optional wellness, cultural or nature experience, then a farewell dinner in African attire.",
+        note: "Morning on your own, with optional experiences: a waterfall spa and wellness experience (drop-off and pick-up, lunch included), a shea butter experience, a Shai Hills safari, or a Ghana nightlife and nightclub experience (Cultured Ghana transportation, $200). Farewell dinner in African attire at Buka Restaurant or another family-style restaurant. Farewell dinner included; breakfast not included.",
         icon: "food",
       },
       {
@@ -197,7 +197,7 @@ const GHANA: TripDetailData = {
     cta: APPLY,
     secondaryCta: { label: "VIEW ITINERARY", href: ITINERARY_URL },
     footnote:
-      "Itinerary details may adjust as local coordination is finalised. Transportation note: Cultured Ghana transportation is unavailable during mission week; alternate transportation will be provided.",
+      "This is a preliminary itinerary and is subject to change. Transportation note: Cultured Ghana is not available for transportation during mission week (March 15–19).",
   },
 
   highlights: {

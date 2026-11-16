@@ -38,6 +38,12 @@ type Ambassador = {
   image: string;
 };
 
+export const metadata = {
+  title: "Ambassador Cities | Black In Rehab Foundation",
+  description:
+    "Meet the local leaders who bring the Black in Rehab mission to life in their cities: organizing events, building connections and representing our values.",
+};
+
 export default function AmbassadorsPage() {
   /*
     The roster is the client's card artwork, and only that.

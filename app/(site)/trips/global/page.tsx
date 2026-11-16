@@ -73,6 +73,12 @@ const PAST_TRIPS = [
   { src: PHOTOS.ghanaBeach, alt: "Evening on the beach in Ghana" },
 ];
 
+export const metadata = {
+  title: "Sankofa Return | Black In Rehab Foundation",
+  description:
+    "A global initiative connecting rehabilitation and wellness professionals of the African Diaspora through clinical education, community engagement and cultural exchange.",
+};
+
 export default function GlobalTripsPage() {
   return (
     <div className="bg-background min-h-screen">

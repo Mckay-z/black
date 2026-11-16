@@ -57,7 +57,7 @@ export default function ShopPage() {
             Wear the <span className="text-primary">Movement</span>
           </h1>
           <p className="text-lg text-muted max-w-xl">
-            Rep your purpose and show the world what Black in Rehab stands for.
+            This is more than a jacket. It stands for every Black student &amp; therapist who kept going without seeing themselves in the room, and for a community that keeps building together.
           </p>
         </div>
       </section>

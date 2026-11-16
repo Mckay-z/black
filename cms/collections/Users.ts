@@ -25,10 +25,12 @@ export const Users: CollectionConfig = {
     create: ({ req: { user } }) => user?.role === "admin",
     delete: ({ req: { user } }) => user?.role === "admin",
     // Editors may read and update only themselves; admins, anyone.
+    // A signed-out request is refused outright. Filtering on `user?.id` would
+    // build a query on `undefined` and surface as a 500 instead of a 403.
     read: ({ req: { user } }) =>
-      user?.role === "admin" ? true : { id: { equals: user?.id } },
+      !user ? false : user.role === "admin" ? true : { id: { equals: user.id } },
     update: ({ req: { user } }) =>
-      user?.role === "admin" ? true : { id: { equals: user?.id } },
+      !user ? false : user.role === "admin" ? true : { id: { equals: user.id } },
   },
   fields: [
     { name: "name", type: "text", required: true },

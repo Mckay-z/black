@@ -10,6 +10,7 @@ import PageHero from "@/components/ui/PageHero";
 import SectionHeading from "@/components/ui/SectionHeading";
 import CTABand from "@/components/ui/CTABand";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
 const OFFERINGS = [
   {
@@ -33,6 +34,10 @@ const OFFERINGS = [
     desc: "A structured review of how your program teaches cultural responsiveness, with concrete recommendations.",
   },
 ];
+
+export const metadata = unlistedMetadata({
+  title: "Mentorship Placement | Black In Rehab Foundation",
+});
 
 export default function UniversitiesPage() {
   return (

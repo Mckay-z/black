@@ -19,9 +19,38 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://blackinrehab.org"
+).replace(/\/$/, "");
+
+const SITE_DESCRIPTION =
+  "The global leader empowering Black rehabilitation professionals to transform lives and strengthen communities worldwide.";
+
 export const metadata: Metadata = {
+  // Resolves every relative URL below, and each page's canonical.
+  metadataBase: new URL(SITE_URL),
   title: "Black In Rehab Foundation | Healing Beyond Borders",
-  description: "The global leader empowering Black rehabilitation professionals to transform lives and strengthen communities worldwide.",
+  description: SITE_DESCRIPTION,
+  // "./" is each page's own path, so every page names itself as canonical.
+  alternates: { canonical: "./" },
+  // Pages that set their own title and description get their own share card;
+  // the image and site name are the shared part.
+  openGraph: {
+    type: "website",
+    siteName: "Black In Rehab Foundation",
+    locale: "en_US",
+    images: [{ url: "/photos/conference-group-branded.jpg" }],
+  },
+  twitter: { card: "summary_large_image" },
+};
+
+/** Tells search engines who the organisation is (Organization structured data). */
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "NonProfit",
+  name: "Black In Rehab Foundation",
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
 };
 
 // Runs before first paint so the saved theme is applied without a flash of
@@ -85,6 +114,13 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-background text-foreground"
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          // Static, developer-written JSON; `<` is escaped so it cannot close the tag.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <ThemeProvider>
           <MotionProvider>
             <Header />

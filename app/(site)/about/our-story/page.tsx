@@ -51,6 +51,12 @@ const CHAPTERS = [
   },
 ];
 
+export const metadata = {
+  title: "Our Story | Black In Rehab Foundation",
+  description:
+    "How a vision between two friends grew into a global community of Black rehabilitation professionals changing lives and strengthening communities.",
+};
+
 export default function OurStoryPage() {
   return (
     <div className="bg-background min-h-screen">

@@ -51,6 +51,12 @@ const PICKS = [
   },
 ];
 
+export const metadata = {
+  title: "Resources & Tools | Black In Rehab Foundation",
+  description:
+    "Curated content to help Black rehabilitation professionals and students grow, lead with purpose and serve their communities.",
+};
+
 export default function ResourcesPage() {
   return (
     <div className="bg-background min-h-screen">

@@ -61,6 +61,12 @@ const STORIES = [
   },
 ];
 
+export const metadata = {
+  title: "Sponsor Impact | Black In Rehab Foundation",
+  description:
+    "Where Black in Rehab sponsorship dollars go, what they produced, and how we report it back.",
+};
+
 export default function SponsorImpactPage() {
   return (
     <div className="bg-background min-h-screen">

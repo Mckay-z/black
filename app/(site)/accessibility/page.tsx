@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Accessibility Statement | Black In Rehab Foundation",
+  description:
+    "Black in Rehab's commitment to digital accessibility and how to reach us if you have trouble using our website.",
+};
+
 export default function AccessibilityPage() {
   return (
     <div className="bg-background min-h-screen">

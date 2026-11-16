@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Users, Globe2, GraduationCap, BookOpen, CheckCircle } from "lucide-react";
 import { PHOTOS } from "@/lib/images";
+import { unlistedMetadata } from "@/lib/seo";
 
 const MEMBERSHIP_TIERS = [
   {
@@ -53,6 +54,10 @@ const BENEFITS = [
   { icon: <GraduationCap className="w-6 h-6 text-primary" />, title: "Development", desc: "CEUs, workshops, mentorship, and continuing education resources." },
   { icon: <BookOpen className="w-6 h-6 text-primary" />, title: "Resources", desc: "Exclusive access to research, toolkits, and the resource library." },
 ];
+
+export const metadata = unlistedMetadata({
+  title: "Become a Member | Black In Rehab Foundation",
+});
 
 export default function JoinPage() {
   return (
