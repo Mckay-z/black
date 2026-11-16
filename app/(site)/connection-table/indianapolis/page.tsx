@@ -6,12 +6,9 @@ import {
   ArrowRight,
   CalendarDays,
   ChevronRight,
-  Clock,
   Gift,
   HeartHandshake,
-  MapPin,
   Sparkles,
-  Ticket,
   UtensilsCrossed,
   Users,
 } from "lucide-react";
@@ -91,19 +88,29 @@ import { PHOTOS } from "@/lib/images";
  * Each answer then appears against its own line in the Stripe payments export.
  */
 
-// ── Event ─────────────────────────────────────────────────────────────────
-// The November 2026 dinner was cancelled (a death in the host's family). The
-// client is bringing it back in 2027; the date and time are not confirmed, so
-// they read "to be announced" until they are. The same goes for the venue. Update both here — every
-// placement on the page reads from this object.
-const EVENT = {
-  // The location is announced with the date — the client asked that neither
-  // the city nor the venue be published until then.
-  location: "Location to be announced",
-  date: "2027 — Date to be announced",
-  time: "Time to be announced",
-  price: "$125",
-} as const;
+// ── The series ──────────────────────────────────────────────────────────
+// The client's 2027 series copy, verbatim. Dates beyond the month, venues and
+// prices are not confirmed, so none are shown. Update the list here.
+const SERIES_TAGLINE =
+  "Where Black rehabilitation professionals connect, celebrate, and build community beyond the conference floor";
+
+const EXPERIENCES_2027 = [
+  {
+    when: "FEBRUARY 2027",
+    conference: "APTA CSM",
+    edition: "The Connection Table™ — Physical Therapy Edition",
+  },
+  {
+    when: "APRIL 2027",
+    conference: "AOTA Annual Conference",
+    edition: "The Connection Table™ — Occupational Therapy Edition",
+  },
+  {
+    when: "NOVEMBER 2027",
+    conference: "ASHA Convention",
+    edition: "The Connection Table™ — Speech-Language Pathology Edition",
+  },
+] as const;
 
 /**
  * The hosted checkout. `null` until the client supplies it — see the block
@@ -116,15 +123,12 @@ const RESERVE_URL: string | null =
   process.env.NEXT_PUBLIC_CONNECTION_TABLE_URL || null;
 
 /**
- * Registration stays closed until the 2027 date is confirmed. While this is
+ * Registration stays closed until the 2027 dates are confirmed. While this is
  * true every Reserve button reads "Coming Soon" and does nothing — even if
- * `RESERVE_URL` is set on the host. To open sales: set the date and time in
- * `EVENT` above, set this to false, and set the checkout link.
+ * `RESERVE_URL` is set on the host. To open sales: set this to false and set
+ * the checkout link.
  */
 const POSTPONED = true;
-
-/** Shown in the ticket panel while `RESERVE_URL` is unset. */
-const SALES_OPEN = "Thursday, September 25";
 
 /**
  * Entrées, for the "What's for Dinner?" section.
@@ -198,27 +202,18 @@ const BREADCRUMBS: { label: string; href?: string }[] = [
   { label: "The Connection Table" },
 ];
 
-const DETAILS = [
-  { icon: MapPin, label: "Where", value: EVENT.location },
-  { icon: CalendarDays, label: "When", value: EVENT.date },
-  { icon: Clock, label: "Time", value: EVENT.time },
-  { icon: Ticket, label: "Seat", value: EVENT.price },
-] as const;
-
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://blackinrehab.org"
 ).replace(/\/$/, "");
 
 export const metadata: Metadata = {
   title: "The Connection Table™ | Black In Rehab Foundation",
-  description:
-    "An elevated dinner experience for Black SLPs and SLP students attending the ASHA Convention. Returning in 2027 — date and location to be announced.",
+  description: `${SERIES_TAGLINE}.`,
   // Most of this page's traffic arrives from an Instagram link, where the
   // share card is the first impression rather than the page itself.
   openGraph: {
     title: "The Connection Table™",
-    description:
-      "Dinner. Conversation. Community. Connection. An elevated dinner experience for Black SLPs & SLP students at the ASHA Convention.",
+    description: `${SERIES_TAGLINE}.`,
     url: `${SITE_URL}/connection-table/indianapolis`,
     type: "website",
     images: [{ url: `${SITE_URL}${PHOTOS.connectionTableFriends}` }],
@@ -412,16 +407,25 @@ export default async function ConnectionTableIndianapolisPage() {
             </div>
 
             <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-white/85 sm:text-xl">
-              An elevated dinner experience for Black SLPs &amp; SLP students
-              attending the ASHA Convention.
+              {SERIES_TAGLINE}
             </p>
 
-            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70">
-              You came to ASHA to grow professionally. Come to The Connection
-              Table to find your people. After a full day of sessions and
-              networking, we&rsquo;re creating a room where you can put the
-              conference badge down, take a seat, and simply connect.
-            </p>
+            <div className="mx-auto mt-6 max-w-xl space-y-4 text-base leading-relaxed text-white/70">
+              <p>
+                The Connection Table is Black in Rehab&rsquo;s signature
+                networking dinner series, with separate experiences hosted
+                during the national conferences of the American Physical
+                Therapy Association (APTA CSM), American Occupational Therapy
+                Association (AOTA), and American Speech-Language-Hearing
+                Association (ASHA).
+              </p>
+              <p>
+                Each experience brings together Black rehabilitation
+                professionals, assistants, and students for an elevated evening
+                of meaningful connections, celebration, and community with
+                others who understand their journeys.
+              </p>
+            </div>
 
             {/* The four-word refrain, set as four beats rather than a
                 sentence — it is the line the whole page is built around. */}
@@ -445,29 +449,6 @@ export default async function ConnectionTableIndianapolisPage() {
               <ReserveButton label="RESERVE MY SEAT" className="w-full sm:w-auto" />
               <SeatsNote />
             </div>
-          </div>
-        </div>
-
-        {/* Fact line. Everything a visitor needs before they decide to keep
-            reading, in the order they ask for it. */}
-        <div className="container relative mx-auto mt-16 px-4 md:px-6">
-          <div className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-x-8 gap-y-3 border-t border-white/15 pt-8 text-center text-sm text-white/70 sm:flex-row sm:flex-wrap">
-            <span className="flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />
-              {EVENT.date}
-            </span>
-            <span className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" aria-hidden="true" />
-              {EVENT.time}
-            </span>
-            <span className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" aria-hidden="true" />
-              {EVENT.location}
-            </span>
-            <span className="flex items-center gap-2">
-              <Ticket className="h-4 w-4 text-primary" aria-hidden="true" />
-              {EVENT.price}
-            </span>
           </div>
         </div>
       </section>
@@ -624,77 +605,44 @@ export default async function ConnectionTableIndianapolisPage() {
             <div className="card overflow-hidden p-0 shadow-lift">
               <div className="border-b border-border px-5 py-9 text-center sm:px-12">
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-primary sm:text-xs">
-                  Event Details
+                  The Connection Table™
                 </p>
                 <h2 className="display-3 mt-4 text-foreground">
-                  The Connection Table
-                  <span className="align-super text-[0.5em] tracking-normal">™</span>
-                  <span className="block font-serif italic text-primary sm:inline sm:not-italic sm:text-foreground">
-                    <span className="hidden sm:inline">: </span>
-                    2027
-                  </span>
+                  Upcoming 2027 Experiences
                 </h2>
               </div>
 
-              <dl className="divide-y divide-border">
-                {DETAILS.map(({ icon: Icon, label, value }) => (
-                  <div
-                    key={label}
-                    className="flex items-center gap-4 px-5 py-5 sm:px-12"
+              <ul className="divide-y divide-border">
+                {EXPERIENCES_2027.map(({ when, conference, edition }) => (
+                  <li
+                    key={when}
+                    className="flex items-start gap-4 px-5 py-5 sm:items-center sm:px-12"
                   >
                     <span
                       aria-hidden="true"
                       className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"
                     >
-                      <Icon className="h-[1.15rem] w-[1.15rem]" />
+                      <CalendarDays className="h-[1.15rem] w-[1.15rem]" />
                     </span>
-                    <dt className="sr-only">{label}</dt>
-                    <dd className="text-base font-semibold text-foreground sm:text-lg">
-                      {value}
-                    </dd>
-                  </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                        {when}
+                      </p>
+                      <p className="mt-1 text-base font-semibold text-foreground sm:text-lg">
+                        {conference}: {edition}
+                      </p>
+                    </div>
+                  </li>
                 ))}
-              </dl>
+              </ul>
 
               <div className="border-t border-border bg-primary/5 px-5 py-9 text-center sm:px-12">
-                <p className="text-muted">
-                  Your ticket includes dinner, The Connection Table experience,
-                  and curated guest gifts.
+                <p className="font-serif text-xl font-bold text-foreground sm:text-2xl">
+                  Registration Opening Soon!
                 </p>
-
-                <div className="mt-7 flex flex-col items-center gap-5">
-                  <ReserveButton
-                    label="RESERVE MY SEAT"
-                    className="w-full sm:w-auto"
-                  />
-                  <SeatsNote />
-                </div>
-
-                {/*
-                  Sales had not opened when this page was built and the client
-                  has not yet supplied the checkout link. Saying so is better
-                  than a button that goes nowhere — and this whole block
-                  disappears the moment `RESERVE_URL` is set.
-                */}
-                {POSTPONED ? (
-                  <p className="mt-7 border-t border-border pt-6 text-sm text-muted">
-                    The Connection Table returns in 2027. Registration opens
-                    once the date is confirmed — check back here for details.
-                  </p>
-                ) : !RESERVE_URL && (
-                  <p className="mt-7 border-t border-border pt-6 text-sm text-muted">
-                    Reservations open{" "}
-                    <strong className="text-foreground">{SALES_OPEN}</strong>.
-                    Want to be told the moment they do?{" "}
-                    <Link
-                      href="/contact"
-                      className="font-semibold text-primary underline underline-offset-4 hover:text-primary-hover"
-                    >
-                      Send us a note
-                    </Link>{" "}
-                    and we&rsquo;ll put you on the list.
-                  </p>
-                )}
+                <p className="mt-4 font-serif text-lg italic text-primary">
+                  Seen. Heard. Empowered. Transformed.
+                </p>
               </div>
             </div>
           </Reveal>

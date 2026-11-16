@@ -184,11 +184,6 @@ export const PHOTOS = {
   connectionTableGroup: "/photos/connection-table-group.jpg", // portrait — the room, dressed and together
   connectionTableChampagne: "/photos/connection-table-champagne.jpg", // landscape — a pour at the welcome table
 
-  // ── Event flyers ──────────────────────────────────────────────────
-  // Supplied in the "Website Updates" document ("use picture"). A finished
-  // flyer with its own type, so crop it from the top, not the centre.
-  breastCancerWalkFlyer: "/photos/breast-cancer-walk-flyer.jpg", // portrait
-
   // ── Press & media ─────────────────────────────────────────────────────
   // Supplied in the "Website Updates" document for Media & Press.
   pressGhoneTv: "/photos/press-ghone-tv.jpg", // portrait — GHOne TV segment on the neurodiversity workshop
@@ -212,8 +207,9 @@ export type PhotoKey = keyof typeof PHOTOS;
 /**
  * Photos whose subject sits at the top of the frame — flyers with their title
  * up top — so a cover crop keeps the top instead of the default centre.
+ * Empty since the Breast Cancer Walk flyer came off the calendar.
  */
-const TOP_ANCHORED = new Set<string>([PHOTOS.breastCancerWalkFlyer]);
+const TOP_ANCHORED = new Set<string>([]);
 
 /** Tailwind object-position class for a cropped photo. */
 export function photoPosition(src: string) {

@@ -70,7 +70,7 @@ function Selector({ initial }: { initial?: string }) {
       <p className="mt-3 text-sm leading-relaxed text-muted" aria-live="polite">
         {pkg && !pkg.bookingUrl
           ? `The booking form for this package is not online yet — email ${BOOKING_TEAM.name} and they will send it to you.`
-          : "For Ghana, choose the full retreat or the Accra-only package. Ghana bookings are for approved applicants."}
+          : "For Ghana, choose the full retreat or the Accra Only Experience. Ghana bookings are for approved applicants."}
         {pkg && (
           <>
             {" "}

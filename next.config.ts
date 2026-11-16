@@ -1,7 +1,23 @@
 import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
+const SECURITY_HEADERS = [
+  // HTTPS only, for two years, including subdomains.
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  // Nothing on this site should be framed by another origin (clickjacking).
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  },
+];
+
 const nextConfig: NextConfig = {
+  // Don't advertise the framework in every response.
+  poweredByHeader: false,
+
   images: {
     // Uploads are served from /media by the Payload upload collection; local
     // paths need no remote patterns. Formats set explicitly so the optimiser
@@ -21,8 +37,15 @@ const nextConfig: NextConfig = {
    * deleted rather than left behind as one-line `redirect()` stubs. A stub
    * costs a render and a round trip; this costs neither.
    */
+  headers() {
+    return Promise.resolve([{ source: "/:path*", headers: SECURITY_HEADERS }]);
+  },
+
   redirects() {
     return Promise.resolve([
+      // The page was first published as "Buy Now, Pay Later".
+      { source: "/buy-now-pay-later", destination: "/travel-now-pay-later", permanent: true },
+
       // ---- Section renamed: /experiences → /trips ----------------------
       // Two rules, not one: `/trips/:path*` alone would match the bare
       // `/experiences` with an empty `path` and produce a trailing slash.

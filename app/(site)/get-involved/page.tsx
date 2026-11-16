@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Clock, Gift, Users } from "lucide-react";
+import { ArrowRight, Gift, Users } from "lucide-react";
 
 import { NAV_ICONS } from "@/components/navigation/SectionHub";
 import GiftBand from "@/components/sections/GiftBand";
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
  * original URLs — see the note in `lib/navigation.ts`.
  */
 
-/** The three shapes participation actually takes, before the detail. */
+/** The two shapes participation actually takes, before the detail. */
 const WAYS = [
   {
     icon: Users,
@@ -39,19 +39,10 @@ const WAYS = [
     image: PHOTOS.conferenceNetworking,
   },
   {
-    icon: Clock,
-    title: "Bring your time",
-    description:
-      "Volunteer on a service day, host a local event, or take a place on a global trip.",
-    href: "/impact/service",
-    cta: "Volunteer with us",
-    image: PHOTOS.impactVolunteerChildren,
-  },
-  {
     icon: Gift,
     title: "Bring your resources",
     description:
-      "Donate, sponsor a programme, or partner with us as an organisation.",
+      "Donate, sponsor a programme, or partner with us as an organization.",
     href: DONATE_URL,
     cta: "Donate or sponsor",
     image: PHOTOS.conferenceGroupBranded,
@@ -123,7 +114,7 @@ export default function GetInvolvedPage() {
         </div>
       </section>
 
-      {/* ── Make a difference: three doors ───────────────────────────── */}
+      {/* ── Make a difference: two doors ─────────────────────────────── */}
       <section className="section bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mb-12 max-w-2xl">
@@ -135,10 +126,10 @@ export default function GetInvolvedPage() {
             </p>
           </Reveal>
 
-          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {WAYS.map(({ icon, title, description, href, cta, image }) => (
               <StaggerItem key={title} className="flex">
-                <PhotoCard image={image} icon={icon} title={title} href={href} cta={cta}>
+                <PhotoCard image={image} icon={icon} title={title} href={href} cta={cta} imageClassName="h-48 md:h-60">
                   {description}
                 </PhotoCard>
               </StaggerItem>

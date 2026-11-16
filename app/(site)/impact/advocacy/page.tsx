@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle, FileCheck, Megaphone, Scaling, Users } from "lucide-react";
+import { ArrowRight, CheckCircle, Megaphone, Scaling, Users } from "lucide-react";
 
 import PageHero from "@/components/ui/PageHero";
 import PhotoCard from "@/components/ui/PhotoCard";
@@ -35,16 +35,9 @@ const INITIATIVES = [
     icon: Megaphone,
     image: PHOTOS.pressGhoneTv,
   },
-  {
-    title: "Legislative Engagement",
-    description: "Partnering with policymakers and professional associations to advance equitable healthcare legislation.",
-    icon: FileCheck,
-    image: PHOTOS.conferencePanel,
-  },
 ];
 
 const FOCUS_AREAS = [
-  "Expanding insurance coverage for rehabilitation services",
   "Increasing diversity in healthcare education pipelines",
   "Addressing social determinants of health in Black communities",
   "Supporting culturally competent clinical practice standards",
@@ -105,7 +98,7 @@ export default function AdvocacyPage() {
           <Reveal>
             <SectionHeading eyebrow="What We Push For" title="Advocacy Initiatives" className="mb-12" />
           </Reveal>
-          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {INITIATIVES.map((item) => (
               <StaggerItem key={item.title} className="flex">
                 <PhotoCard image={item.image} icon={item.icon} title={item.title} imageClassName="h-44">

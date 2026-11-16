@@ -1,7 +1,7 @@
-import { GHANA_BOOKING_URL } from "@/lib/trips";
+import { GHANA_ACCRA_BOOKING_URL, GHANA_BOOKING_URL } from "@/lib/trips";
 
 /**
- * Content for the Buy Now, Pay Later page (`/buy-now-pay-later`).
+ * Content for the Travel Now, Pay Later page (`/travel-now-pay-later`).
  *
  * Kept as data so the page, the trip selector and the trip pages that link
  * here all agree on the same provider list and the same packages.
@@ -14,7 +14,7 @@ import { GHANA_BOOKING_URL } from "@/lib/trips";
  * at the client's request.
  */
 
-export const PAY_LATER_PATH = "/buy-now-pay-later";
+export const PAY_LATER_PATH = "/travel-now-pay-later";
 
 /** Vakae Luxe — the foundation's booking team. */
 export const BOOKING_TEAM = {
@@ -29,8 +29,15 @@ export function payLaterHref(packageOrTrip: string) {
 
 export type FinancingProvider = {
   name: string;
+  /** The short label under the name — "Virtual Card" for all three. */
+  label: string;
   /** Official site. Opens in a new tab. */
   url: string;
+  /**
+   * The provider's logo in `public/logos/`, with its alt text. Unset, the card
+   * shows the generic card icon instead.
+   */
+  logo?: { src: string; alt: string };
   summary: string;
   steps: string[];
   /** The short disclosure beside the button. */
@@ -40,7 +47,9 @@ export type FinancingProvider = {
 export const PROVIDERS: FinancingProvider[] = [
   {
     name: "Affirm",
-    url: "https://www.affirm.com/",
+    label: "Virtual Card",
+    logo: { src: "/logos/affirm.png", alt: "Affirm logo" },
+    url: "https://www.affirm.com",
     summary: "Explore payment plans for eligible purchases.",
     steps: [
       "Visit Affirm or open the Affirm app.",
@@ -51,6 +60,8 @@ export const PROVIDERS: FinancingProvider[] = [
   },
   {
     name: "Klarna",
+    label: "Virtual Card",
+    logo: { src: "/logos/klarna.png", alt: "Klarna logo" },
     url: "https://www.klarna.com/us/",
     summary: "Review current payment options directly with Klarna.",
     steps: [
@@ -62,6 +73,8 @@ export const PROVIDERS: FinancingProvider[] = [
   },
   {
     name: "Zip",
+    label: "Virtual Card",
+    logo: { src: "/logos/zip.png", alt: "Zip logo" },
     url: "https://zip.co/us",
     summary: "Explore app-based installments for eligible purchases.",
     steps: [
@@ -93,8 +106,6 @@ export type TripPackage = {
  * Packages a traveller can return to. Only trips with booking open belong
  * here: the 6th Annual Conference & Retreat is not listed until its booking
  * link exists.
- *
- * TODO(client): the Accra-only package needs its own TravelJoy link.
  */
 export const TRIP_PACKAGES: TripPackage[] = [
   {
@@ -107,8 +118,9 @@ export const TRIP_PACKAGES: TripPackage[] = [
   {
     id: "ghana-accra",
     trip: "ghana",
-    label: "Ghana: Sankofa Return — Accra-only package",
+    label: "Ghana: Sankofa Return — Accra Only Experience (March 13–22)",
     tripHref: "/trips/ghana",
+    bookingUrl: GHANA_ACCRA_BOOKING_URL,
   },
 ];
 

@@ -292,7 +292,7 @@ export default function ImpactPage() {
 
       {/* ── Where the Work Goes (not links, by request) ──────────────── */}
       <PartnersStrip
-        description="The organisations BIR CARES partners with to extend care, training, and opportunity."
+        description="The organizations BIR CARES partners with to extend care, training, and opportunity."
         className="section-sm bg-background"
       />
 

@@ -95,7 +95,7 @@ const ROLES = [
     image: PHOTOS.impactAdvocacySpeaker,
     commitment: "Ongoing",
     description:
-      "Represent the organisation at career fairs, campus visits, and professional association meetings.",
+      "Represent the organization at career fairs, campus visits, and professional association meetings.",
   },
 ];
 
@@ -122,7 +122,6 @@ const STEPS = [
 
 const REACH = [
   "Free rehabilitation services in 12+ cities",
-  "Partnerships with local clinics and nonprofits",
   "Student and professional volunteer roles",
   "Documented hours for licensure and tenure",
 ];
@@ -172,7 +171,7 @@ export default function ServiceAndVolunteeringPage() {
               </Reveal>
               <Stagger className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {REACH.map((item) => (
-                  <StaggerItem key={item} className="card flex items-start gap-3 rounded-xl p-4">
+                  <StaggerItem key={item} className="card flex items-start gap-3 rounded-xl p-4 sm:last:col-span-2">
                     <CheckCircle
                       className="mt-0.5 h-5 w-5 shrink-0 text-primary"
                       aria-hidden="true"

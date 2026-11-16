@@ -6,7 +6,6 @@ import PhotoSplitBand from "@/components/ui/PhotoSplitBand";
 import FillerImage from "@/components/ui/FillerImage";
 import { PHOTOS, photoPosition } from "@/lib/images";
 import { externalProps } from "@/lib/donate";
-import { BREAST_CANCER_WALK_URL } from "@/lib/trips";
 
 type EventItem = {
   title: string;
@@ -18,7 +17,7 @@ type EventItem = {
   image: string;
   /**
    * The event's own page, where it has one. Some entries on the client's
-   * calendar — a walk, a convention dinner — have nothing to link to yet, so
+   * calendar — a convention dinner, say — have nothing to link to yet, so
    * those cards render as plain containers rather than links to nowhere.
    */
   href?: string;
@@ -31,18 +30,6 @@ type EventItem = {
  * month, the years here are the next occurrence of each.
  */
 const EVENTS: EventItem[] = [
-  {
-    title: "Breast Cancer Walk",
-    category: "Community",
-    date: "October 17, 2026",
-    time: "Morning",
-    location: "Atlanta, Georgia",
-    format: "In Person",
-    image: PHOTOS.breastCancerWalkFlyer,
-    href: BREAST_CANCER_WALK_URL,
-    description:
-      "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
-  },
   {
     title: "The Connection Table™",
     category: "Community",

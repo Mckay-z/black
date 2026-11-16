@@ -59,7 +59,7 @@ const DAY_ICONS = {
 
 export type DayIcon = keyof typeof DAY_ICONS;
 
-const PAY_LATER_LABEL = "Explore Buy Now, Pay Later Options";
+const PAY_LATER_LABEL = "Explore Travel Now, Pay Later Options";
 
 type Cta = { label: string; href: string };
 
@@ -210,11 +210,18 @@ export type TripDetailData = {
     heading: string;
     accent: string;
     description?: string;
-    items: { label: string; title: string; description: string; cta: Cta }[];
+    items: {
+      label: string;
+      title: string;
+      description: string;
+      cta: Cta;
+      /** A second option under the main button, e.g. a shorter package. */
+      secondaryCta?: Cta;
+    }[];
   };
 
   /**
-   * Link to the Buy Now, Pay Later page, carrying this trip so the traveller
+   * Link to the Travel Now, Pay Later page, carrying this trip so the traveller
    * can find their booking form again — build it with `payLaterHref` from
    * `lib/pay-later.ts`. Shown beside the price and the booking steps.
    */
@@ -563,7 +570,7 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                       return (
                         <StaggerItem
                           as="li"
-                          key={day.day}
+                          key={`${day.day} ${day.title}`}
                           className="flex items-start gap-4"
                         >
                           <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary">
@@ -821,7 +828,10 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
               )}
             </Reveal>
 
-            <Stagger as="ul" className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+            <Stagger as="ul" className={`mx-auto mt-12 grid gap-6 ${
+                steps.items.length > 2 ? "max-w-6xl md:grid-cols-3" : "max-w-4xl md:grid-cols-2"
+              }`}
+            >
               {steps.items.map((item) => (
                 <StaggerItem as="li" key={item.label} className="card flex h-full flex-col p-8">
                   <p className="chip self-start">{item.label}</p>
@@ -829,8 +839,11 @@ export default function TripDetail({ trip }: { trip: TripDetailData }) {
                     {item.title}
                   </h3>
                   <p className="mt-3 flex-1 leading-relaxed text-muted">{item.description}</p>
-                  <div className="mt-8">
+                  <div className="mt-8 flex flex-col gap-3">
                     <CtaLink cta={item.cta} className="btn btn-primary btn-lg group w-full" />
+                    {item.secondaryCta && (
+                      <CtaLink cta={item.secondaryCta} className="btn btn-outline btn-lg group w-full" />
+                    )}
                   </div>
                 </StaggerItem>
               ))}

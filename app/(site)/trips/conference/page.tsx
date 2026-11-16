@@ -145,7 +145,7 @@ const CONFERENCE: TripDetailData = {
         title: "Sponsorship Opportunities",
         tone: "primary",
         body: [
-          "Interested in sponsoring the 6th Annual Conference & Retreat? We would love to talk with your organisation about being part of it.",
+          "Interested in sponsoring the 6th Annual Conference & Retreat? We would love to talk with your organization about being part of it.",
           "Send us a sponsorship inquiry — choose “Partnership / Sponsorship” as the subject — and our team will follow up with the details.",
         ],
       },

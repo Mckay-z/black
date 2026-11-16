@@ -16,7 +16,7 @@ export default function ArchPhoto({
 }) {
   return (
     <div
-      className={`img-filler relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[var(--radius-panel)] shadow-float ring-1 ring-primary/30 ${className}`}
+      className={`img-filler relative aspect-4/5 overflow-hidden rounded-t-[999px] rounded-b-(--radius-panel) shadow-float ring-1 ring-primary/30 ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

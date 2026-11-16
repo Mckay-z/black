@@ -25,13 +25,13 @@ import { PHOTOS } from "@/lib/images";
 import { BOOKING_TEAM, PROVIDERS } from "@/lib/pay-later";
 
 export const metadata: Metadata = {
-  title: "Buy Now, Pay Later | Black In Rehab Foundation",
+  title: "Travel Now, Pay Later | Black In Rehab Foundation",
   description:
     "Trip payment schedules and independent financing resources for Black in Rehab group trips — what to check before you book with Vakae Luxe.",
 };
 
 /**
- * Buy Now, Pay Later — payment resources for the group trips.
+ * Travel Now, Pay Later — payment resources for the group trips.
  *
  * Built from the client's brief and mockup ("Travel Now, Pay Later card"). It
  * explains and links out; it takes no payment and collects no card details.
@@ -222,7 +222,7 @@ export default function BuyNowPayLaterPage() {
               </Link>
               <ChevronRight className="h-3.5 w-3.5 text-white/30" aria-hidden="true" />
               <span aria-current="page" className="px-1 py-0.5 text-white/60">
-                Buy Now, Pay Later
+                Travel Now, Pay Later
               </span>
             </nav>
 
@@ -385,14 +385,37 @@ export default function BuyNowPayLaterPage() {
                 className="card grid gap-6 border-l-4 border-l-primary p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)] md:items-center md:p-8"
               >
                 <div className="flex items-start gap-4">
-                  <span className="icon-tile shrink-0">
-                    <CreditCard className="h-6 w-6" aria-hidden="true" />
-                  </span>
+                  {/* One fixed box for every logo, so the three line up
+                      whatever each file's proportions. */}
+                  {provider.logo ? (
+                    <span className="flex h-14 w-28 shrink-0 items-center justify-center rounded-xl border border-border bg-white p-2.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={provider.logo.src}
+                        alt={provider.logo.alt}
+                        loading="lazy"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </span>
+                  ) : (
+                    <span className="icon-tile shrink-0">
+                      <CreditCard className="h-6 w-6" aria-hidden="true" />
+                    </span>
+                  )}
                   <div>
-                    {/* Plain type, not the provider's logo — the client asked
-                        that nothing here imply a partnership. */}
-                    <h3 className="font-serif text-3xl font-bold text-foreground">{provider.name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{provider.summary}</p>
+                    <h3 className="font-serif text-3xl font-bold text-foreground">
+                      <a
+                        href={provider.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transition-colors hover:text-primary"
+                      >
+                        {provider.name}
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </h3>
+                    <p className="chip mt-2">{provider.label}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted">{provider.summary}</p>
                   </div>
                 </div>
 

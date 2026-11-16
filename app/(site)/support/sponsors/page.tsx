@@ -14,7 +14,7 @@ import { PARTNERS } from "@/lib/partners";
 export const metadata: Metadata = {
   title: "Become a Sponsor | Black In Rehab Foundation",
   description:
-    "Sponsorship tiers, what each one includes, and the four kinds of organisation we partner with.",
+    "Sponsorship tiers, what each one includes, and the four kinds of organization we partner with.",
 };
 
 /**
@@ -114,7 +114,7 @@ const PARTNER_TYPES = [
     image: PHOTOS.impactVolunteerChildren,
     title: "Nonprofit Partners",
     description:
-      "Organisations that share our mission around health equity, community service, and professional development.",
+      "Organizations that share our mission around health equity, community service, and professional development.",
   },
   {
     icon: Radio,
@@ -137,7 +137,7 @@ export default function SponsorsPage() {
         ]}
         title="Partner with"
         highlight="Purpose"
-        description="Align your organisation with a growing global movement transforming rehabilitation, advancing health equity, and empowering the next generation of Black healthcare professionals."
+        description="Align your organization with a growing global movement transforming rehabilitation, advancing health equity, and empowering the next generation of Black healthcare professionals."
         image={PHOTOS.retreatDinner}
         cta={{ label: "BECOME A SPONSOR", href: "/contact" }}
         secondaryCta={{ label: "See Where It Goes", href: "/impact/sponsor-impact" }}

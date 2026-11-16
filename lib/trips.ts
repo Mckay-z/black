@@ -27,16 +27,19 @@ import { PHOTOS } from "@/lib/images";
  * same document. Worth one confirmation before launch.
  */
 
-/** The walk's own Givebutter page — supplied for this event only. */
-export const BREAST_CANCER_WALK_URL =
-  "https://givebutter.com/2026-5j1je7/black-in-rehab/Blackinrehab";
-
 /**
  * Ghana's TravelJoy booking form, run by Vakae Luxe. Shared by the Ghana page
- * and the Buy Now, Pay Later trip selector (`lib/pay-later.ts`).
+ * and the Travel Now, Pay Later trip selector (`lib/pay-later.ts`).
  */
 export const GHANA_BOOKING_URL =
   "https://traveljoy.com/bookings/6vW6cHjmvfSXecTczjskN4At";
+
+/**
+ * The Accra Only Experience (March 13–22, 2027) — its own TravelJoy booking
+ * form. Shared by the Ghana page and the Travel Now, Pay Later trip selector.
+ */
+export const GHANA_ACCRA_BOOKING_URL =
+  "https://traveljoy.com/bookings/27fAoL8Ak4mXyCLFoKDLdLoj";
 
 export type TripStatus = "Open" | "Year-Round" | "Coming Soon";
 
@@ -56,17 +59,6 @@ export type Trip = {
 };
 
 export const TRIPS: Trip[] = [
-  {
-    slug: "breast-cancer-walk",
-    title: "Breast Cancer Walk",
-    dates: "October 17, 2026",
-    location: "Atlanta, Georgia",
-    image: PHOTOS.breastCancerWalkFlyer,
-    href: BREAST_CANCER_WALK_URL,
-    status: "Open",
-    blurb:
-      "Our community walks together in Atlanta to raise funds and awareness for breast cancer.",
-  },
   {
     // The ASHA dinner. The November 2026 evening was cancelled; it returns in
     // 2027 with the date and location to be announced and registration

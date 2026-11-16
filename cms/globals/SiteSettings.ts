@@ -58,7 +58,7 @@ export const SiteSettings: GlobalConfig = {
           ],
         },
         {
-          label: "Organisation",
+          label: "Organization",
           fields: [
             {
               name: "organisationName",

@@ -12,7 +12,7 @@ import { PARTNERS } from "@/lib/partners";
 export default function PartnersStrip({
   eyebrow = "Our Partners",
   title = "Working Together",
-  description = "The organisations we partner with to extend care, training, and opportunity.",
+  description = "The organizations we partner with to extend care, training, and opportunity.",
   cta = { label: "Partner with us", href: "/community/partner" },
   className = "section-sm bg-surface border-y border-border",
 }: {

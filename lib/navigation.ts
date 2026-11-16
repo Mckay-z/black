@@ -152,9 +152,9 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     // A tab of its own beside the trips, at the client's request: one page,
     // no children, so the header shows it as a plain link.
-    label: "Buy Now, Pay Later",
+    label: "Travel Now, Pay Later",
     headerLabels: { short: "Pay Later", compact: "Pay Later" },
-    href: "/buy-now-pay-later",
+    href: "/travel-now-pay-later",
     description:
       "Trip payment schedules and independent financing resources — Affirm, Klarna and Zip — explained before you book.",
     children: [],
@@ -244,7 +244,7 @@ export const NAV_SECTIONS: NavSection[] = [
       {
         label: "Partner With Us",
         href: "/community/partner",
-        description: "For organisations, schools, and clinics who want to work together.",
+        description: "For organizations, schools, and clinics who want to work together.",
         icon: "handshake",
       },
       {
@@ -266,7 +266,7 @@ export const NAV_SECTIONS: NavSection[] = [
     label: "Speakers",
     href: "/speakers",
     description:
-      "Book a speaker for your conference, university, or organisation.",
+      "Book a speaker for your conference, university, or organization.",
     children: [
       {
         label: "Book a Speaker",
@@ -300,6 +300,12 @@ export const NAV_SECTIONS: NavSection[] = [
         href: "/resources/library",
         description: "Guides, templates, and downloads.",
         icon: "library",
+      },
+      {
+        label: "Shop",
+        href: "/shop",
+        description: "Pre-order the Black in Rehab varsity jacket.",
+        icon: "shop",
       },
     ],
   },
@@ -336,9 +342,6 @@ export const UNLISTED: { href: string; reason: string }[] = [
   },
   { href: "/community/share-your-story", reason: "Hidden at the client's request." },
   { href: "/support/universities", reason: "Hidden at the client's request (Mentorship Placement)." },
-  // Same document: "Shop — move under Resources, then hide it for now." It
-  // belongs to Resources when it comes back; restore it there.
-  { href: "/shop", reason: "Hidden at the client's request — returns under Resources." },
   // The revision document's tab notes: Resources shows the library only,
   // Speakers drops the booking-topics page, Support drops "Recruit With Us",
   // and Trips keeps Upcoming Events and Ambassador Meetups. Sankofa Return

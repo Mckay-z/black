@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import TripDetail, { type TripDetailData } from "@/components/trips/TripDetail";
 import { PHOTOS } from "@/lib/images";
 import { payLaterHref } from "@/lib/pay-later";
-import { GHANA_BOOKING_URL as BOOKING_URL } from "@/lib/trips";
+import {
+  GHANA_ACCRA_BOOKING_URL as ACCRA_BOOKING_URL,
+  GHANA_BOOKING_URL as BOOKING_URL,
+} from "@/lib/trips";
 
 export const metadata: Metadata = {
   title: "Ghana: Sankofa Return | Black In Rehab Foundation",
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
  */
 const APPLY_URL =
   "https://www.cognitoforms.com/BlackInRehab1/SANKOFAMISSIONSHEALINGBEYONDBORDERSGHANA";
-const ITINERARY_URL = "https://muse.ai/s/sankofa-ghana-itinerary-yxj625dxxbleo";
+const ITINERARY_URL = "https://blackinrehab.my.canva.site";
 
 const APPLY = { label: "APPLY NOW", href: APPLY_URL };
 
@@ -123,6 +126,12 @@ const GHANA: TripDetailData = {
         title: "History, Community Impact & Return to Accra",
         note: "Guided visit to Elmina Castle. Empower & Equip Community Impact Project: visit a local women's and children's community, donate books and school supplies for children, and provide hygiene and personal-care products for women. Return to Accra with a grocery stop and check in at NSA Villa.",
         icon: "heart",
+      },
+      {
+        // TODO(client): time, location and details for the naming ceremony.
+        day: "Fri, Mar 12",
+        title: "Naming Ceremony",
+        icon: "users",
       },
       {
         day: "Sat, Mar 13",
@@ -298,6 +307,13 @@ const GHANA: TripDetailData = {
           "Once your application has been approved, complete your registration and booking through our travel booking page.",
         cta: { label: "REGISTER & BOOK", href: BOOKING_URL },
       },
+      {
+        label: "Accra Only",
+        title: "Accra Only Experience",
+        description:
+          "Join us in Accra only, March 13–22, 2027. Register and book through our travel booking page.",
+        cta: { label: "BOOK ACCRA ONLY", href: ACCRA_BOOKING_URL },
+      },
     ],
   },
 
@@ -350,7 +366,8 @@ const GHANA: TripDetailData = {
     title: "Ready to Heal Beyond Borders?",
     description:
       "Apply to join the SANKOFA Clinical and Cultural Exchange in Ghana. Applications are reviewed by Black in Rehab Foundation, and space is first come, first served.",
-    cta: { label: "HOW TO JOIN", href: "#how-to-join" },
+    // Straight to the application — applying is the first step to joining.
+    cta: { label: "HOW TO JOIN", href: APPLY_URL },
     secondaryCta: { label: "See All Trips", href: "/trips" },
     image: PHOTOS.ghanaJerseysGroup,
     eyebrow: "SANKOFA Ghana 2027",

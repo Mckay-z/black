@@ -121,7 +121,7 @@ export function SearchTrigger({
     From there it collapses as the header runs out of room. At `lg` the bar is
     already carrying a logo, seven nav items, the theme toggle and DONATE, so
     search is a plain icon; the label arrives at `2xl` and the shortcut hint
-    at 1800px — one tier later than before Buy Now, Pay Later joined the bar.
+    at 1800px — one tier later than before Travel Now, Pay Later joined the bar.
     The button keeps its accessible name at every size — which is what
     `sr-only` is doing below rather than `hidden`.
 

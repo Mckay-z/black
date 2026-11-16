@@ -3,21 +3,12 @@ import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import { PHOTOS, photoPosition } from "@/lib/images";
 import Reveal from "@/components/motion/Reveal";
 import { Stagger, StaggerLink } from "@/components/motion/Stagger";
-import { BREAST_CANCER_WALK_URL } from "@/lib/trips";
 
 /**
- * The next four dates, from the client's revision document. Kept in step with
+ * The next three dates, from the client's revision document. Kept in step with
  * `lib/trips.ts` — see the date note there.
  */
 const EVENTS = [
-  {
-    id: "breast-cancer-walk",
-    title: "Breast Cancer Walk",
-    date: "Oct 17, 2026",
-    location: "Atlanta, GA",
-    image: PHOTOS.breastCancerWalkFlyer,
-    link: BREAST_CANCER_WALK_URL,
-  },
   {
     id: "ghana-sankofa-return",
     title: "Ghana: Sankofa Return",
@@ -60,7 +51,7 @@ export default function UpcomingEvents() {
           </Link>
         </Reveal>
 
-        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {EVENTS.map((event) => (
             /*
               `section-dark` rather than `card-sunken`.
