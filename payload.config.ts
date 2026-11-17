@@ -20,6 +20,7 @@ import { Stats } from "./cms/collections/Stats";
 import { Heroes } from "./cms/collections/Heroes";
 import { Submissions } from "./cms/collections/Submissions";
 import { Documents } from "./cms/collections/Documents";
+import { SiteImages } from "./cms/collections/SiteImages";
 import { SiteSettings } from "./cms/globals/SiteSettings";
 import { withRevalidate, withRevalidateGlobal } from "./cms/revalidate";
 
@@ -146,6 +147,8 @@ export default buildConfig({
     withRevalidate(Stats),
     withRevalidate(Heroes),
     withRevalidate(Media),
+    // Every site photo, replaceable (see cms/collections/SiteImages.ts).
+    SiteImages,
     // Read-only inbox.
     Submissions,
     Documents,

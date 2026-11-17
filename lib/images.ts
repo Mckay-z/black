@@ -1,3 +1,5 @@
+import overrides from "./photo-overrides.generated.json";
+
 /**
  * Site photography.
  *
@@ -28,7 +30,7 @@ export const VIDEOS = {
   speakingNancyWagmc: "/video/speaking-nancy-wagmc.mp4",
 } as const;
 
-export const PHOTOS = {
+export const DEFAULT_PHOTOS = {
   // ── Founders ──────────────────────────────────────────────────────────
   // Individual portraits, supplied and named by the client. Use these wherever
   // a founder is identified by name.
@@ -202,7 +204,20 @@ export const PHOTOS = {
   merchTeesSeated: "/photos/merch-tees-seated.jpg", // portrait
 } as const;
 
-export type PhotoKey = keyof typeof PHOTOS;
+export type PhotoKey = keyof typeof DEFAULT_PHOTOS;
+
+/**
+ * The photos the site actually uses: the originals above, with any replacement
+ * chosen in the dashboard's Site Photos list laid over them.
+ *
+ * Replacements live in `photo-overrides.generated.json`, which the build writes
+ * from the database (`scripts/prepare-photos.ts`) before anything is compiled.
+ * It is `{}` in git, so a checkout with no database uses the originals.
+ */
+export const PHOTOS: typeof DEFAULT_PHOTOS = {
+  ...DEFAULT_PHOTOS,
+  ...(overrides as Partial<Record<PhotoKey, string>>),
+} as typeof DEFAULT_PHOTOS;
 
 /**
  * Photos whose subject sits at the top of the frame — flyers with their title

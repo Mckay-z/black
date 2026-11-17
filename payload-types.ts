@@ -75,6 +75,7 @@ export interface Config {
     stats: Stat;
     heroes: Hero;
     media: Media;
+    'site-images': SiteImage;
     submissions: Submission;
     documents: Document;
     users: User;
@@ -93,6 +94,7 @@ export interface Config {
     stats: StatsSelect<false> | StatsSelect<true>;
     heroes: HeroesSelect<false> | HeroesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'site-images': SiteImagesSelect<false> | SiteImagesSelect<true>;
     submissions: SubmissionsSelect<false> | SubmissionsSelect<true>;
     documents: DocumentsSelect<false> | DocumentsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -518,6 +520,31 @@ export interface Hero {
   createdAt: string;
 }
 /**
+ * Every photo on the website. Open one, choose a replacement photo and save. The change goes live in about two minutes. Leave the replacement empty to keep the original.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-images".
+ */
+export interface SiteImage {
+  id: number;
+  /**
+   * Where this photo is used.
+   */
+  label: string;
+  group?: string | null;
+  /**
+   * Internal name.
+   */
+  key: string;
+  defaultPath?: string | null;
+  /**
+   * Pick a photo from the library or upload a new one. Remove it to go back to the original.
+   */
+  image?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Everything sent through the website's forms. Newest first.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -685,6 +712,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'site-images';
+        value: number | SiteImage;
       } | null)
     | ({
         relationTo: 'submissions';
@@ -932,6 +963,19 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-images_select".
+ */
+export interface SiteImagesSelect<T extends boolean = true> {
+  label?: T;
+  group?: T;
+  key?: T;
+  defaultPath?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
