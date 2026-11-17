@@ -21,6 +21,7 @@ import { Heroes } from "./cms/collections/Heroes";
 import { Submissions } from "./cms/collections/Submissions";
 import { Documents } from "./cms/collections/Documents";
 import { SiteSettings } from "./cms/globals/SiteSettings";
+import { withRevalidate, withRevalidateGlobal } from "./cms/revalidate";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -135,15 +136,16 @@ export default buildConfig({
   },
 
   collections: [
-    // Content the client edits day to day.
-    Posts,
-    Events,
-    People,
-    Testimonials,
-    ImpactStories,
-    Stats,
-    Heroes,
-    Media,
+    // Content the client edits day to day. Saving any of it refreshes the
+    // public pages (see cms/revalidate.ts).
+    withRevalidate(Posts),
+    withRevalidate(Events),
+    withRevalidate(People),
+    withRevalidate(Testimonials),
+    withRevalidate(ImpactStories),
+    withRevalidate(Stats),
+    withRevalidate(Heroes),
+    withRevalidate(Media),
     // Read-only inbox.
     Submissions,
     Documents,
@@ -151,7 +153,7 @@ export default buildConfig({
     Users,
   ],
 
-  globals: [SiteSettings],
+  globals: [withRevalidateGlobal(SiteSettings)],
 
   editor: lexicalEditor({}),
 
