@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import Hero from "@/components/sections/Hero";
 import Mission from "@/components/sections/Mission";
 import FeaturedTrips from "@/components/sections/FeaturedTrips";
@@ -10,6 +12,12 @@ import Testimonials from "@/components/sections/Testimonials";
 import ResourcesSection from "@/components/sections/ResourcesSection";
 import FinalCTA from "@/components/sections/FinalCTA";
 import PartnersStrip from "@/components/sections/PartnersStrip";
+
+// The layout's relative canonical ("./") resolves the homepage to "/index".
+// Name it explicitly.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
