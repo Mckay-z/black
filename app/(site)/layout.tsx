@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://blackinrehab.org"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.blackinrehab.com"
 ).replace(/\/$/, "");
 
 const SITE_DESCRIPTION =

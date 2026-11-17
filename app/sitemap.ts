@@ -18,7 +18,7 @@ import { SEARCH_INDEX } from "@/lib/search";
 export const dynamic = "force-dynamic";
 
 const BASE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://blackinrehab.org"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.blackinrehab.com"
 ).replace(/\/$/, "");
 
 /** Route groups like `(payload)` are organisational and are not URLs. */

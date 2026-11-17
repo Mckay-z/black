@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const BASE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://blackinrehab.org"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.blackinrehab.com"
 ).replace(/\/$/, "");
 
 /**
